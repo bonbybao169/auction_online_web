@@ -1,25 +1,27 @@
 import express from 'express';
 import morgan from 'morgan';
-import {engine} from 'express-handlebars';
 
-import {dirname} from 'path';
-import {fileURLToPath} from 'url';
+import activate_local_mdw from './middlewares/locals.mdw.js/';
+import activate_view_mdw from './middlewares/view.mdw.js';
+import activate_route_mdw from './middlewares/routes.mdw.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import categoryModel from './models/category.model.js'
 
 const app = express();
 app.use(morgan('dev'));
-const port = 3000;
-
-app.engine('hbs', engine({
-    defaultLayout: 'layout.hbs'
+app.use(express.urlencoded({
+    extended: true
 }));
-app.set('view engine', 'hbs');
-app.set('views', './views');
 
-app.get('/', function (req, res) {
-    res.render('home');
-})
+app.use(async function (req,res,next){
+    res.locals.lcChildCat = await categoryModel.findChildCat();
+    res.locals.lcParentCat = await categoryModel.findParentCat();
+    next();
+});
+activate_view_mdw(app);
+activate_route_mdw(app);
+
+const port = 3000;
 
 app.listen(port, function () {
     console.log(`Example app listening at http://localhost:${port}`)

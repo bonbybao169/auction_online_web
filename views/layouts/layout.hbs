@@ -50,15 +50,29 @@
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-sm-3">
-            {{{body}}}
+            <div class="card">
+                <div class="card-header">
+                    <h4>Categories</h4>
+                </div>
+                {{#each lcParentCat as |parent|}}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline text-left" data-toggle="dropdown">
+                        <h4>{{parent.Name}}</h4>
+                    </button>
+                    <div class="dropdown-menu w-100">
+                        {{#each ../lcChildCat as |child|}}
+                            {{#if (isChild child.ParentID parent.CategoryID)}}
+                            <a class="dropdown-item" href="#"><h6>{{child.Name}}</h6></a>
+                            {{/if}}
+                        {{/each}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
         </div>
 
         <div class="col-sm-9">
-            <div class="card">
-                <h1 class="card-body text-center">
-                    Cố lên mọi người ơi !
-                </h1>
-            </div>
+            {{{body}}};
         </div>
     </div>
 </div>

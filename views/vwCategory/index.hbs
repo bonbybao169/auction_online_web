@@ -1,0 +1,34 @@
+<div class="card">
+    <h4 class="card-header d-flex justify-content-between">
+        Categories
+        <a class="btn btn-sm btn-outline-primary" href="/categories/add" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Add Category
+        </a>
+    </h4>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Category</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each this.categories}}
+            <tr>
+                <th scope="row">{{CategoryID}}</th>
+                <td>{{Name}}</td>
+                <td class="text-right">
+                    <a class="btn btn-sm btn-primary" href="/categories/edit?id={{CategoryID}}" role="button">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    <div class="card-footer text-muted">
+        2 days ago
+    </div>
+</div>
