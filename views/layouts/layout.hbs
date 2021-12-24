@@ -62,7 +62,7 @@
                     <div class="dropdown-menu w-100">
                         {{#each ../lcChildCat as |child|}}
                             {{#if (isChild child.ParentID parent.CategoryID)}}
-                            <a class="dropdown-item" href="#"><h6>{{child.Name}}</h6></a>
+                            <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
                             {{/if}}
                         {{/each}}
                     </div>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="col-sm-9">
-            {{{body}}};
+            {{{body}}}
         </div>
     </div>
 </div>

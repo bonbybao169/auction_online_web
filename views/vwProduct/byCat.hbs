@@ -3,6 +3,10 @@
         Products
     </h4>
     <div class="card-body">
+    {{#if this.empty}}
+        <h5 class="card-title">Không có dữ liệu</h5>
+        <p class="card-text">With support text...</p>
+    {{else}}
         <div class="row">
             {{#each this.products}}
                 <div class="col-sm-4 mb-3">
@@ -11,7 +15,7 @@
                             <h4>{{Name}}</h4>
                         </div>
                         <div class="card-body">
-                            <img src="/image/products/{{ID}}-main.jpg" width="300" height="200" alt="{{Name}}" title="{{Name}}">
+                            <img src="/image/products/{{ID}}-main.jpg" width="300" height="200"  alt="{{Name}}" title="{{Name}}">
                             <h5 class="card-text text-danger mt-3">{{format_number PriceBuyNow}}&#x20AB;</h5>
                             <p class="card-text mt-2 align-bottom">{{Description}}</p>
                         </div>
@@ -25,6 +29,7 @@
                 </div>
             {{/each}}
         </div>
+    {{/if}}
     </div>
     <div class="card-footer text-muted">
         2 days ago
