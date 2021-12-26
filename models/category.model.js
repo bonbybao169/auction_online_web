@@ -6,12 +6,11 @@ export default {
     },
 
     findParentCat() {
-        return db('category').where('ParentID', null);
+        return db('category').whereNull('ParentID');
     },
 
     findChildCat() {
-       return db('category').where('ParentID', '<>', null);
-
+       return db('category').whereNotNull('ParentID');
     },
 
     findByParentID(id) {
