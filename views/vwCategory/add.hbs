@@ -1,24 +1,34 @@
 <form method="post">
     <div class="card">
         <div class="card-header">
-            Header
+            Thêm danh mục
         </div>
         <div class="card-body">
-
             <div class="form-group">
-                <label for="txtCatName">Category</label>
+                <label for="txtCatName">Danh mục</label>
                 <input type="text" class="form-control" id="txtCatName" name="Name" autofocus>
             </div>
-
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="txtParentCatName">Chọn danh mục</label>
+                </div>
+                <select class="custom-select" id="txtParentCatName" name="ParentID">
+                    <option selected>Choose...</option>
+                    <option value="null">None</option>
+                    {{#each this.categories}}
+                        <option value={{CategoryID}}>{{Name}}</option>
+                    {{/each}}
+                </select>
+            </div>
         </div>
         <div class="card-footer text-muted">
             <a class="btn btn-outline-success" href="/admin/categories" role="button">
-                <i class="fa fa-backward" aria-hidden="true"></i>
-                List
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                Danh sách
             </a>
             <button type="submit" class="btn btn-primary">
                 <i class="fa fa-check" aria-hidden="true"></i>
-                Save
+                Lưu
             </button>
         </div>
     </div>

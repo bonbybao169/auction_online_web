@@ -10,11 +10,16 @@ router.get('/', async function(req, res) {
     })
 })
 
-router.get('/add', function (req, res) {
-    res.render('vwCategory/add');
+router.get('/add', async function (req, res) {
+    const list = await categoryModel.findParentCat();
+    res.render('vwCategory/add', {
+        categories: list
+    })
 })
 
 router.post('/add', async function (req, res) {
+    if (req.body.ParentID === "null")
+        req.body.ParentID = null;
     const ret = await categoryModel.add(req.body);
     console.log(ret);
     res.render('vwCategory/add');
