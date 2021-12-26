@@ -14,7 +14,7 @@ export default function(app) {
         throw new Error('Something broke.')
     })
 
-    app.use('/categories', categoryRoute);
+    app.use('/admin/categories', categoryRoute);
     app.use('/products', productRoute);
 
     app.use(function (req, res, next) {
