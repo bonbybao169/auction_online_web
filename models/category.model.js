@@ -14,6 +14,10 @@ export default {
 
     },
 
+    findByParentID(id) {
+        return db('category').where('ParentID', id);
+    },
+
     add(entity) {
         return db('category').insert(entity);
     },
@@ -27,8 +31,16 @@ export default {
         return list[0];
     },
 
-    delete(id) {
-        return db('category').where('CategoryID', id).del();
+    async delete(id) {
+        const list = await db('product').where('Category', id);
+        const listParent = await this.findByParentID(id);
+        console.log("listP:", listParent);
+
+        if (list.length === 0 && listParent.length === 0) {
+            return db('category').where('CategoryID', id).del();
+        } else {
+            return null;
+        }
     },
 
     patch(entity) {
