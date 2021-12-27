@@ -15,12 +15,12 @@ export default function(app) {
 
     app.get('/home', async function (req, res) {
         const listEE = await productModel.findFiveEarlyExpired();
-        const listHG = await productModel.findFiveHighestPrice();
+        const listHP = await productModel.findFiveHighestPrice();
         const listHT = await productModel.findFiveHighestTurn();
         // console.log(list);
         res.render('home', {
             productsEE: listEE,
-            productsHG: listHG,
+            productsHP: listHP,
             productsHT: listHT
         })
     })
