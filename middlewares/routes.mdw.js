@@ -7,7 +7,7 @@ import productRoute from '../routes/product.route.js';
 
 export default function(app) {
     app.get('/', function (req, res) {
-        res.redirect('/products');
+        res.render('home');
     })
 
     app.get('/err', function (req, res) {

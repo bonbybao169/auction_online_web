@@ -21,4 +21,14 @@ router.get('/byCat/:id', async function (req, res) {
     });
 })
 
+router.post('/search', async function (req, res) {
+    const ProName = req.body.Name || 0;
+    const list = await productModel.findByProName(ProName);
+    console.log(list);
+    res.render('vwProduct/byProName', {
+        products: list,
+        empty: list.length === 0
+    });
+})
+
 export default router;

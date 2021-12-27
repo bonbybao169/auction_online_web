@@ -40,7 +40,6 @@ router.post('/del', async function (req, res) {
     const ret = await categoryModel.delete(req.body.CategoryID);
     // console.log(ret);
     res.redirect("/admin/categories");
-
 })
 
 router.post('/patch', async function (req, res) {
