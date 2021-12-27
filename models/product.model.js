@@ -13,6 +13,14 @@ export default {
         return db('product').orderBy('DateExpired', 'asc').limit(5);
     },
 
+    findFiveHighestPrice() {
+        return db('product').orderBy('PriceBuyNow', 'desc').limit(5);
+    },
+
+    findFiveHighestTurn() {
+        return db('product').orderBy('Turn', 'desc').limit(5);
+    },
+
     async findByProName(proName) {
         const sql = `SELECT * FROM product 
                     where MATCH (Name) 

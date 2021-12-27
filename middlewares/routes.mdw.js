@@ -14,10 +14,14 @@ export default function(app) {
     })
 
     app.get('/home', async function (req, res) {
-        const list = await productModel.findFiveEarlyExpired();
-        console.log(list);
+        const listEE = await productModel.findFiveEarlyExpired();
+        const listHG = await productModel.findFiveHighestPrice();
+        const listHT = await productModel.findFiveHighestTurn();
+        // console.log(list);
         res.render('home', {
-            products: list
+            productsEE: listEE,
+            productsHG: listHG,
+            productsHT: listHT
         })
     })
 
