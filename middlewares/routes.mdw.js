@@ -2,7 +2,8 @@ import {dirname} from "path";
 import {fileURLToPath} from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-import categoryRoute from '../routes/category.route.js';
+import categoryAdminRoute from '../routes/category_admin.route.js';
+import productAdminRoute from '../routes/product_admin.route.js';
 import productRoute from '../routes/product.route.js';
 
 export default function(app) {
@@ -14,7 +15,8 @@ export default function(app) {
         throw new Error('Something broke.')
     })
 
-    app.use('/admin/categories', categoryRoute);
+    app.use('/admin/categories', categoryAdminRoute);
+    app.use('/admin/products', productAdminRoute);
     app.use('/products', productRoute);
 
     app.use(function (req, res, next) {
