@@ -9,6 +9,10 @@ export default {
         return db('product').where('Category', catID);
     },
 
+    findFiveEarlyExpired() {
+        return db('product').orderBy('DateExpired', 'asc').limit(5);
+    },
+
     async findByProName(proName) {
         const sql = `SELECT * FROM product 
                     where MATCH (Name) 
