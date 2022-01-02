@@ -1,12 +1,22 @@
 import db from "../utils/db.js";
 
 export default {
-    findAll() {
-        return db('product');
+    findAll(limit, offset) {
+        return db('product').limit(limit).offset(offset);
     },
 
-    findByCatID(catID) {
-        return db('product').where('Category', catID);
+    async countAll() {
+        const list = await db('product').count({quantity: 'ID'});
+        return list[0].quantity;
+    },
+
+    findByCatID(catID, limit, offset) {
+        return db('product').where('Category', catID).limit(limit).offset(offset);
+    },
+
+    async countByCatID(catID) {
+        const list = await db('product').where('Category', catID).count({quantity: 'ID'});
+        return list[0].quantity;
     },
 
     findFiveEarlyExpired() {
@@ -14,23 +24,39 @@ export default {
     },
 
     findFiveHighestPrice() {
-        return db('product').orderBy('PriceBuyNow', 'desc').limit(5);
+        return db('product').orderBy('PresentPrice', 'desc').limit(5);
     },
 
     findFiveHighestTurn() {
         return db('product').orderBy('Turn', 'desc').limit(5);
     },
 
-    async findByProName(proName) {
+    async findByProName(proName, limit, offset) {
         const sql = `SELECT * FROM product 
                     where MATCH (Name) 
-                    AGAINST (?);`
+                    AGAINST (?) LIMIT ? OFFSET ?`
         const values = [
             proName,
+            limit,
+            offset
         ];
+
         const raw = await db.raw(sql, values);
         // console.log(raw[0]);
         return raw[0];
+    },
+
+    async countByProName(proName) {
+        const sql = `SELECT COUNT(ID) as quantity FROM product 
+                    where MATCH (Name) 
+                    AGAINST (?)`
+        const values = [
+            proName
+        ];
+
+        const raw = await db.raw(sql, values);
+        // console.log(raw[0]);
+        return raw[0][0].quantity;
     },
 
     async findByID(id) {
