@@ -1,9 +1,41 @@
-import productModel from "../models/product.model.js";
 import express from 'express';
-
+import productModel from "../models/product.model.js";
 const router = express.Router();
-
 router.get('/', async function(req, res) {
+    res.redirect('/bidder/home');
+})
+router.get('/home', async function(req, res) {
+    const listEE = await productModel.findFiveEarlyExpired();
+    const listHP = await productModel.findFiveHighestPrice();
+    const listHT = await productModel.findFiveHighestTurn();
+    for (let i = 0; i < listEE.length; i++) {
+        let date1 = new Date(listEE[i].DateUpload);
+        listEE[i].DateUpload = date1.toLocaleDateString();
+        let date2 = new Date(listEE[i].DateExpired);
+        listEE[i].DateExpired = productModel.distance(date2);
+    }
+    for (let i = 0; i < listHP.length; i++) {
+        let date1 = new Date(listHP[i].DateUpload);
+        listHP[i].DateUpload = date1.toLocaleDateString();
+        let date2 = new Date(listHP[i].DateExpired);
+        listHP[i].DateExpired = productModel.distance(date2);
+    }
+    for (let i = 0; i < listHT.length; i++) {
+        let date1 = new Date(listHT[i].DateUpload);
+        listHT[i].DateUpload = date1.toLocaleDateString();
+        let date2 = new Date(listHT[i].DateExpired);
+        listHT[i].DateExpired = productModel.distance(date2);
+    }
+    // console.log(list);
+    res.render('homes/BidderHome', {
+        layout: "BidderLayout.hbs",
+        productsEE: listEE,
+        productsHP: listHP,
+        productsHT: listHT
+    })
+})
+
+router.get('/products', async function(req, res) {
     const page = req.query.page || 1;
     const limit = 6;
     const total = await productModel.countAll();
@@ -27,16 +59,16 @@ router.get('/', async function(req, res) {
         list[i].DateExpired = date.toLocaleDateString();
     }
     // console.log(list);
-    res.render('vwProduct/index', {
+    res.render('vwProduct/index_bidder', {
+        layout: "BidderLayout.hbs",
         products: list,
-        empty: list.length === 0,
         pageNumbers,
+        empty: list.length === 0,
         page
     })
 })
 
-router.get('/byCat/:id', async function (req, res) {
-    // const catID = req.query.id || 0;
+router.get('/products/byCat/:id', async function (req, res) {
     const catID = req.params.id || 0;
 
     const page = req.query.page || 1;
@@ -63,7 +95,8 @@ router.get('/byCat/:id', async function (req, res) {
     // console.log(list);
     console.log(pageNumbers);
 
-    res.render('vwProduct/byCat', {
+    res.render('vwProduct/byCat_bidder', {
+        layout: "BidderLayout.hbs",
         products: list,
         empty: list.length === 0,
         pageNumbers,
@@ -71,7 +104,7 @@ router.get('/byCat/:id', async function (req, res) {
     });
 })
 
-router.post('/search', async function (req, res) {
+router.post('/products/search', async function (req, res) {
     const ProName = req.body.Name || 0;
 
     const page = req.query.page || 1;
@@ -100,12 +133,12 @@ router.post('/search', async function (req, res) {
 
     console.log("o:",offset);
     // console.log(list);
-    res.render('vwProduct/byProName', {
+    res.render('vwProduct/byProName_bidder', {
+        layout: "BidderLayout.hbs",
         products: list,
         empty: list.length === 0,
         pageNumbers,
         page
     });
 })
-
 export default router;

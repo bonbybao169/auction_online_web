@@ -47,8 +47,6 @@ export default function(app) {
         throw new Error('Something broke.')
     })
 
-    //app.use('/admin/categories', categoryAdminRoute);
-    //app.use('/admin/products', productAdminRoute);
     app.use('/bidder/products', productRoute);
 
     app.use(function (req, res, next) {

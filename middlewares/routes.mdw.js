@@ -2,11 +2,12 @@ import {dirname} from "path";
 import {fileURLToPath} from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+import bidderRoute from '../routes/bidder.route.js';
 import productModel from '../models/product.model.js';
-
 import categoryAdminRoute from '../routes/category_admin.route.js';
 import productAdminRoute from '../routes/product_admin.route.js';
 import productRoute from '../routes/product.route.js';
+import authRoute from "../routes/auth.route.js";
 
 export default function(app) {
     app.get('/', async function (req, res) {
@@ -50,6 +51,8 @@ export default function(app) {
     app.use('/admin/categories', categoryAdminRoute);
     app.use('/admin/products', productAdminRoute);
     app.use('/products', productRoute);
+    app.use("/auth",authRoute);
+    app.use("/bidder",bidderRoute);
 
     app.use(function (req, res, next) {
         res.render('404', {layout: false});

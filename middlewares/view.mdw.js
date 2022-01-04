@@ -8,7 +8,8 @@ export default function(app) {
             format_number(val) {
                 return numeral(val).format('0,0');
             },
-            isChild
+            isChild,
+            isNotNull
         }
     }));
     app.set('view engine', 'hbs');
@@ -17,4 +18,7 @@ export default function(app) {
 
 function isChild(parentID, catID) {
     return parentID === catID;
+}
+function isNotNull(HighestBidder) {
+    return null !== HighestBidder;
 }
