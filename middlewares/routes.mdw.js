@@ -44,6 +44,35 @@ export default function(app) {
             productsHT: listHT
         })
     })
+    app.get('/admin', async function (req, res) {
+        const listEE = await productModel.findFiveEarlyExpired();
+        const listHP = await productModel.findFiveHighestPrice();
+        const listHT = await productModel.findFiveHighestTurn();
+        for (let i = 0; i < listEE.length; i++) {
+            let date = new Date(listEE[i].DateUpload);
+            listEE[i].DateUpload = date.toLocaleDateString();
+            date = new Date(listEE[i].DateExpired);
+            listEE[i].DateExpired = date.toLocaleDateString();
+        }
+        for (let i = 0; i < listHP.length; i++) {
+            let date = new Date(listHP[i].DateUpload);
+            listHP[i].DateUpload = date.toLocaleDateString();
+            date = new Date(listHP[i].DateExpired);
+            listHP[i].DateExpired = date.toLocaleDateString();
+        }
+        for (let i = 0; i < listHT.length; i++) {
+            let date = new Date(listHT[i].DateUpload);
+            listHT[i].DateUpload = date.toLocaleDateString();
+            date = new Date(listHT[i].DateExpired);
+            listHT[i].DateExpired = date.toLocaleDateString();
+        }
+        // console.log(list);
+        res.render('home_admin', {
+            productsEE: listEE,
+            productsHP: listHP,
+            productsHT: listHT
+        })
+    })
 
     app.get('/err', function (req, res) {
         throw new Error('Something broke.')

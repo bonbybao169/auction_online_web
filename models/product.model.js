@@ -14,6 +14,10 @@ export default {
         return db('product').where('Category', catID).limit(limit).offset(offset);
     },
 
+    findByCatIDExceptProID(proID, catID, limit) {
+        return db('product').where('Category', catID).whereNotIn('ID',[proID]).limit(limit);
+    },
+
     async countByCatID(catID) {
         const list = await db('product').where('Category', catID).count({quantity: 'ID'});
         return list[0].quantity;

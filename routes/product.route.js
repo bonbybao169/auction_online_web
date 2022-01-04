@@ -144,24 +144,26 @@ function timeDifference(end, start) {
 router.get('/:id', async function (req, res) {
     const proID = req.params.id || 0;
 
-    const list = await productModel.findByID(proID);
+    const product = await productModel.findByID(proID);
+    const list = await productModel.findByCatIDExceptProID(product.ID, product.Category, 5);
 
     // console.log(list);
 
-    let date = new Date(list.DateUpload);
-    list.DateUpload = date.toLocaleDateString('en-GB');
+    let date = new Date(product.DateUpload);
+    product.DateUpload = date.toLocaleDateString('en-GB');
 
-    if (timeDifference(list.DateExpired, new Date()) !== false) {
-        list.DateExpired = timeDifference(list.DateExpired, new Date());
+    if (timeDifference(product.DateExpired, new Date()) !== false) {
+        product.DateExpired = timeDifference(product.DateExpired, new Date());
     }
     else {
-        date = new Date(list.DateExpired);
-        list.DateExpired = date.toLocaleDateString('en-GB');
+        date = new Date(product.DateExpired);
+        product.DateExpired = date.toLocaleDateString('en-GB');
     }
         
     res.render('vwProduct/detail', {
         layout: false,
-        product: list
+        product,
+        sameproducts: list
     });
 })
 
