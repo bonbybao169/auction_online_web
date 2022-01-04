@@ -12,8 +12,8 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="txtParentCatName">Chọn danh mục cha</label>
                 </div>
-                <select class="custom-select" id="txtParentCatName" name="ParentID">
-                    <option selected>Choose...</option>
+                <select class="custom-select" id="txtParentCatName" name="ParentID" required oninvalid="this.setCustomValidity('Choose the parent category')" oninput="this.setCustomValidity('')">
+                    <option value="">Choose...</option>
                     <option value="null">None</option>
                     {{#each this.categories}}
                         <option value={{CategoryID}}>{{Name}}</option>

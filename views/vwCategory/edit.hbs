@@ -14,6 +14,18 @@
                 <input type="text" class="form-control" id="txtCatName" name="Name" autofocus
                        value="{{this.category.Name}}">
             </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="txtParentCatName">Chọn danh mục cha</label>
+                </div>
+                <select class="custom-select" id="txtParentCatName" name="ParentID" required oninvalid="this.setCustomValidity('Choose the parent category')" oninput="this.setCustomValidity('')">
+                    <option value="">Choose...</option>
+                    <option value="null">None</option>
+                    {{#each this.categories}}
+                        <option value={{CategoryID}}>{{Name}}</option>
+                    {{/each}}
+                </select>
+            </div>
         </div>
         <div class="card-footer text-muted">
             <a class="btn btn-outline-success" href="/admin/categories" role="button">

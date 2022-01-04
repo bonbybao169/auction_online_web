@@ -61,9 +61,7 @@ export default {
 
     async findByID(id) {
         const list = await db('product').where('ID', id);
-        console.log(list);
-        if (list.length === 0)
-            return null;
+        // console.log(list);
 
         return list[0];
     },

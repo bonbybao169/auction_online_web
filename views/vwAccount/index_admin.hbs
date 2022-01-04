@@ -1,0 +1,32 @@
+<div class="card">
+    <h4 class="card-header d-flex justify-content-between">
+        Người dùng
+        <a class="btn btn-sm btn-outline-primary" href="/admin/accounts/add" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Thêm người dùng
+        </a>
+    </h4>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Tài khoản</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each this.accounts}}
+            <tr>
+                <td>{{Username}}</td>
+                <td class="text-right">
+                    <a class="btn btn-sm btn-primary" href="/admin/accounts/edit?id={{Username}}" role="button">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    <div class="card-footer text-muted">
+        2 days ago
+    </div>
+</div>

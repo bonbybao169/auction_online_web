@@ -22,17 +22,20 @@ router.post('/add', async function (req, res) {
         req.body.ParentID = null;
     const ret = await categoryModel.add(req.body);
     console.log(ret);
-    res.render('vwCategory/add');
+    // res.render('vwCategory/add');
+    res.redirect('/admin/categories');
 })
 
 router.get('/edit', async function (req, res) {
     const id = req.query.id || 0;
+    const list = await categoryModel.findParentCat();
     const category = await categoryModel.findByID(id);
     if (category === null) {
         return res.redirect('/admin/categories');
     }
     res.render('vwCategory/edit', {
-        category
+        category,
+        categories: list
     });
 })
 
