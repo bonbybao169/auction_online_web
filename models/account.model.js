@@ -10,37 +10,19 @@ export default {
         return db('user').insert(entity);
     },
 
-<<<<<<< Updated upstream
     async findByID(id) {
         const list = await db('user').where('Username', id);
         // console.log(list);
-=======
+    },
     async findByUsername(username) {
         const list = await db('user').where('Username', username);
->>>>>>> Stashed changes
         if (list.length === 0)
             return null;
         return list[0];
     },
-
-<<<<<<< Updated upstream
     delete(id) {
         return db('user').where('Username', id).del();
     },
-
-    patch(entity) {
-        const id = entity.Username;
-        delete entity.Username;
-
-        return db('user').where('Username', id).update(entity);
-    }
-=======
-    del(id) {
-        return db('user')
-            .where('id', id)
-            .del();
-    },
-
     async patch(entity) {
         const username = entity.Username;
         entity.Birthday= new Date(entity.Birthday);
@@ -49,6 +31,4 @@ export default {
         console.log(entity);
         return db('user').update(entity).where('Username', username);
     },
-
->>>>>>> Stashed changes
 }
