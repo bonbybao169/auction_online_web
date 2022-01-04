@@ -1,14 +1,15 @@
 import knexObj from 'knex';
 
+export const connectionInfo = {
+    host: '127.0.0.1',
+    port: 3306,
+    user: 'root',
+    password: "",
+    database: 'auction_system'
+};
 const knex = knexObj({
     client: 'mysql2',
-    connection: {
-        host: '127.0.0.1',
-        port: 3306,
-        user: 'root',
-        password: process.env.pass,
-        database: 'auction_system'
-    },
+    connection: connectionInfo,
     pool: {min: 0, max: 10}
 });
 

@@ -51,7 +51,12 @@ router.post('/login', async function (req, res) {
             err_message: 'Invalid username or password.'
         });
     }
-    console.log(ret);
+    delete user.Password;
+    req.session.auth = ret;
+    req.session.authUser = user;
+    //console.log(req.session.authUser);
+    //res.locals.user = req.session.authUser;
+    //res.locals.auth = req.session.auth;
 
     if(user.Type == 1){
         return res.redirect("/admin");
@@ -62,15 +67,20 @@ router.post('/login', async function (req, res) {
     else{
         return res.redirect("/bidder");
     }
-    delete user.password;
 
-    req.session.auth = true;
-    req.session.authUser = user;
-    res.locals.username = req.session.authUser.Username;
+
     //const url = req.session.retUrl || '/';
     //res.redirect(url);
 });
 
+router.get('/is-available', async function (req, res) {
+    const username = req.query.user;
+    const user = await userModel.findByUsername(username);
+    if (user === null) {
+        return res.json(true);
+    }
 
+    res.json(false);
+});
 
 export default router;

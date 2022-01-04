@@ -9,7 +9,7 @@ import productAdminRoute from '../routes/product_admin.route.js';
 import accountAdminRoute from '../routes/account_admin.route.js';
 import productRoute from '../routes/product.route.js';
 import authRoute from "../routes/auth.route.js";
-
+import accountRoute from "../routes/account.route.js"
 export default function(app) {
     app.get('/', async function (req, res) {
         res.redirect('/home');
@@ -84,7 +84,7 @@ export default function(app) {
     app.use('/products', productRoute);
     app.use("/auth",authRoute);
     app.use("/bidder",bidderRoute);
-
+    app.use("/account",accountRoute);
     app.use(function (req, res, next) {
         res.render('404', {layout: false});
     })
