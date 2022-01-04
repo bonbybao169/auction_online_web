@@ -9,7 +9,7 @@ export default function(app) {
                 return numeral(val).format('0,0');
             },
             isChild,
-            isNotNull
+            isNotNull,
         }
     }));
     app.set('view engine', 'hbs');
