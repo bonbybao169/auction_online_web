@@ -5,8 +5,15 @@ const router = express.Router();
 
 router.get('/', async function(req, res) {
     const list = await accountModel.findAll();
+    const listWantedSeller = await accountModel.getListWantedSeller();
+    const listSeller = await accountModel.getListSeller();
     res.render('vwAccount/index_admin', {
-        accounts: list
+        accounts: list,
+        listWantedSeller,
+        listEmpty: listWantedSeller.length === 0,
+        listSeller,
+        listSellerEmpty: listSeller.length === 0,
+        layout: 'AdminLayout.hbs'
     })
 })
 
@@ -28,7 +35,8 @@ router.get('/edit', async function (req, res) {
     }
     res.render('vwAccount/edit', {
         account,
-        isSeller: account.Type === 3
+        isSeller: account.Type === 3,
+        isAdmin: account.Type === 1
     });
 })
 

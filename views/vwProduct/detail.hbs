@@ -6,6 +6,54 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        img {
+            max-width: 100%; }
+
+        .preview {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column; }
+        @media screen and (max-width: 996px) {
+            .preview {
+                margin-bottom: 20px; } }
+
+        .preview-pic {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1; }
+
+        .preview-thumbnail.nav-tabs {
+            border: none;
+            margin-top: 15px; }
+        .preview-thumbnail.nav-tabs li {
+            width: 23%;
+            margin-right: 2.5%; }
+        .preview-thumbnail.nav-tabs li img {
+            max-width: 100%;
+            display: block; }
+        .preview-thumbnail.nav-tabs li a {
+            padding: 0;
+            margin: 0; }
+        .preview-thumbnail.nav-tabs li:last-of-type {
+            margin-right: 0; }
+
+        .tab-content {
+            overflow: hidden; }
+        .tab-content img {
+            width: 100%;
+            -webkit-animation-name: opacity;
+            animation-name: opacity;
+            -webkit-animation-duration: .3s;
+            animation-duration: .3s; }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
@@ -52,8 +100,19 @@
 </nav>
 <div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-sm-4">
-
+        <div class="preview col-sm-4">
+            <div class="preview-pic tab-content">
+                <div class="tab-pane active" id="pic-1"><img src="/image/products/{{this.product.ID}}-main.jpg" /></div>
+                <div class="tab-pane" id="pic-2"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/></div>
+                <div class="tab-pane" id="pic-3"><img src="/image/products/{{this.product.ID}}-thumb2.jpg" alt=""/></div>
+                <div class="tab-pane" id="pic-4"><img src="/image/products/{{this.product.ID}}-thumb3.jpg" alt=""/></div>
+            </div>
+            <ul class="preview-thumbnail nav nav-tabs">
+                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-main.jpg" alt=""/></a></li>
+                <li><a data-target="#pic-2" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/></a></li>
+                <li><a data-target="#pic-3" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb2.jpg" alt=""/></a></li>
+                <li><a data-target="#pic-4" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb3.jpg" alt=""/></a></li>
+            </ul>
         </div>
         <div class="col-sm-5">
             <div class="card">
@@ -114,7 +173,8 @@
                                      title="{{Name}}">
                                 <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
                                     &#x20AB;</h5>
-                                <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}&#x20AB;</h5>
+                                <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
+                                    &#x20AB;</h5>
                             </div>
                             <div class="card-footer d-flex justify-content-between">
                                 <h5 class="mt-2">Lượt: {{Turn}}</h5>

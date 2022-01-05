@@ -1,32 +1,108 @@
-<div class="card">
-    <h4 class="card-header d-flex justify-content-between">
-        Người dùng
-        <a class="btn btn-sm btn-outline-primary" href="/admin/accounts/add" role="button">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            Thêm người dùng
-        </a>
-    </h4>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Tài khoản</th>
-            <th scope="col">&nbsp;</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each this.accounts}}
-            <tr>
-                <td>{{Username}}</td>
-                <td class="text-right">
-                    <a class="btn btn-sm btn-primary" href="/admin/accounts/edit?id={{Username}}" role="button">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                </td>
-            </tr>
-        {{/each}}
+<div class="col-md-4">
+    <div class="card">
+        <h4 class="card-header d-flex justify-content-between">
+            Danh sách Seller
+        </h4>
+        <table class="table table-hover">
+            {{#if this.listSellerEmpty}}
+                <h4 style="text-align: center" class="mt-3">Không có Seller nào.</h4>
+            {{else}}
+                <thead>
+                <tr>
+                    <th scope="col">Tài khoản</th>
+                    <th scope="col">&nbsp;</th>
+                </tr>
+                </thead>
+            <tbody>
+                {{#each this.listSeller}}
+                <tr>
+                    <td>{{Username}}</td>
+                    <td class="text-right">
+                        <form method="post" class="mt-2">
+                            <input type="hidden" name="Username" value={{Username}}>
+                            <input type="hidden" name="Type" value=2>
+                            <button type="submit" class="btn btn-danger" formaction="/admin/accounts/patch">
+                                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                Hạ cấp
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            {{/if}}
         </tbody>
-    </table>
-    <div class="card-footer text-muted">
-        2 days ago
+        </table>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="card">
+        <h4 class="card-header d-flex justify-content-between">
+            Người dùng
+        </h4>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Tài khoản</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each this.accounts}}
+                <tr>
+                    <td>{{Username}}</td>
+                    <td class="text-right">
+                        <a class="btn btn-sm btn-primary" href="/admin/accounts/edit?id={{Username}}" role="button">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="card">
+        <h4 class="card-header d-flex justify-content-between">
+            Danh sách cần lên Seller
+        </h4>
+        <table class="table table-hover">
+            {{#if this.listEmpty}}
+                <h4 style="text-align: center" class="mt-3">Không có ai cần lên Seller.</h4>
+            {{else}}
+            <thead>
+            <tr>
+                <th scope="col">Tài khoản</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+                {{#each this.listWantedSeller}}
+                    <tr>
+                        <td>{{Username}}</td>
+                        <td class="text-right">
+                            <form method="post">
+                                <input type="hidden" name="Username" value={{Username}}>
+                                <input type="hidden" name="WantedSeller" value=0>
+                                <input type="hidden" name="Type" value=3>
+                                <button type="submit" class="btn btn-success" formaction="/admin/accounts/patch">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    Duyệt
+                                </button>
+                            </form>
+                            <form method="post" class="mt-2">
+                                <input type="hidden" name="Username" value={{Username}}>
+                                <input type="hidden" name="WantedSeller" value=0>
+                                <button type="submit" class="btn btn-danger" formaction="/admin/accounts/patch">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    Từ chối
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+            {{/if}}
+            </tbody>
+        </table>
     </div>
 </div>

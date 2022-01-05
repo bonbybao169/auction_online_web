@@ -20,9 +20,11 @@ export default {
             return null;
         return list[0];
     },
+
     delete(id) {
         return db('user').where('Username', id).del();
     },
+
     async patch(entity) {
         const username = entity.Username;
         entity.Birthday= new Date(entity.Birthday);
@@ -31,4 +33,12 @@ export default {
         console.log(entity);
         return db('user').update(entity).where('Username', username);
     },
+
+    getListWantedSeller() {
+        return db('user').where('WantedSeller', 1);
+    },
+
+    getListSeller() {
+        return db('user').where('Type', 3);
+    }
 }

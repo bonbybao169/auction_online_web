@@ -1,59 +1,65 @@
 <form method="post">
-    <div class="card">
-        <div class="card-header">
-            Chỉnh sửa tài khoản
-        </div>
-        <div class="card-body">
-            <div class="form-group">
-                <label for="txtUsername">Username</label>
-                <input type="text" class="form-control" id="txtUsername" name="Username" readonly
-                       value="{{this.account.Username}}">
-            </div>
-            <div class="form-group">
-                <label for="txtUserName">Tên</label>
-                <input type="text" class="form-control" id="txtUserName" name="Name" readonly
-                       value="{{this.account.Name}}">
-            </div>
-            <div class="form-group">
-                <label for="txtUserEmail">Email</label>
-                <input type="text" class="form-control" id="txtUserEmail" name="Email" readonly
-                       value="{{this.account.Email}}">
-            </div>
-            <div class="form-group">
-                <label for="txtUserAddress">Địa chỉ</label>
-                <input type="text" class="form-control" id="txtUserAddress" name="Address" readonly
-                       value="{{this.account.Address}}">
-            </div>
-            <div class="input-group mt-4">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="txtUserType">Phân hệ</label>
-                </div>
-                <select class="custom-select" id="txtUserType" name="Type">
-                    {{#if this.isSeller}}
-                        <option value=3>Seller</option>
-                        <option value=2>Bidder</option>
-                        <option value=1>Admin</option>
-                        {{else}}
-                        <option value=2>Bidder</option>
-                        <option value=3>Seller</option>
-                        <option value=1>Admin</option>
-                    {{/if}}
-                </select>
-            </div>
-        </div>
-        <div class="card-footer text-muted">
-            <a class="btn btn-outline-success" href="/admin/accounts" role="button">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-                Danh sách
-            </a>
-            <button type="submit" class="btn btn-danger" formaction="/admin/accounts/del">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                Xoá
-            </button>
-            <button type="submit" class="btn btn-primary" formaction="/admin/accounts/patch">
-                <i class="fa fa-check" aria-hidden="true"></i>
-                Lưu
-            </button>
-        </div>
+<div class="card">
+    <div class="card-header">
+        Chỉnh sửa tài khoản
     </div>
+<div class="card-body">
+    <div class="form-group">
+        <label for="txtUsername">Username</label>
+        <input type="text" class="form-control" id="txtUsername" name="Username" readonly
+               value="{{this.account.Username}}">
+    </div>
+    <div class="form-group">
+        <label for="txtUserName">Tên</label>
+        <input type="text" class="form-control" id="txtUserName" name="Name" readonly
+               value="{{this.account.Name}}">
+    </div>
+    <div class="form-group">
+        <label for="txtUserEmail">Email</label>
+        <input type="text" class="form-control" id="txtUserEmail" name="Email" readonly
+               value="{{this.account.Email}}">
+    </div>
+    <div class="form-group">
+        <label for="txtUserAddress">Địa chỉ</label>
+        <input type="text" class="form-control" id="txtUserAddress" name="Address" readonly
+               value="{{this.account.Address}}">
+    </div>
+<div class="input-group mt-4">
+    <div class="input-group-prepend">
+        <label class="input-group-text" for="txtUserType">Phân hệ</label>
+    </div>
+<select class="custom-select" id="txtUserType" name="Type">
+{{#if this.isSeller}}
+        <option value=3>Seller</option>
+        <option value=2>Bidder</option>
+        <option value=1>Admin</option>
+{{else}}
+    {{#if this.isAdmin}}
+            <option value=1>Admin</option>
+            <option value=2>Bidder</option>
+            <option value=3>Seller</option>
+    {{else}}
+            <option value=2>Bidder</option>
+            <option value=3>Seller</option>
+            <option value=1>Admin</option>
+    {{/if}}
+{{/if}}
+</select>
+</div>
+</div>
+    <div class="card-footer text-muted">
+        <a class="btn btn-outline-success" href="/admin/accounts" role="button">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            Danh sách
+        </a>
+        <button type="submit" class="btn btn-danger" formaction="/admin/accounts/del">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+            Xoá
+        </button>
+        <button type="submit" class="btn btn-primary" formaction="/admin/accounts/patch">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Lưu
+        </button>
+    </div>
+</div>
 </form>
