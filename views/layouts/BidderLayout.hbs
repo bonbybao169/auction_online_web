@@ -22,26 +22,19 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/bidder">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-expanded="false">
-                    Dropdown
+                    Danh sách sản phẩm
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="/bidder/products/byWatchList"><h6>Danh sách sản phẩm yêu thích</h6></a>
+                    <a class="dropdown-item" href="/bidder/products/by"><h6>Danh sách sản phẩm đang đấu giá</h6></a>
+                    <a class="dropdown-item" href="/bidder/products/byWinningList/{{child.CategoryID}}"><h6>Danh sách sản phẩm đã thắng</h6></a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-            </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 mr-sm-2" method="post" action="/products/search">
+        <form class="form-inline my-2 my-lg-0 mr-sm-2" method="post" action="/bidder/products/search">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Name">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -54,9 +47,7 @@
                 Account
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Danh sách sản phẩm yêu thích</h6></a>
-                <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Danh sách sản phẩm đang đấu giá</h6></a>
-                <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Danh sách sản phẩm đã thắng</h6></a>
+
                 <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Mục đánh giá sản phẩm</h6></a>
                 <a class="dropdown-item" href="/account"><h6>Thông tin cá nhân</h6></a>
                 <a class="dropdown-item" href="/account/logout"><h6>Logout</h6></a>

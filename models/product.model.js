@@ -23,6 +23,20 @@ export default {
         return list[0].quantity;
     },
 
+    async findByWatchList(username, limit, offset) {
+        const list = await db('watchlist').where('Username', username).select('ProductID');
+        const listID= [];
+        for(let i=0;i<list.length;i++){
+            listID.push(list[i].ProductID);
+        }
+        return db('product').whereIn('ID', listID).limit(limit).offset(offset);
+    },
+    async countByWatchList(Username) {
+        const list = await db('watchlist').where('Username', Username).count({quantity: 'ProductID'});
+
+        return list[0].quantity;
+    },
+
     findFiveEarlyExpired() {
         return db('product').orderBy('DateExpired', 'asc').limit(5);
     },
