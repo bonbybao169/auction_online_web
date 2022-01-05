@@ -84,6 +84,34 @@ export default {
         return list[0];
     },
 
+    async findPresentPriceByProID(id) {
+        const list = await db('product').select('PresentPrice').where('ID', id);
+        // console.log(list);
+
+        return list[0].PresentPrice;
+    },
+
+    async findStepByProID(id) {
+        const list = await db('product').select('Step').where('ID', id);
+        // console.log(list);
+
+            return list[0].Step;
+    },
+
+    async findHighestBidderByProID(id) {
+        const list = await db('product').select('HighestBidder').where('ID', id);
+        // console.log(list);
+
+        return list[0];
+    },
+
+    async findTurnByProID(id) {
+        const list = await db('product').select('Turn').where('ID', id);
+        // console.log(list);
+
+        return list[0].Turn;
+    },
+
     delete(id) {
         return db('product').where('ID', id).del();
     },
@@ -98,5 +126,10 @@ export default {
     temp = temp%( 60);
     let secs = Math.floor(temp)
     return days+" days "+hours+"h:"+mins+"m:"+secs+"s";
+    },
+
+    updateHighestPriceAndBidderAndTurn(proID, highestPrice, highestBidder, newTurn) {
+        return db('product').where('ID', proID).update({PresentPrice: highestPrice,
+            HighestBidder: highestBidder, Turn: newTurn});
     }
 }

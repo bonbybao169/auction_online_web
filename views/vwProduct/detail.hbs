@@ -151,7 +151,23 @@
             </div>
         </div>
         <div class="col-sm-3">
-
+            <!-- Đây là tạm thôi -->
+            <div class="card">
+                <div class="card-header">
+                    Đấu giá
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" name="BidderID" value="tuongvy">
+                        <input type="hidden" name="ProductID" value=1>
+                        <input type="hidden" name="HighestPrice" value=20000000>
+                        <button type="submit" class="btn btn-danger" formaction="/auction/addNewPrice">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            Ra giá
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
