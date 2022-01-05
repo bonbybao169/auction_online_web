@@ -20,7 +20,6 @@ export default {
             return null;
         return list[0];
     },
-
     delete(id) {
         return db('user').where('Username', id).del();
     },
@@ -32,6 +31,13 @@ export default {
         entity.Birthday = entity.Birthday.toISOString().slice(0, 19).replace('T', ' ');
         console.log(entity);
         return db('user').update(entity).where('Username', username);
+    },
+
+    patchNotBirthday(entity) {
+        const id = entity.Username;
+        delete entity.Username;
+
+        return db('user').where('Username', id).update(entity);
     },
 
     getListWantedSeller() {

@@ -52,4 +52,10 @@ router.post('/patch', async function (req, res) {
     res.redirect("/admin/accounts");
 })
 
+router.post('/patchNotBirthday', async function (req, res) {
+    const ret = await accountModel.patchNotBirthday(req.body);
+    // console.log(ret);
+    res.redirect("/admin/accounts");
+})
+
 export default router;
