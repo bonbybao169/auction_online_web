@@ -1,4 +1,4 @@
-<div class="card text-center">
+<div class="card text-center" style="background-color: #f2ca8b" >
     <h4 class="card-header d-flex justify-content-between">
         Sản phẩm
     </h4>
@@ -28,7 +28,7 @@
                             {{/if}}
                         </div>
                         <div class="card-footer d-flex justify-content-between">
-                            <h5 class="card-text my-auto bg-warning " style="width: 130px; height: 60px, padding 10px 10px">Lượt xem: {{Turn}}</h5>
+                            <h5 class="card-text my-auto bg-warning " style="width: 130px, height: 60px, padding 10px 10px">Lượt xem: {{Turn}}</h5>
                             <span>
                                 <a class="btn btn-primary my-2" href="/products/{{ID}}" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -71,7 +71,7 @@
                     {{/if}}
                 {{/each}}
                 <li class="page-item">
-                    <a class="page-link" href="?page=javascript:add(page,1)""">Next</a>
+                    <a class="page-link" href="?page=javascript:add(page,1)">Next</a>
                 </li>
             </ul>
         </nav>

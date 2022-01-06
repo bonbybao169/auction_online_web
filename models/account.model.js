@@ -1,5 +1,5 @@
 import db from "../utils/db.js";
-
+import productModel from "./product.model.js";
 export default {
     findAll() {
         return db('user');
@@ -24,6 +24,17 @@ export default {
         }else{
             return false;
         };
+    },
+    async Love(username,productID){
+        return db("watchlist").insert({"Username": username, "ProductID": productID})
+    },
+    async Unlove(username,productID){
+        return db("watchlist").where({"Username": username, "ProductID": productID}).del();
+    },
+    async isLoved(username,productID){
+        const entity = {"Username": username, "ProductID": productID}
+        const quanity = await productModel.countWatchListbyEntity(entity);
+        return quanity===1;
     },
     async findByID(id) {
         const list = await db('user').where('Username', id);

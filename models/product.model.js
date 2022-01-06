@@ -131,6 +131,10 @@ export default {
         const list = await db('auctionhistory').where('BidderID', username).count({quantity: 'ProductID'});
         return list[0].quantity;
     },
+    async countWatchListbyEntity(entity){
+        const list = await db('watchlist').where(entity).count({quantity: 'ProductID'});
+        return list[0].quantity;
+    },
     delete(id) {
         return db('product').where('ID', id).del();
     },
@@ -146,7 +150,37 @@ export default {
     let secs = Math.floor(temp)
     return days+" days "+hours+"h:"+mins+"m:"+secs+"s";
     },
+    timeDifference(end, start) {
+        var msPerMinute = 60 * 1000;
+        var msPerHour = msPerMinute * 60;
+        var msPerDay = msPerHour * 24;
+        var msPerMonth = msPerDay * 30;
+        var msPerYear = msPerDay * 365;
 
+        var elapsed = end - start;
+
+        if (elapsed < 0) {
+            return 'Sản phẩm hết hạn';
+        }
+        else if (elapsed < msPerMinute) {
+            return Math.round(elapsed/1000) + ' giây nữa';
+        }
+        else if (elapsed < msPerHour) {
+            return Math.round(elapsed / msPerMinute) + ' phút nữa';
+        }
+        else if (elapsed < msPerDay ) {
+            return Math.round(elapsed/msPerHour ) + ' giờ nữa';
+        }
+        else if (elapsed < msPerMonth) {
+            console.log(Math.round(elapsed/msPerDay));
+            if (Math.round(elapsed/msPerDay) < 4) {
+                return Math.round(elapsed / msPerDay) + ' ngày nữa';
+            }
+            else {
+                return false;
+            }
+        }
+    },
     updateHighestPriceAndBidderAndTurn(proID, highestPrice, highestBidder, newTurn) {
         return db('product').where('ID', proID).update({PresentPrice: highestPrice,
             HighestBidder: highestBidder, Turn: newTurn});

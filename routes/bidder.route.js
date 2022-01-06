@@ -1,5 +1,6 @@
 import express from 'express';
 import productModel from "../models/product.model.js";
+import accountModel from "../models/account.model.js";
 const router = express.Router();
 router.get('/', async function(req, res) {
     res.redirect('/bidder/home');
@@ -232,5 +233,53 @@ router.get('/products/byAuctionList', async function(req, res) {
         empty: list.length === 0,
         page
     })
+})
+
+router.get('/products/:id', async function (req, res) {
+    const proID = req.params.id || 0;
+
+    const product = await productModel.findByID(proID);
+    const list = await productModel.findByCatIDExceptProID(product.ID, product.Category, 5);
+
+    const isLoved = await accountModel.isLoved(res.locals.user.Username,product.ID);
+
+    let date = new Date(product.DateUpload);
+    product.DateUpload = date.toLocaleDateString('en-GB');
+
+    if (productModel.timeDifference(product.DateExpired, new Date()) !== false) {
+        product.DateExpired = productModel.timeDifference(product.DateExpired, new Date());
+    }
+    else {
+        date = new Date(product.DateExpired);
+        product.DateExpired = date.toLocaleDateString('en-GB');
+    }
+    res.render('vwProduct/detail_bidder.hbs', {
+        layout: false,
+        product,
+        isLoved,
+        sameproducts: list,
+        noBidder: product.HighestBidder === null
+    });
+
+})
+router.get('/products/love/:id', async function (req, res) {
+    const proID = req.params.id || 0;
+    const product = await productModel.findByID(proID);
+    const url = "/bidder/products/"+proID;
+    if(product == null){
+        res.redirect(url)
+    }
+    accountModel.Love(res.locals.user.Username,product.ID);
+    res.redirect(url);
+})
+router.get('/products/unlove/:id', async function (req, res) {
+    const proID = req.params.id || 0;
+    const product = await productModel.findByID(proID);
+    const url = "/bidder/products/"+proID;
+    if(product == null){
+        res.redirect(url)
+    }
+    accountModel.Unlove(res.locals.user.Username,product.ID);
+    res.redirect(url);
 })
 export default router;

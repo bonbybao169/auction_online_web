@@ -11,6 +11,7 @@ export default function(app) {
             isChild,
             isNotNull,
             equal,
+            isTrue,
         }
     }));
     app.set('view engine', 'hbs');
@@ -25,4 +26,7 @@ function isNotNull(HighestBidder) {
 }
 function equal(value1,value2){
     return value1===value2;
+}
+function isTrue(value1){
+    return value1===true;
 }
