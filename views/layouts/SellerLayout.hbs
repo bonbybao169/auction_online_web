@@ -59,7 +59,7 @@
                 <b>{{user.Name}}!</b>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/account">
+                <a class="dropdown-item" href="/account/profile">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     Thông tin cá nhân
                 </a>
@@ -86,7 +86,7 @@
                         <div class="dropdown-menu w-100">
                             {{#each ../lcChildCat as |child|}}
                                 {{#if (isChild child.ParentID parent.CategoryID)}}
-                                    <a class="dropdown-item" href="/bidder/products/byCat/{{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
+                                    <a class="dropdown-item" href="/seller/products/byCat/{{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
                                 {{/if}}
                             {{/each}}
                         </div>
