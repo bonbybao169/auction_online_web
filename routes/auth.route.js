@@ -127,12 +127,15 @@ router.post('/login', async function (req, res) {
     //res.locals.auth = req.session.auth;
 
     if(user.Type == 1){
+        req.session.isAdmin=true;
         return res.redirect("/admin");
     }
     else if(user.Type == 2){
+        req.session.isSeller=true;
         return res.redirect("/seller");
     }
     else{
+        req.session.isBidder=true;
         return res.redirect("/bidder");
     }
 
