@@ -5,8 +5,9 @@ export default {
         return db('user');
     },
 
-    add(entity) {
-        return db('user').insert(entity);
+    async add(entity) {
+        const list = [entity];
+        return db('user').insert(list);
     },
     async isAvailableUsername(Username){
         const list = await db('user').where('Username', Username).count({quantity: 'Username'});
@@ -43,7 +44,6 @@ export default {
         entity.Birthday= new Date(entity.Birthday);
         entity.Birthday.setHours(entity.Birthday.getHours()+7);
         entity.Birthday = entity.Birthday.toISOString().slice(0, 19).replace('T', ' ');
-        console.log(entity);
         return db('user').update(entity).where('Username', username);
     },
 

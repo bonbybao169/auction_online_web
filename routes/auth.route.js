@@ -15,25 +15,86 @@ router.get('/register', async function (req, res) {
 });
 
 router.post('/register', async function (req, res) {
+    for(let i = 0; i <  Object.keys(req.body).length; i++){
+        if(Object.values(req.body)[i]===''){
+            res.render('vwAuth/register',{
+                layout:false,
+                err_message: "Fill everything",
+            });
+        }
+    }
+    if(req.body.password !== req.body.confirmpassword){
+        res.render('vwAuth/register',{
+            layout:false,
+            err_message: "Invalid confirm password",
+        });
+    }
+    if(!accountModel.isAvailableUsername(req.body.username)){
+        res.render('vwAuth/register',{
+            layout:false,
+            err_message: "Username already exists",
+        });
+    }
+    if(!accountModel.isAvailableEmail(req.body.email)){
+        res.render('vwAuth/register',{
+            layout:false,
+            err_message: "Email already exists",
+        });
+    }
 
     const rawPassword = req.body.password;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(rawPassword, salt);
-
-    const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
-
+    const dob = new Date(req.body.dob);
+    const birthday = dob.toISOString().slice(0, 10).replace('T', ' ');
     const user = {
-        username: req.body.username,
-        password: hash,
-        dob: dob,
-        name: req.body.name,
-        email: req.body.email,
-        permission: 0
+        Username: req.body.username,
+        Password: hash,
+        Type: 3,
+        Name: req.body.name,
+        Email: req.body.email,
+        Birthday: birthday,
+        Address: req.body.address,
+        WantedSeller: 0,
     }
 
-    await userModel.add(user);
-    res.render('vwAuth/login');
+    const OTP = Math.floor(Math.random() * 1000000) + 100000;;
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'ltdat192@clc.fitus.edu.vn',
+            pass: 'sttffsuck@13579'
+        }
+    });
+
+    transporter.sendMail({
+        from: 'ltdat192@clc.fitus.edu.vn',
+        to: user.Email,
+        subject: 'E-Commerce Web App Notification!',
+        text: 'Your OTP is '+OTP,
+    });
+    temp.user = user;
+    temp.OTP = OTP;
+    res.render('vwAuth/confirmregister.hbs', {
+        layout: false,
+        user,
+    });
 });
+
+router.post('/confirmregister', async function (req, res) {
+    const confirmotp = req.body.confirmotp;
+    if(confirmotp !== temp.OTP){
+        res.render('vwAuth/confirmregister.hbs', {
+            layout: false,
+            err_message: "Invalid OTP",
+        });
+    }
+    const user = temp.user;
+    console.log(user);
+    accountModel.add(user);
+    res.redirect("/auth/login");
+});
+
 
 router.get('/login', async function (req, res) {
     res.render('vwAuth/login', {
@@ -57,6 +118,7 @@ router.post('/login', async function (req, res) {
             err_message: 'Invalid username or password.'
         });
     }
+    console.log(user);
     delete user.Password;
     req.session.auth = ret;
     req.session.authUser = user;
@@ -113,13 +175,13 @@ router.post('/forgotpassword', async function (req, res) {
     });
     temp.user = user;
     temp.OTP=OTP;
-    res.render('vwAuth/confirmotp.hbs', {
+    res.render('vwAuth/changepassword.hbs', {
         layout: false,
         user,
     });
 });
 
-router.post('/confirmotp', async function (req, res) {
+router.post('/changepassword', async function (req, res) {
     const confirmotp = req.body.confirmotp;
     if(confirmotp !== temp.OTP){
         res.render('vwAuth/forgotpassword.hbs', {
