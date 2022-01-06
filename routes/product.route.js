@@ -71,9 +71,10 @@ router.get('/byCat/:id', async function (req, res) {
     });
 })
 
-router.post('/search', async function (req, res) {
-    const ProName = req.body.Name || 0;
+router.get('/search', async function (req, res) {
+    const ProName = req.query.keyword || 0;
 
+    console.log(req.query.page);
     const page = req.query.page || 1;
     const limit = 6;
     const total = await productModel.countByProName(ProName);
@@ -96,15 +97,13 @@ router.post('/search', async function (req, res) {
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = date.toLocaleDateString();
     }
-    console.log("p:", page);
-
-    console.log("o:", offset);
     // console.log(list);
     res.render('vwProduct/byProName', {
         products: list,
         empty: list.length === 0,
         pageNumbers,
-        page
+        page,
+        ProName
     });
 })
 

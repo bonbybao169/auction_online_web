@@ -36,13 +36,23 @@
             flex-grow: 1;
         }
 
+        .preview-pic img {
+            height: 500px;
+            width: 500px;
+        }
+
+        .preview-thumbnail img {
+            height: 110px;
+            width: 200px;
+        }
+
         .preview-thumbnail.nav-tabs {
-            border: none;
             margin-top: 15px;
         }
 
         .preview-thumbnail.nav-tabs li {
             width: 23%;
+            border: solid #c0c0c0;
             margin-right: 2.5%;
         }
 
@@ -128,7 +138,7 @@
 </nav>
 <div class="container-fluid mt-4">
     <div class="row">
-        <div class="preview col-sm-4">
+        <div class="preview col-sm-4" >
             <div class="preview-pic tab-content">
                 <div class="tab-pane active" id="pic-1"><img src="/image/products/{{this.product.ID}}-main.jpg"/></div>
                 <div class="tab-pane" id="pic-2"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/>
