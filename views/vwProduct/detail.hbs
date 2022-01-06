@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         img {
-            max-width: 100%; }
+            max-width: 100%;
+        }
 
         .preview {
             display: -webkit-box;
@@ -19,40 +20,67 @@
             -webkit-box-direction: normal;
             -webkit-flex-direction: column;
             -ms-flex-direction: column;
-            flex-direction: column; }
+            flex-direction: column;
+        }
+
         @media screen and (max-width: 996px) {
             .preview {
-                margin-bottom: 20px; } }
+                margin-bottom: 20px;
+            }
+        }
 
         .preview-pic {
             -webkit-box-flex: 1;
             -webkit-flex-grow: 1;
             -ms-flex-positive: 1;
-            flex-grow: 1; }
+            flex-grow: 1;
+        }
 
         .preview-thumbnail.nav-tabs {
             border: none;
-            margin-top: 15px; }
+            margin-top: 15px;
+        }
+
         .preview-thumbnail.nav-tabs li {
             width: 23%;
-            margin-right: 2.5%; }
+            margin-right: 2.5%;
+        }
+
         .preview-thumbnail.nav-tabs li img {
             max-width: 100%;
-            display: block; }
+            display: block;
+        }
+
         .preview-thumbnail.nav-tabs li a {
             padding: 0;
-            margin: 0; }
+            margin: 0;
+        }
+
         .preview-thumbnail.nav-tabs li:last-of-type {
-            margin-right: 0; }
+            margin-right: 0;
+        }
 
         .tab-content {
-            overflow: hidden; }
+            overflow: hidden;
+        }
+
         .tab-content img {
             width: 100%;
             -webkit-animation-name: opacity;
             animation-name: opacity;
             -webkit-animation-duration: .3s;
-            animation-duration: .3s; }
+            animation-duration: .3s;
+        }
+
+        th {
+            padding: 10px;
+            width: 45%;
+            vertical-align: top;
+        }
+
+        td {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -102,52 +130,71 @@
     <div class="row">
         <div class="preview col-sm-4">
             <div class="preview-pic tab-content">
-                <div class="tab-pane active" id="pic-1"><img src="/image/products/{{this.product.ID}}-main.jpg" /></div>
-                <div class="tab-pane" id="pic-2"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/></div>
-                <div class="tab-pane" id="pic-3"><img src="/image/products/{{this.product.ID}}-thumb2.jpg" alt=""/></div>
-                <div class="tab-pane" id="pic-4"><img src="/image/products/{{this.product.ID}}-thumb3.jpg" alt=""/></div>
+                <div class="tab-pane active" id="pic-1"><img src="/image/products/{{this.product.ID}}-main.jpg"/></div>
+                <div class="tab-pane" id="pic-2"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/>
+                </div>
+                <div class="tab-pane" id="pic-3"><img src="/image/products/{{this.product.ID}}-thumb2.jpg" alt=""/>
+                </div>
+                <div class="tab-pane" id="pic-4"><img src="/image/products/{{this.product.ID}}-thumb3.jpg" alt=""/>
+                </div>
             </div>
             <ul class="preview-thumbnail nav nav-tabs">
-                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-main.jpg" alt=""/></a></li>
-                <li><a data-target="#pic-2" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/></a></li>
-                <li><a data-target="#pic-3" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb2.jpg" alt=""/></a></li>
-                <li><a data-target="#pic-4" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb3.jpg" alt=""/></a></li>
+                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img
+                        src="/image/products/{{this.product.ID}}-main.jpg" alt=""/></a></li>
+                <li><a data-target="#pic-2" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb1.jpg"
+                                                                   alt=""/></a></li>
+                <li><a data-target="#pic-3" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb2.jpg"
+                                                                   alt=""/></a></li>
+                <li><a data-target="#pic-4" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb3.jpg"
+                                                                   alt=""/></a></li>
             </ul>
         </div>
         <div class="col-sm-5">
             <div class="card">
                 <div class="card-header">
-                    <h3 style="text-align: center">Thông tin sản phẩm</h3>
+                    <h3 style="text-align: center">{{this.product.Name}}</h3>
                 </div>
                 <div class="card-body">
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Tên sản phẩm:
-                        <span class="card-text">{{this.product.Name}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Người bán:
-                        <span class="card-text">{{this.product.Seller}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Giá hiện tại:
-                        <span class="card-text">{{this.product.PresentPrice}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Giá mua ngay:
-                        <span class="card-text">{{this.product.PriceBuyNow}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Người đang đặt giá cao nhất:
-                        <span class="card-text">{{this.product.HighestBidder}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Thời điểm đăng:
-                        <span class="card-text">{{this.product.DateUpload}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Thời điểm kết thúc:
-                        <span class="card-text">{{this.product.DateExpired}}</span>
-                    </p>
-                    <p class="card-title" style="font-weight: bolder; font-size: large">Mô tả:
-                        <span class="card-text">{{this.product.Description}}</span>
-                    </p>
+                    <table style="width:100%; font-size: large">
+                        <tr>
+                            <th>Giá hiện tại</th>
+                            <td style="font-weight: bolder; color: red">{{format_number this.product.PresentPrice}}&#x20AB;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Giá mua ngay</th>
+                            <td style="font-weight: bolder; color: red">{{format_number this.product.PriceBuyNow}}&#x20AB;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Người bán</th>
+                            <td>{{this.product.Seller}}</td>
+                        </tr>
+                        <tr>
+                            <th>Người đang đặt giá cao nhất</th>
+                            {{#if noBidder}}
+                                <td>Chưa có ai đấu giá.</td>
+                            {{else}}
+                                <td>{{this.product.HighestBidder}}</td>
+                            {{/if}}
+                        </tr>
+                        <tr>
+                            <th>Thời điểm đăng</th>
+                            <td>{{this.product.DateUpload}}</td>
+                        </tr>
+                        <tr>
+                            <th>Thời điểm kết thúc</th>
+                            <td>{{this.product.DateExpired}}</td>
+                        </tr>
+                        <tr>
+                            <th>Mô tả</th>
+                            <td>{{this.product.Description}}</td>
+                        </tr>
+                    </table>
                 </div>
-                <!--                <div class="card-footer text-muted">-->
-                <!--                    Footer-->
-                <!--                </div>-->
+                <div class="card-footer">
+                    <!-- Thêm nút Yêu thích và nút mua ngay -->
+                </div>
             </div>
         </div>
         <div class="col-sm-3">

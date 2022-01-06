@@ -163,7 +163,8 @@ router.get('/:id', async function (req, res) {
     res.render('vwProduct/detail', {
         layout: false,
         product,
-        sameproducts: list
+        sameproducts: list,
+        noBidder: product.HighestBidder === null
     });
 })
 
