@@ -1,4 +1,5 @@
 import { engine } from 'express-handlebars';
+import hbs_sections from 'express-handlebars-sections';
 import numeral from 'numeral';
 
 export default function(app) {
@@ -8,11 +9,13 @@ export default function(app) {
             format_number(val) {
                 return numeral(val).format('0,0');
             },
+            section: hbs_sections(),
             isChild,
             isNotNull,
             equal,
             isTrue,
         }
+
     }));
     app.set('view engine', 'hbs');
     app.set('views', './views');

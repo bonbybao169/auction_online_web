@@ -3,6 +3,7 @@ import {fileURLToPath} from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import bidderRoute from '../routes/bidder.route.js';
+import sellerRoute from '../routes/seller.route.js';
 import productModel from '../models/product.model.js';
 import categoryAdminRoute from '../routes/category_admin.route.js';
 import productAdminRoute from '../routes/product_admin.route.js';
@@ -85,6 +86,7 @@ export default function(app) {
     app.use('/products', productRoute);
     app.use("/auth",authRoute);
     app.use("/bidder",bidderRoute);
+    app.use("/seller",sellerRoute);
     app.use("/account",accountRoute);
     app.use("/auction",auctionRoute);
     app.use(function (req, res, next) {
