@@ -112,6 +112,25 @@ export default {
         return list[0].Turn;
     },
 
+    async findByWinningList(username, limit, offset) {
+        return db('product').where('Winner', username).limit(limit).offset(offset);
+    },
+    async countByWinningList(username) {
+        const list = await db('product').where('Winner', username).count({quantity: 'ID'});
+        return list[0].quantity;
+    },
+    async findByAuctionList(username, limit, offset) {
+        const list = await db('auctionhistory').where('BidderID', username).select('ProductID');
+        const listID= [];
+        for(let i=0;i<list.length;i++){
+            listID.push(list[i].ProductID);
+        }
+        return db('product').whereIn('ID', listID).limit(limit).offset(offset);
+    },
+    async countByAuctionList(username) {
+        const list = await db('auctionhistory').where('BidderID', username).count({quantity: 'ProductID'});
+        return list[0].quantity;
+    },
     delete(id) {
         return db('product').where('ID', id).del();
     },

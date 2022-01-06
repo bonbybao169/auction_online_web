@@ -11,6 +11,8 @@
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRIib2Vyw6EIAxFW5idr///Qx9sfG3pLEyJ3tAwi5EmBqRo7vHawiEEERHS6x7MTMxMVv6+z3tPMUYSkfTM/R0fEaG2bbMv+Gc4nZzn+dN4HAcREa3r+hi3bcuu68jLskhVIlW073tWaYlQ9+F9IpqmSfq+fwskhdO/AwmUTJXrOuaRQNeRkOd5lq7rXmS5InmERKoER/QMvUAPlZDHcZRhGN4CSeGY+aHMqgcks5RrHv/eeh455x5KrMq2yHQdibDO6ncG/KZWL7M8xDyS1/MIO0NJqdULLS81X6/X6aR0nqBSJcPeZnlZrzN477NKURn2Nus8sjzmEII0TfMiyxUuxphVWjpJkbx0btUnshRihVv70Bv8ItXq6Asoi/ZiCbU6YgAAAABJRU5ErkJggg==);
     }
   </style>
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+
 </head>
 <body>
   <div class="container-fluid h-100">
@@ -24,7 +26,7 @@
             </button>
           </div>
         {{/if}}
-        <form action="/auth/login" method="post">
+        <form action="/auth/register" method="post">
           <div class="form-group">
             <div class="input-group">
               <input type="text" class="form-control form-control-lg border-right-0" name="username" placeholder="Username" autofocus>
@@ -45,7 +47,54 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+              <div class="input-group">
+                <input type="password" class="form-control form-control-lg border-right-0" name="confirm_password" placeholder="Confirm Password">
+                <div class="input-group-append">
+                  <span class="input-group-text bg-white">
+                    <i class="fa fa-key" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Profile Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg border-right-0" name="name" placeholder="Full Name">
+                        <div class="input-group-append">
+                          <span class="input-group-text bg-white">
+                            <i class="fa fa-github-alt" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" class="form-control form-control-lg border-right-0" name="email" placeholder="Email">
+                        <div class="input-group-append">
+                          <span class="input-group-text bg-white">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text bg-white">
+                            Date Of Birth
+                          </span>
+                        </div>
+                        <input type="date" class="form-control form-control-lg border-right-0" min="1900-01-01" max="2021-12-12" name="dob">
+                    </div>
+                </div>
+            </div>
+          </div>
+
           <div class="form-group d-flex">
+            <div>
+            </div>
             <div>
               <a class="btn btn-lg btn-outline-info btn-block" href="/" role="button">
                 <i class="fa fa-home" aria-hidden="true"></i>
@@ -55,13 +104,8 @@
             <div class="flex-fill ml-2">
               <button type="submit" class="btn btn-lg btn-info btn-block">
                 <i class="fa fa-sign-in" aria-hidden="true"></i>
-                Sign In
+                Register
               </button>
-            </div>
-          </div>
-          <div class="form-group d-flex">
-            <div >
-                <a class="text-right" href="/auth/forgotpassword"><ins>Forgot Password</ins></a>
             </div>
           </div>
         </form>

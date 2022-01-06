@@ -93,7 +93,6 @@ router.get('/products/byCat/:id', async function (req, res) {
         list[i].DateExpired = productModel.distance(date);
     }
     // console.log(list);
-    console.log(pageNumbers);
 
     res.render('vwProduct/byCat_bidder', {
         layout: "BidderLayout.hbs",
@@ -157,7 +156,6 @@ router.get('/products/byWatchList', async function(req, res) {
     }
 
     const list = await productModel.findByWatchList(res.locals.user.Username,limit, offset);
-    console.log(list);
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
         list[i].DateUpload = date.toLocaleDateString();
@@ -173,5 +171,66 @@ router.get('/products/byWatchList', async function(req, res) {
         page
     })
 })
+router.get('/products/byWinningList', async function(req, res) {
+    const page = req.query.page || 1;
+    const limit = 6;
+    const total = await productModel.countByWinningList(res.locals.user.Username);
+    let nPages = Math.floor(total / limit);
+    if (total%limit > 0) nPages++;
+    const pageNumbers = [];
+    const offset = (page-1)*limit;
+    for (let i = 1; i <= nPages; i++) {
+        pageNumbers.push({
+            value: i,
+            isCurrent: +page === i
+        });
+    }
 
+    const list = await productModel.findByWinningList(res.locals.user.Username,limit, offset);
+    for (let i = 0; i < list.length; i++) {
+        let date = new Date(list[i].DateUpload);
+        list[i].DateUpload = date.toLocaleDateString();
+        date = new Date(list[i].DateExpired);
+        list[i].DateExpired = productModel.distance(date);
+    }
+    // console.log(list);
+    res.render('vwProduct/byWinningList', {
+        layout: "BidderLayout.hbs",
+        products: list,
+        pageNumbers,
+        empty: list.length === 0,
+        page
+    })
+})
+router.get('/products/byAuctionList', async function(req, res) {
+    const page = req.query.page || 1;
+    const limit = 6;
+    const total = await productModel.countByAuctionList(res.locals.user.Username);
+    let nPages = Math.floor(total / limit);
+    if (total%limit > 0) nPages++;
+    const pageNumbers = [];
+    const offset = (page-1)*limit;
+    for (let i = 1; i <= nPages; i++) {
+        pageNumbers.push({
+            value: i,
+            isCurrent: +page === i
+        });
+    }
+
+    const list = await productModel.findByAuctionList(res.locals.user.Username,limit, offset);
+    for (let i = 0; i < list.length; i++) {
+        let date = new Date(list[i].DateUpload);
+        list[i].DateUpload = date.toLocaleDateString();
+        date = new Date(list[i].DateExpired);
+        list[i].DateExpired = productModel.distance(date);
+    }
+    // console.log(list);
+    res.render('vwProduct/byWinningList', {
+        layout: "BidderLayout.hbs",
+        products: list,
+        pageNumbers,
+        empty: list.length === 0,
+        page
+    })
+})
 export default router;

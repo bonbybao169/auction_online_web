@@ -1,5 +1,4 @@
 import db from "../utils/db.js";
-import userModel from '../models/auth.model.js';
 
 export default {
     findAll() {
@@ -9,7 +8,22 @@ export default {
     add(entity) {
         return db('user').insert(entity);
     },
-
+    async isAvailableUsername(Username){
+        const list = await db('user').where('Username', Username).count({quantity: 'Username'});
+        if( list[0].quantity == 0){
+            return true;
+        }else{
+            return false;
+        };
+    },
+    async isAvailableEmail(Email){
+        const list = await db('user').where('Email', Email).count({quantity: 'Email'});
+        if( list[0].quantity == 0){
+            return true;
+        }else{
+            return false;
+        };
+    },
     async findByID(id) {
         const list = await db('user').where('Username', id);
         // console.log(list);

@@ -1,13 +1,12 @@
 import express from 'express';
 import accountModel from "../models/account.model.js";
-import userModel from "../models/auth.model.js";
 import bcrypt from "bcryptjs";
 const saltRounds = 10;
 
 const router = express.Router();
 router.get('/', async function(req, res) {
     if(req.session.auth!=false){
-        const user = await userModel.findByUsername(req.session.authUser.Username);
+        const user = await accountModel.findByUsername(req.session.authUser.Username);
         delete user.Password;
         req.session.authUser=user;
     }
@@ -71,6 +70,18 @@ router.post('/changepass', async function(req, res) {
     accountModel.patch(user);
     res.redirect("/auth/login");
 })
-
-
+router.get('/request_seller', async function(req, res) {
+    const user = res.locals.user;
+    res.locals.temp =  Object.assign({}, res.locals.user);
+    user.WantedSeller=1;
+    accountModel.patch(user);
+    res.redirect('/bidder');
+})
+router.get('/cancel_request_seller', async function(req, res) {
+    const user = res.locals.user;
+    user.WantedSeller=0;
+    console.log(res.locals.temp);
+    accountModel.patch(user);
+    res.redirect('/bidder');
+})
 export default router;

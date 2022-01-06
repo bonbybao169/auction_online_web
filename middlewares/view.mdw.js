@@ -10,6 +10,7 @@ export default function(app) {
             },
             isChild,
             isNotNull,
+            equal,
         }
     }));
     app.set('view engine', 'hbs');
@@ -21,4 +22,7 @@ function isChild(parentID, catID) {
 }
 function isNotNull(HighestBidder) {
     return null !== HighestBidder;
+}
+function equal(value1,value2){
+    return value1===value2;
 }
