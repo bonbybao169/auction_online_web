@@ -291,7 +291,6 @@
             </div>
         </div>
         <div class="col-sm-6  mt-4">
-            <!-- Đây là tạm thôi -->
             <div class="card">
                 <div class="card-header">
                     Đấu giá
@@ -307,11 +306,39 @@
                         <input type="hidden" name="ProductID" value={{this.product.ID}}>
                         <div>
                             <h6>Giá cao nhất bạn có thể chấp nhận:</h6>
-                            <input type="text" name="HighestPrice">
-                            <button type="submit" class="btn btn-success" formaction="/auction/addNewPrice">
+                            <input type="text" onchange="getHighestPrice()" id="HighestPrice" name="HighestPrice">
+                            <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">
                             <i class="fa fa-hand-o-up" aria-hidden="true"></i>
                             Ra giá
                             </button>
+                        </div>
+                        <script type="text/javascript">
+                          function getHighestPrice(){
+                            document.getElementById("price").innerHTML= document.getElementById("HighestPrice").value;
+                          }
+                        </script>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Bạn đang đấu giá sản phẩm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <div>
+                                Tên sản phẩm: {{this.product.Name}}
+                                </div><span>
+                                Giá cao nhất bạn có chấp nhận: <a id="price"></a>vnđ
+                                </span>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="submit"  class="btn btn-success" formaction="/auction/addNewPrice">Xác nhận</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     </form>
                 </div>

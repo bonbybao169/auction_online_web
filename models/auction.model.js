@@ -7,7 +7,7 @@ export default {
     },
     async find(BidderID, ProductID){
         const list = await db('autoauctionsystem').where({"BidderID": BidderID,"ProductID": ProductID});
-        return list[0];
+        return list[list.length-1];
     },
     add(entity) {
         return db('autoauctionsystem').insert(entity);

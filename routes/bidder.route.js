@@ -264,9 +264,13 @@ router.get('/products/:id', async function (req, res) {
         const words = auctionhistory[i].Name.split(' ');
         auctionhistory[i].Name="****"+words[words.length-1];
     }
-    const newestprice = await auctionModel.find(res.locals.user.Username, product.ID);
-    console.log(newestprice);
-    newestprice.AuctionTime = new Date(newestprice.AuctionTime).toLocaleString('en-GB');
+    var newestprice = await auctionModel.find(res.locals.user.Username, product.ID);
+    if(typeof (newestprice) ==="undefined"){
+        newestprice=null;
+    }else{
+        newestprice.AuctionTime = new Date(newestprice.AuctionTime).toLocaleString('en-GB');
+
+    }
     res.render('vwProduct/detail_bidder.hbs', {
         layout: false,
         product,
@@ -307,12 +311,9 @@ router.get('/products/addnewprice/:id', async function (req, res) {
     const stepPrice = await productModel.findStepByProID(req.body.ProductID);
     let turn = await productModel.findTurnByProID(req.body.ProductID);
     const requiredPrice = presentPrice+stepPrice;
-    if(highestPrice <(presentPrice+stepPrice)){
-        const url = req.headers.referer || '/';
-        res.redirect(url);
-    }
-    await auctionModel.add(req.body);
     if (req.body.HighestPrice >= (presentPrice+stepPrice)) {
+        await auctionModel.add(req.body);
+
         if (highestBidder.HighestBidder === null) {
             presentPrice = presentPrice + stepPrice;
             await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID,turn+1);
