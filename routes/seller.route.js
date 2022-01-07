@@ -60,7 +60,7 @@ router.get('/products', async function(req, res) {
         list[i].DateExpired = productModel.distance(date);
     }
     // console.log(list);
-    res.render('vwProduct/index_bidder', {
+    res.render('vwProduct/add', {
         layout: "SellerLayout.hbs",
         products: list,
         pageNumbers,

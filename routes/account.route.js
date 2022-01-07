@@ -24,11 +24,14 @@ router.get('/profile', async function(req, res) {
 router.get('/logout', async function (req, res) {
     req.session.auth = false;
     req.session.authUser = null;
-    res.render('vwAuth/login', {
-        layout: false
-    });
+    // res.render('vwAuth/login', {
+    //     layout: false
+    // });
     //const url = req.headers.referer || '/';
-    //res.redirect(url);
+    req.session.isAdmin=false;
+    req.session.isSeller=false;
+    req.session.isBidder=false;
+    res.redirect("/home");
 });
 router.post('/changeinfo', async function(req, res) {
     const user = res.locals.user;

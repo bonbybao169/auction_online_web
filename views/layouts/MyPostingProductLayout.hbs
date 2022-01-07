@@ -76,7 +76,7 @@
         <div class="col-sm-3">
             <div class="card">
                 <div class="card-header">
-                    <h4><a href="/seller/products">Danh mục</a></h4>
+                    <h4><a href="/seller/myproducts/byPostingList">Danh mục</a></h4>
                 </div>
                 {{#each lcParentCat as |parent|}}
                     <div class="btn-group" style="border-style: solid; border-width: 1px">
@@ -86,7 +86,7 @@
                         <div class="dropdown-menu w-100">
                             {{#each ../lcChildCat as |child|}}
                                 {{#if (isChild child.ParentID parent.CategoryID)}}
-                                    <a class="dropdown-item" href="/seller/products/byCat/{{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
+                                    <a class="dropdown-item" href="/seller/myproducts/byPostingList/byCat/{{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
                                 {{/if}}
                             {{/each}}
                         </div>

@@ -80,13 +80,28 @@ img {
     background-color: yellow !important;
 }
 </style>
+    {{{_sections.css}}}
 </head>
 <body>
 <div class="container">
-<a class="btn btn-lg btn-outline-info btn-block" href="/bidder" id="home" role="button">
-    <i class="fa fa-home" aria-hidden="true" ></i>
-    Home
-</a>
+    {{#if isAdmin}}
+        <a class="btn btn-lg btn-outline-info btn-block" href="/admin" id="home"  role="button">
+            <i class="fa fa-home" aria-hidden="true" ></i>
+            Home
+        </a>
+    {{/if}}
+    {{#if isSeller}}
+        <a class="btn btn-lg btn-outline-info btn-block" href="/seller" id="home"  role="button">
+            <i class="fa fa-home" aria-hidden="true" ></i>
+            Home
+        </a>
+    {{/if}}
+    {{#if isBidder}}
+        <a class="btn btn-lg btn-outline-info btn-block" href="/bidder" id="home"  role="button">
+            <i class="fa fa-home" aria-hidden="true" ></i>
+            Home
+        </a>
+    {{/if}}
 <div class="row justify-content-center">
     <div class="col-12 col-lg-10 col-xl-8">
         <div class="mb-2">
@@ -191,5 +206,6 @@ img {
 </div>
 
 </div>
+{{{_sections.js}}}
 </body>
 </html>
