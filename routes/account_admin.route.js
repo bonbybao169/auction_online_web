@@ -13,30 +13,23 @@ router.get('/', async function(req, res) {
         listEmpty: listWantedSeller.length === 0,
         listSeller,
         listSellerEmpty: listSeller.length === 0,
-        layout: 'AdminLayout.hbs'
+        layout: 'AdminAccountLayout.hbs'
     })
-})
-
-router.get('/add', async function (req, res) {
-    res.render('vwAccount/add');
-})
-
-router.post('/add', async function (req, res) {
-    const ret = await accountModel.add(req.body);
-    console.log(ret);
-    res.redirect('/admin/accounts')
 })
 
 router.get('/edit', async function (req, res) {
     const id = req.query.id || 0;
-    const account = await accountModel.findByID(id);
+    console.log(id);
+    const account = await accountModel.findByUsername(id);
+    console.log(account);
     if (account === null) {
         return res.redirect('/admin/accounts');
     }
     res.render('vwAccount/edit', {
         account,
         isSeller: account.Type === 3,
-        isAdmin: account.Type === 1
+        isAdmin: account.Type === 1,
+        layout: 'EditAccountLayout.hbs'
     });
 })
 

@@ -36,10 +36,7 @@ export default {
         const quanity = await productModel.countWatchListbyEntity(entity);
         return quanity===1;
     },
-    async findByID(id) {
-        const list = await db('user').where('Username', id);
-        // console.log(list);
-    },
+
     async findByUsername(username) {
         const list = await db('user').where('Username', username);
         if (list.length === 0)

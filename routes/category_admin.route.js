@@ -6,14 +6,16 @@ const router = express.Router();
 router.get('/', async function(req, res) {
     const list = await categoryModel.findAll();
     res.render('vwCategory/index', {
-        categories: list
+        categories: list,
+        layout: 'AdminLayout.hbs'
     })
 })
 
 router.get('/add', async function (req, res) {
     const list = await categoryModel.findParentCat();
     res.render('vwCategory/add', {
-        categories: list
+        categories: list,
+        layout: 'AdminLayout.hbs'
     })
 })
 
@@ -35,7 +37,8 @@ router.get('/edit', async function (req, res) {
     }
     res.render('vwCategory/edit', {
         category,
-        categories: list
+        categories: list,
+        layout: 'AdminLayout.hbs'
     });
 })
 

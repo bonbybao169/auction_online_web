@@ -1,7 +1,7 @@
 <div class="card text-center" style="background-color: #e0c1f2">
-    <h4 class="card-header" style="background-color: #b7aef2; text-align: center; color: #0900ff; font-weight: bold">
+    <h3 class="card-header" style="background-color: #b7aef2; text-align: center; color: #0900ff; font-weight: bold">
         Sản phẩm
-    </h4>
+    </h3>
     <div class="card-body">
         {{#if this.empty}}
             <h5 class="card-title">Không có dữ liệu</h5>
@@ -17,6 +17,7 @@
                             <img class="card-img-top" src="/image/products/{{ID}}-main.jpg" alt="{{Name}}"
                                  title="{{Name}}">
                             <div class="card-body">
+
                                 <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
                                     &#x20AB;</h5>
                                 <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
@@ -47,7 +48,7 @@
                         {{#if this.firstPage}}
                             <a class="page-link disabled" style="cursor: not-allowed;">Previous</a>
                         {{else}}
-                            <a class="page-link" href="?keyword={{ProName}}&page={{this.previousPage}}">Previous</a>
+                            <a class="page-link" href="?page={{this.previousPage}}">Previous</a>
                         {{/if}}
                     </li>
                     {{#each this.pageNumbers}}
@@ -57,15 +58,15 @@
                             </li>
                         {{else}}
                             <li class="page-item">
-                                <a class="page-link" href="?keyword={{../ProName}}&page={{value}}">{{value}}</a>
+                                <a class="page-link" href="?page={{value}}">{{value}}</a>
                             </li>
                         {{/if}}
                     {{/each}}
                     <li class="page-item">
                         {{#if this.lastPage}}
-                            <a class="page-link disabled" style="cursor: not-allowed;">Previous</a>
+                            <a class="page-link" style="cursor: not-allowed;">Next</a>
                         {{else}}
-                            <a class="page-link" href="?keyword={{ProName}}&page={{this.nextPage}}">Previous</a>
+                            <a class="page-link" href="?page={{this.nextPage}}">Next</a>
                         {{/if}}
                     </li>
                 </ul>

@@ -70,10 +70,11 @@ export default function(app) {
             listHT[i].DateExpired = date.toLocaleDateString();
         }
         // console.log(list);
-        res.render('home_admin', {
+        res.render('homes/AdminHome', {
             productsEE: listEE,
             productsHP: listHP,
-            productsHT: listHT
+            productsHT: listHT,
+            layout: 'AdminLayout.hbs'
         })
     })
 

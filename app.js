@@ -17,6 +17,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 app.use('/image', express.static('image'));
+app.use(express.static('public'));
 app.set('trust proxy', 1)
 app.use(
     session({

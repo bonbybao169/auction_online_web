@@ -1,5 +1,5 @@
 <div style="background-color: #a6c7f0" class="card mb-3 text-center">
-    <h4 class="card-header text-white">
+    <h4 class="card-header" style="color: #0900ff; font-weight: bold">
         TOP 5 SẢN PHẨM GẦN KẾT THÚC
     </h4>
     <div class="card-body">
@@ -12,7 +12,7 @@
                             <h6 style="color: dimgray">Ngày đăng: {{DateUpload}}</h6>
                         </div>
                         <div class="card-body">
-                            <img src="/image/products/{{ID}}-main.jpg" width="300" height="200" alt="{{Name}}"
+                            <img class="card-img-top" src="/image/products/{{ID}}-main.jpg" alt="{{Name}}"
                                  title="{{Name}}">
                             <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
                                 &#x20AB;</h5>
@@ -38,12 +38,9 @@
             {{/each}}
         </div>
     </div>
-    <div class="card-footer text-white">
-        2 days ago
-    </div>
 </div>
 <div style="background-color: #f2ca8b" class="card mb-3 text-center">
-    <h4 class="card-header text-white">
+    <h4 class="card-header" style="color: #0900ff; font-weight: bold">
         TOP 5 SẢN PHẨM CÓ NHIỀU LƯỢT RA GIÁ NHẤT
     </h4>
     <div class="card-body">
@@ -82,12 +79,9 @@
             {{/each}}
         </div>
     </div>
-    <div class="card-footer text-white">
-        2 days ago
-    </div>
 </div>
 <div style="background-color: #f3ab99" class="card mb-3 text-center">
-    <h4 class="card-header text-white">
+    <h4 class="card-header" style="color: #0900ff; font-weight: bold">
         TOP 5 SẢN PHẨM CÓ GIÁ CAO NHẤT
     </h4>
     <div class="card-body">
@@ -125,8 +119,5 @@
                 </div>
             {{/each}}
         </div>
-    </div>
-    <div class="card-footer text-white">
-        2 days ago
     </div>
 </div>

@@ -1,7 +1,7 @@
-<div class="card text-center">
-    <h4 class="card-header text-left">
+<div class="card text-center" style="background-color: #e0c1f2">
+    <h3 class="card-header" style="background-color: #b7aef2; text-align: center; color: #0900ff; font-weight: bold">
         Sản phẩm
-    </h4>
+    </h3>
     <div class="card-body">
         <div class="row">
             {{#each this.products}}
@@ -37,8 +37,34 @@
                 </div>
             {{/each}}
         </div>
-    </div>
-    <div class="card-footer text-muted">
-        2 days ago
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+                <li class="page-item">
+                    {{#if this.firstPage}}
+                        <a class="page-link disabled" style="cursor: not-allowed;">Previous</a>
+                    {{else}}
+                        <a class="page-link" href="?page={{this.previousPage}}">Previous</a>
+                    {{/if}}
+                </li>
+                {{#each this.pageNumbers}}
+                    {{#if isCurrent}}
+                        <li class="page-item active">
+                            <a class="page-link" href="javascript:;">{{value}}</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{value}}">{{value}}</a>
+                        </li>
+                    {{/if}}
+                {{/each}}
+                <li class="page-item">
+                    {{#if this.lastPage}}
+                        <a class="page-link" style="cursor: not-allowed;">Next</a>
+                    {{else}}
+                        <a class="page-link" href="?page={{this.nextPage}}">Next</a>
+                    {{/if}}
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>

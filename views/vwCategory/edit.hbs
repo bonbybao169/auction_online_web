@@ -1,22 +1,22 @@
 <form method="post">
-    <div class="card">
-        <div class="card-header">
+    <div class="card" style="background-color: #e0c1f2">
+        <h4 class="card-header" style="background-color: #b7aef2">
             Chỉnh sửa danh mục
-        </div>
+        </h4>
         <div class="card-body">
             <div class="form-group">
-                <label for="txtCatID">ID</label>
+                <label for="txtCatID" style="font-weight: bold; font-size: large">ID</label>
                 <input type="text" class="form-control" id="txtCatID" name="CategoryID" readonly
-                       value="{{this.category.CategoryID}}">
+                       value="{{this.category.CategoryID}}" style="font-weight: bold; font-size: large; background-color: #ffdeac">
             </div>
             <div class="form-group">
-                <label for="txtCatName">Danh mục</label>
+                <label for="txtCatName" style="font-weight: bold; font-size: large">Danh mục</label>
                 <input type="text" class="form-control" id="txtCatName" name="Name" autofocus
                        value="{{this.category.Name}}">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="txtParentCatName">Chọn danh mục cha</label>
+                    <label class="input-group-text" for="txtParentCatName" style="font-weight: bold; background-color: #ffdeac">Chọn danh mục cha</label>
                 </div>
                 <select class="custom-select" id="txtParentCatName" name="ParentID" required oninvalid="this.setCustomValidity('Choose the parent category')" oninput="this.setCustomValidity('')">
                     <option value="">Choose...</option>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="card-footer text-muted">
-            <a class="btn btn-outline-success" href="/admin/categories" role="button">
+            <a class="btn btn-success" href="/admin/categories" role="button">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
                 Danh sách
             </a>

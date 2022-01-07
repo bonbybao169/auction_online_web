@@ -31,7 +31,10 @@ router.get('/', async function (req, res) {
         products: list,
         empty: list.length === 0,
         pageNumbers,
-        page
+        firstPage: +page === 1,
+        lastPage: +page === nPages,
+        previousPage: +page - 1,
+        nextPage: +page + 1,
     })
 })
 
@@ -74,7 +77,6 @@ router.get('/byCat/:id', async function (req, res) {
 router.get('/search', async function (req, res) {
     const ProName = req.query.keyword || 0;
 
-    console.log(req.query.page);
     const page = req.query.page || 1;
     const limit = 6;
     const total = await productModel.countByProName(ProName);
@@ -102,7 +104,10 @@ router.get('/search', async function (req, res) {
         products: list,
         empty: list.length === 0,
         pageNumbers,
-        page,
+        firstPage: +page === 1,
+        lastPage: +page === nPages,
+        previousPage: +page - 1,
+        nextPage: +page + 1,
         ProName
     });
 })
