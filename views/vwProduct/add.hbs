@@ -1,3 +1,5 @@
+
+
 {{#section 'css'}}
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
@@ -8,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/js/locales/vi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/themes/fa/theme.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
     <script>
         $('#txtDateExpired').datetimepicker({
             mask: true
@@ -40,6 +43,23 @@
             ],
         });
     </script>
+    <script>
+
+        //Hàm đọc và hiện thị thông tin
+
+        import res from "express/lib/response.js";
+
+        function displayVals() {
+            var maincatID =   $( "#fuMainCat" ).val();
+            return maincatID;
+        }
+
+        //Bắt sự kiện thi thay đổi giá trị
+        $( "#fuMainCat" ).change( displayVals );
+
+        displayVals();
+
+    </script>
 {{/section}}
 
 <form method="post">
@@ -52,6 +72,26 @@
                 <label for="txtProName">Tên sản phẩm</label>
                 <input type="text" class="form-control" id="txtProName" name="ProName" autofocus>
             </div>
+            <div class="form-group">
+                <label class="col-form-label " for="txtCat">Danh mục</label>
+                <div class="input-group">
+                {{#each lcParentCat as |parent|}}
+                    <div class="btn-group" style="border-style: solid; border-width: 1px">
+                        <button type="button" id="txtCat" class="btn btn-outline text-left"  data-toggle="dropdown">
+                            <h5>{{parent.Name}}</h5>
+                        </button>
+                        <div class="dropdown-menu w-100">
+                            {{#each ../lcChildCat as |child|}}
+                                {{#if (isChild child.ParentID parent.CategoryID)}}
+                                    <a class="dropdown-item" id={{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
+                                {{/if}}
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/each}}
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="fuMain">Ảnh chính</label>
                 <input type="file" id="fuMain" name="fuMain" >
@@ -71,6 +111,36 @@
             <div class="form-group">
                 <label for="txtFullDes">Mô tả chi tiết</label>
                 <textarea id="txtFullDes" name="FullDes"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="txtPriceBuyNow">Gía mua ngay</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="txtPriceBuyNow" name="PriceBuyNow" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtStartingPrice">Gía khởi điểm</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="txtStartingPrice" name="StartingPrice" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtStep">Bước giá</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="txtStep" name="Step" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">0.00</span>
+                    </div>
+                </div>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="autorenew">
