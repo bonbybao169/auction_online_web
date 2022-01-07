@@ -14,6 +14,7 @@ export default function(app) {
             isNotNull,
             equal,
             isTrue,
+            isFalse
         }
 
     }));
@@ -32,4 +33,7 @@ function equal(value1,value2){
 }
 function isTrue(value1){
     return value1===true;
+}
+function isFalse(value1){
+    return value1===false;
 }

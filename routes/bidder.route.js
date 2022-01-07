@@ -240,10 +240,13 @@ router.get('/products/byAuctionList', async function(req, res) {
 
 router.get('/products/:id', async function (req, res) {
     const proID = req.params.id || 0;
-
     const product = await productModel.findByID(proID);
     const list = await productModel.findByCatIDExceptProID(product.ID, product.Category, 5);
 
+    product.isExpired = false;
+    if(productModel.timeDifference(product.DateExpired, new Date()) ==='Sản phẩm hết hạn'){
+        product.isExpired = true;
+    }
     product.isLoved = await accountModel.isLoved(res.locals.user.Username,product.ID);
 
     let date = new Date(product.DateUpload);
@@ -264,22 +267,28 @@ router.get('/products/:id', async function (req, res) {
         const words = auctionhistory[i].Name.split(' ');
         auctionhistory[i].Name="****"+words[words.length-1];
     }
-    var newestprice = await auctionModel.find(res.locals.user.Username, product.ID);
-    if(typeof (newestprice) ==="undefined"){
-        newestprice=null;
-    }else{
-        newestprice.AuctionTime = new Date(newestprice.AuctionTime).toLocaleString('en-GB');
 
+    var user = await auctionModel.find(res.locals.user.Username, product.ID);
+    if(typeof (user) ==="undefined"){
+        user = {};
+        user.HighestPrice=null;
+    }else{
+        user.AuctionTime = new Date(user.AuctionTime).toLocaleString('en-GB');
     }
+
+    user.isEligibled = false;
+    if((await accountModel.RateofSb(res.locals.user.Username))>=0.8||(product.BidderRate==0&&(await accountModel.RateofSb(res.locals.user.Username))==false)){
+        user.isEligibled=true;
+    }
+    console.log(user.isEligibled);
     res.render('vwProduct/detail_bidder.hbs', {
         layout: false,
         product,
         sameproducts: list,
         auctionhistory,
-        newestprice,
+        user,
         noBidder: product.HighestBidder === null
     });
-
 })
 router.get('/products/love/:id', async function (req, res) {
     const proID = req.params.id || 0;
@@ -291,6 +300,7 @@ router.get('/products/love/:id', async function (req, res) {
     accountModel.Love(res.locals.user.Username,product.ID);
     res.redirect(url);
 })
+
 router.get('/products/unlove/:id', async function (req, res) {
     const proID = req.params.id || 0;
     const product = await productModel.findByID(proID);
@@ -301,6 +311,7 @@ router.get('/products/unlove/:id', async function (req, res) {
     accountModel.Unlove(res.locals.user.Username,product.ID);
     res.redirect(url);
 })
+
 router.get('/products/addnewprice/:id', async function (req, res) {
     req.body.AuctionTime = new Date();
 

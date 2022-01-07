@@ -36,7 +36,14 @@ export default {
         const quanity = await productModel.countWatchListbyEntity(entity);
         return quanity===1;
     },
-
+    async RateofSb(username){
+        const totalrate = await db("rate").where({"RatedPerson": username}).count({quantity: 'ProductID'});
+        const positiverate = await db("rate").where({"RatedPerson": username,"Rate": 1}).count({quantity: 'ProductID'});
+        if(totalrate[0].quantity==0){
+            return false;
+        }
+        return parseFloat(positiverate[0].quantity/totalrate[0].quantity);
+    },
     async findByUsername(username) {
         const list = await db('user').where('Username', username);
         if (list.length === 0)

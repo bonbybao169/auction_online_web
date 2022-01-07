@@ -290,14 +290,16 @@
                 </div>
             </div>
         </div>
+        {{#if (isFalse this.product.isExpired)}}
         <div class="col-sm-6  mt-4">
             <div class="card">
                 <div class="card-header">
                     Đấu giá
                 </div>
                 <div class="card-body">
-                    {{#if (isNotNull this.newestprice)}}
-                        <h6>Lần ra giá cuối cùng: {{newestprice.HighestPrice}} vào lúc {{newestprice.AuctionTime}} </h6>
+                {{#if (isTrue this.user.isEligibled)}}
+                    {{#if (isNotNull this.user.HighestPrice)}}
+                        <h6>Lần ra giá cuối cùng: {{this.user.HighestPrice}} vào lúc {{this.user.AuctionTime}} </h6>
                     {{else}}
                         <h4>Bạn chưa ra giá lần nào. Hãy đấu giá! </h4>
                     {{/if}}
@@ -341,9 +343,14 @@
                           </div>
                         </div>
                     </form>
+                {{else}}
+                    <h5>Bạn không đủ điều kiện để đấu giá sản phẩm này</h5>
+                {{/if}}
                 </div>
+
             </div>
         </div>
+        {{/if}}
     </div>
 </div>
 <div class="container-fluid mt-5" style="background-color: #a6c7f0">
