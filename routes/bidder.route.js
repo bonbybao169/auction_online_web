@@ -1,6 +1,9 @@
 import express from 'express';
 import productModel from "../models/product.model.js";
 import accountModel from "../models/account.model.js";
+import auctionhistoryModel from "../models/auctionhistory.model.js";
+import auctionModel from "../models/auction.model.js";
+import auctionHistoryModel from "../models/auctionhistory.model.js";
 const router = express.Router();
 router.get('/', async function(req, res) {
     res.redirect('/bidder/home');
@@ -253,10 +256,23 @@ router.get('/products/:id', async function (req, res) {
         date = new Date(product.DateExpired);
         product.DateExpired = date.toLocaleDateString('en-GB');
     }
+
+    const auctionhistory = await auctionhistoryModel.findByID(product.ID);
+    for(let i=0;i<auctionhistory.length;i++){
+        date = new Date(auctionhistory[i].AuctionTime);
+        auctionhistory[i].AuctionTime = date.toLocaleString('en-GB');
+        const words = auctionhistory[i].Name.split(' ');
+        auctionhistory[i].Name="****"+words[words.length-1];
+    }
+    const newestprice = await auctionModel.find(res.locals.user.Username, product.ID);
+    console.log(newestprice);
+    newestprice.AuctionTime = new Date(newestprice.AuctionTime).toLocaleString('en-GB');
     res.render('vwProduct/detail_bidder.hbs', {
         layout: false,
         product,
         sameproducts: list,
+        auctionhistory,
+        newestprice,
         noBidder: product.HighestBidder === null
     });
 
@@ -281,4 +297,44 @@ router.get('/products/unlove/:id', async function (req, res) {
     accountModel.Unlove(res.locals.user.Username,product.ID);
     res.redirect(url);
 })
+router.get('/products/addnewprice/:id', async function (req, res) {
+    req.body.AuctionTime = new Date();
+
+    const highestPrice = req.body.HighestPrice;
+    let presentPrice = await productModel.findPresentPriceByProID(req.body.ProductID);
+
+    const highestBidder = await productModel.findHighestBidderByProID(req.body.ProductID);
+    const stepPrice = await productModel.findStepByProID(req.body.ProductID);
+    let turn = await productModel.findTurnByProID(req.body.ProductID);
+    const requiredPrice = presentPrice+stepPrice;
+    if(highestPrice <(presentPrice+stepPrice)){
+        const url = req.headers.referer || '/';
+        res.redirect(url);
+    }
+    await auctionModel.add(req.body);
+    if (req.body.HighestPrice >= (presentPrice+stepPrice)) {
+        if (highestBidder.HighestBidder === null) {
+            presentPrice = presentPrice + stepPrice;
+            await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID,turn+1);
+            await auctionHistoryModel.add({BidderID: req.body.BidderID, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+        }
+        else {
+            const anotherHighestPrice = await auctionModel.findHighestPrice(highestBidder.HighestBidder, req.body.ProductID);
+            if (highestPrice > anotherHighestPrice) {
+                presentPrice = anotherHighestPrice + stepPrice;
+                console.log(req.body.BidderID);
+                await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID, turn+1);
+                await auctionHistoryModel.add({BidderID: req.body.BidderID, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+            } else {
+                presentPrice = highestPrice;
+                await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, highestBidder.HighestBidder,turn+1);
+                await auctionHistoryModel.add({BidderID: highestBidder.HighestBidder, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+            }
+        }
+    }
+
+    const url = req.headers.referer || '/';
+    res.redirect(url);
+})
+
 export default router;
