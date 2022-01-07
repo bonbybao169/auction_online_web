@@ -70,7 +70,10 @@ router.get('/byCat/:id', async function (req, res) {
         products: list,
         empty: list.length === 0,
         pageNumbers,
-        page
+        firstPage: +page === 1,
+        lastPage: +page === nPages,
+        previousPage: +page - 1,
+        nextPage: +page + 1
     });
 })
 
