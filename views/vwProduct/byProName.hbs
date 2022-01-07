@@ -1,8 +1,16 @@
-<div class="card text-center" style="background-color: #e0c1f2">
-    <h4 class="card-header" style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
+<div class="card" style="background-color: #e0c1f2">
+    <h4 class="card-header d-flex justify-content-between" style="color: #9A0680; font-weight: bold; background-color: #b7aef2;">
+        <a></a>
         Sản phẩm
+        <a class="btn btn-outline dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false" style="color: #9A0680; font-size: 20px;">
+            Sắp xếp
+        </a>
+        <div class="dropdown-menu" style="" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="?keyword={{this.ProName}}&page=1&DateExpiredDescend=1">Thời gian kết thúc giảm dần</a>
+            <a class="dropdown-item" href="?keyword={{this.ProName}}&page=1&PriceAscend=1">Giá tăng dần</a>
+        </div>
     </h4>
-    <div class="card-body">
+    <div class="card-body text-center">
         {{#if this.empty}}
             <h5 class="card-title">Không có dữ liệu</h5>
         {{else}}
@@ -21,8 +29,12 @@
                                     &#x20AB;</h5>
                                 <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
                                     &#x20AB;</h5>
-                                <h5 class="card-text text-success mt-3">Bidder đang đặt cao nhất: {{HighestBidder}}</h5>
-                                <p class="card-text mt-2 align-bottom mt-3">{{Description}}</p>
+                                {{#if (isNotNull HighestBidder)}}
+                                    <h5 class="card-text text-success mt-3">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
+                                {{else}}
+                                    <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
+                                {{/if}}
+                                <p class="card-text mt-2 align-bottom mt-3">{{TinyDes}}</p>
                             </div>
                             <div class="card-footer d-flex justify-content-between">
                                 <h5 class="card-text my-auto bg-warning" style="width: 130px; height: 36px; padding-top: 6px">lượt ra giá: {{Turn}}</h5>
@@ -54,15 +66,15 @@
                             </li>
                         {{else}}
                             <li class="page-item">
-                                <a class="page-link" href="?keyword={{../ProName}}&page={{value}}">{{value}}</a>
+                                <a class="page-link" href="?keyword={{../ProName}}&page={{value}}&DateExpiredDescend={{../DateExpiredDescend}}&PriceAscend={{../PriceAscend}}">{{value}}</a>
                             </li>
                         {{/if}}
                     {{/each}}
                     <li class="page-item">
                         {{#if this.lastPage}}
-                            <a class="page-link disabled" style="cursor: not-allowed;">Previous</a>
+                            <a class="page-link disabled" style="cursor: not-allowed;">Next</a>
                         {{else}}
-                            <a class="page-link" href="?keyword={{ProName}}&page={{this.nextPage}}">Previous</a>
+                            <a class="page-link" href="?keyword={{ProName}}&page={{this.nextPage}}&DateExpiredDescend={{../DateExpiredDescend}}&PriceAscend={{../PriceAscend}}">Next</a>
                         {{/if}}
                     </li>
                 </ul>

@@ -49,19 +49,51 @@ export default {
         return db('product').orderBy('Turn', 'desc').limit(5);
     },
 
-    async findByProName(proName, limit, offset) {
-        const sql = `SELECT * FROM product 
+    async findByProName(proName, limit, offset, DateExpiredDescend, PriceAscend) {
+        if (DateExpiredDescend === 1) {
+            const sql = `SELECT * FROM product 
+                    where MATCH (Name) 
+                    AGAINST (?) ORDER BY DateExpired DESC LIMIT ? OFFSET ?`
+            const values = [
+                proName,
+                limit,
+                offset
+            ];
+
+            const raw = await db.raw(sql, values);
+            // console.log(raw[0]);
+            return raw[0];
+        }
+        else {
+            if (PriceAscend === 1) {
+                const sql = `SELECT * FROM product 
+                    where MATCH (Name) 
+                    AGAINST (?) ORDER BY PresentPrice ASC LIMIT ? OFFSET ?`
+                const values = [
+                    proName,
+                    limit,
+                    offset
+                ];
+
+                const raw = await db.raw(sql, values);
+                // console.log(raw[0]);
+                return raw[0];
+            }
+            else {
+                const sql = `SELECT * FROM product 
                     where MATCH (Name) 
                     AGAINST (?) LIMIT ? OFFSET ?`
-        const values = [
-            proName,
-            limit,
-            offset
-        ];
+                const values = [
+                    proName,
+                    limit,
+                    offset
+                ];
 
-        const raw = await db.raw(sql, values);
-        // console.log(raw[0]);
-        return raw[0];
+                const raw = await db.raw(sql, values);
+                // console.log(raw[0]);
+                return raw[0];
+            }
+        }
     },
 
     async countByProName(proName) {

@@ -79,8 +79,10 @@ router.get('/byCat/:id', async function (req, res) {
 
 router.get('/search', async function (req, res) {
     const ProName = req.query.keyword || 0;
-
     const page = req.query.page || 1;
+    const DateExpiredDescend = req.query.DateExpiredDescend || 0;
+    const PriceAscend = req.query.PriceAscend || 0;
+
     const limit = 6;
     const total = await productModel.countByProName(ProName);
     // console.log(total);
@@ -95,7 +97,7 @@ router.get('/search', async function (req, res) {
         });
     }
 
-    const list = await productModel.findByProName(ProName, limit, offset);
+    const list = await productModel.findByProName(ProName, limit, offset, +DateExpiredDescend, +PriceAscend);
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
         list[i].DateUpload = date.toLocaleDateString();
@@ -111,7 +113,9 @@ router.get('/search', async function (req, res) {
         lastPage: +page === nPages,
         previousPage: +page - 1,
         nextPage: +page + 1,
-        ProName
+        ProName,
+        DateExpiredDescend,
+        PriceAscend
     });
 })
 

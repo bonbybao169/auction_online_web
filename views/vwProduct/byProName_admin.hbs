@@ -21,8 +21,12 @@
                                     &#x20AB;</h5>
                                 <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
                                     &#x20AB;</h5>
-                                <h5 class="card-text text-success mt-3">Bidder đang đặt cao nhất: {{HighestBidder}}</h5>
-                                <p class="card-text mt-2 align-bottom mt-3">{{Description}}</p>
+                                {{#if (isNotNull HighestBidder)}}
+                                    <h5 class="card-text text-success mt-3">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
+                                {{else}}
+                                    <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
+                                {{/if}}
+                                <p class="card-text mt-2 align-bottom mt-3">{{TinyDes}}</p>
                             </div>
                             <div class="card-footer d-flex justify-content-between">
                                 <h5 class="card-text my-auto bg-warning" style="width: 130px; height: 36px; padding-top: 6px">Lượt ra giá: {{Turn}}</h5>
@@ -63,9 +67,9 @@
                     {{/each}}
                     <li class="page-item">
                         {{#if this.lastPage}}
-                            <a class="page-link disabled" style="cursor: not-allowed;">Previous</a>
+                            <a class="page-link disabled" style="cursor: not-allowed;">Next</a>
                         {{else}}
-                            <a class="page-link" href="?keyword={{ProName}}&page={{this.nextPage}}">Previous</a>
+                            <a class="page-link" href="?keyword={{ProName}}&page={{this.nextPage}}">Next</a>
                         {{/if}}
                     </li>
                 </ul>

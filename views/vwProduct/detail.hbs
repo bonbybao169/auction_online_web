@@ -96,10 +96,10 @@
                         </tr>
                         <tr>
                             <th>Người đang đặt giá cao nhất</th>
-                            {{#if noBidder}}
-                                <td>Chưa có ai đấu giá.</td>
-                            {{else}}
+                            {{#if (isNotNull HighestBidder)}}
                                 <td>{{this.product.HighestBidder}}</td>
+                            {{else}}
+                                <td>Chưa có người ra giá</td>
                             {{/if}}
                         </tr>
                         <tr>
@@ -112,7 +112,7 @@
                         </tr>
                         <tr>
                             <th>Mô tả</th>
-                            <td>{{this.product.Description}}</td>
+                            <td>{{this.product.TinyDes}}</td>
                         </tr>
                     </table>
                 </div>
