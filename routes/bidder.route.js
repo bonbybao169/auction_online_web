@@ -241,7 +241,7 @@ router.get('/products/:id', async function (req, res) {
     const product = await productModel.findByID(proID);
     const list = await productModel.findByCatIDExceptProID(product.ID, product.Category, 5);
 
-    const isLoved = await accountModel.isLoved(res.locals.user.Username,product.ID);
+    product.isLoved = await accountModel.isLoved(res.locals.user.Username,product.ID);
 
     let date = new Date(product.DateUpload);
     product.DateUpload = date.toLocaleDateString('en-GB');
@@ -256,7 +256,6 @@ router.get('/products/:id', async function (req, res) {
     res.render('vwProduct/detail_bidder.hbs', {
         layout: false,
         product,
-        isLoved,
         sameproducts: list,
         noBidder: product.HighestBidder === null
     });

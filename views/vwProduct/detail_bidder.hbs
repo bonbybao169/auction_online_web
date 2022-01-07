@@ -212,7 +212,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    {{#if (isTrue this.isLoved)}}
+                    {{#if (isTrue this.product.isLoved)}}
                         <a class="btn btn-success" href="/bidder/products/unlove/{{this.product.ID}}" style="background-color:#D77FA1;" role="button">
                              <i class="fa fa fa-thumbs-up" aria-hidden="true"></i>
                              Đã yêu thích
@@ -226,11 +226,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-6">
             <!-- Đây là tạm thôi -->
             <div class="card">
                 <div class="card-header">
-                    Đấu giá
+                    Lịch sử đấu giá
                 </div>
                 <div class="card-body">
                     <form method="post">
