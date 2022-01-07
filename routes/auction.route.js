@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.post('/addNewPrice', async function (req, res) {
     req.body.AuctionTime = new Date();
-    await auctionModel.add(req.body);
 
     const highestPrice = req.body.HighestPrice;
     let presentPrice = await productModel.findPresentPriceByProID(req.body.ProductID);
@@ -17,10 +16,14 @@ router.post('/addNewPrice', async function (req, res) {
     const requiredPrice = presentPrice+stepPrice;
 
     if (req.body.HighestPrice >= (presentPrice+stepPrice)) {
+        await auctionModel.add(req.body);
         if (highestBidder.HighestBidder === null) {
             presentPrice = presentPrice + stepPrice;
             await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID,turn+1);
             await auctionHistoryModel.add({BidderID: req.body.BidderID, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+        }
+        else if (highestBidder.HighestBidder === req.body.BidderID) {
+
         }
         else {
             const anotherHighestPrice = await auctionModel.findHighestPrice(highestBidder.HighestBidder, req.body.ProductID);
