@@ -82,14 +82,32 @@
             animation-duration: .3s;
         }
 
-        th {
+        .th {
             padding: 10px;
             width: 45%;
             vertical-align: top;
         }
-
-        td {
+        .td {
             padding: 10px;
+            height: 20px;
+        }
+        #th1{
+            width: 30%;
+        }
+        #th2{
+            width: 35%;
+        }
+        #th3{
+            width: 35%;
+        }
+        .table tr { line-height: 20px; }
+        .my-custom-scrollbar {
+        position: relative;
+        height: 200px;
+        overflow: auto;
+        }
+        .table-wrapper-scroll-y {
+        display: block;
         }
     </style>
 </head>
@@ -169,45 +187,50 @@
             </ul>
         </div>
         <div class="col-sm-6">
-            <div class="card">
+            <div class="card ">
                 <div class="card-header">
                     <h3 style="text-align: center">{{this.product.Name}}</h3>
                 </div>
                 <div class="card-body">
                     <table style="width:100%; font-size: large">
                         <tr>
-                            <th>Giá hiện tại</th>
-                            <td style="font-weight: bolder; color: red">{{format_number this.product.PresentPrice}}&#x20AB;
+                            <th class="th">Giá hiện tại</th>
+                            <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.PresentPrice}}&#x20AB;
                             </td>
                         </tr>
                         <tr>
-                            <th>Giá mua ngay</th>
-                            <td style="font-weight: bolder; color: red">{{format_number this.product.PriceBuyNow}}&#x20AB;
+                            <th class="th">Giá mua ngay</th>
+                            <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.PriceBuyNow}}&#x20AB;
                             </td>
                         </tr>
                         <tr>
-                            <th>Người bán</th>
-                            <td>{{this.product.Seller}}</td>
+                            <th class="th">Bước giá</th>
+                            <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.Step}}&#x20AB;
+                            </td>
                         </tr>
                         <tr>
-                            <th>Người đang đặt giá cao nhất</th>
+                            <th class="th">Người bán</th>
+                            <td class="td">{{this.product.Seller}}</td>
+                        </tr>
+                        <tr>
+                            <th class="th">Người đang đặt giá cao nhất</th>
                             {{#if noBidder}}
-                                <td>Chưa có ai đấu giá.</td>
+                                <td class="td">Chưa có ai đấu giá.</td>
                             {{else}}
-                                <td>{{this.product.HighestBidder}}</td>
+                                <td class="td">{{this.product.HighestBidder}}</td>
                             {{/if}}
                         </tr>
                         <tr>
-                            <th>Thời điểm đăng</th>
-                            <td>{{this.product.DateUpload}}</td>
+                            <th class="th">Thời điểm đăng</th>
+                            <td class="td">{{this.product.DateUpload}}</td>
                         </tr>
                         <tr>
-                            <th>Thời điểm kết thúc</th>
-                            <td>{{this.product.DateExpired}}</td>
+                            <th class="th">Thời điểm kết thúc</th>
+                            <td class="td">{{this.product.DateExpired}}</td>
                         </tr>
                         <tr>
-                            <th>Mô tả</th>
-                            <td>{{this.product.Description}}</td>
+                            <th class="th">Mô tả</th>
+                            <td class="td">{{this.product.TinyDes}}</td>
                         </tr>
                     </table>
                 </div>
@@ -226,21 +249,70 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 mt-4">
             <!-- Đây là tạm thôi -->
             <div class="card">
                 <div class="card-header">
                     Lịch sử đấu giá
                 </div>
+                <div class="card-body table-wrapper-scroll-y my-custom-scrollbar" style="height: 500px">
+                    <table class="table table-bordered table-striped mb-0" >
+                      <thead>
+                        <tr>
+                          <th class="th-sm" scope="col" id="th1" >Name
+                          </th>
+                          <th class="th-sm" scope="col" id="th2">Current Price
+                          </th>
+                          <th class="th-sm" scope="col" id="th3">Auction Time
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each this.auctionhistory}}
+                            <tr>
+                              <td >{{Name}}</td>
+                              <td >{{CurrentPrice}}</td>
+                              <td >{{AuctionTime}}</td>
+                            </tr>
+                        {{/each}}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Name
+                          </th>
+                          <th>Current Price
+                          </th>
+                          <th>Auction Time
+                          </th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6  mt-4">
+            <!-- Đây là tạm thôi -->
+            <div class="card">
+                <div class="card-header">
+                    Đấu giá
+                </div>
                 <div class="card-body">
-                    <form method="post">
-                        <input type="hidden" name="BidderID" value="tuongvy">
-                        <input type="hidden" name="ProductID" value=1>
-                        <input type="hidden" name="HighestPrice" value=20000000>
-                        <button type="submit" class="btn btn-danger" formaction="/auction/addNewPrice">
-                            <i class="fa fa-times" aria-hidden="true"></i>
+                    {{#if (isNotNull this.newestprice)}}
+                        <h6>Lần ra giá cuối cùng: {{newestprice.HighestPrice}} vào lúc {{newestprice.AuctionTime}} </h6>
+                    {{else}}
+                        <h4>Bạn chưa ra giá lần nào. Hãy đấu giá! </h4>
+                    {{/if}}
+                    <form method="post" action="/bidder/product/addnewprice/{{this.product.ID}}">
+                        <input type="hidden" name="BidderID" value={{user.Username}}>
+                        <input type="hidden" name="ProductID" value={{this.product.ID}}>
+                        <div>
+                            <h6>Giá cao nhất bạn có thể chấp nhận:</h6>
+                            <input type="text" name="HighestPrice">
+                            <button type="submit" class="btn btn-success" formaction="/auction/addNewPrice">
+                            <i class="fa fa-hand-o-up" aria-hidden="true"></i>
                             Ra giá
-                        </button>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
