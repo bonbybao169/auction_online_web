@@ -43,23 +43,7 @@
             ],
         });
     </script>
-    <script>
 
-        //Hàm đọc và hiện thị thông tin
-
-        import res from "express/lib/response.js";
-
-        function displayVals() {
-            var maincatID =   $( "#fuMainCat" ).val();
-            return maincatID;
-        }
-
-        //Bắt sự kiện thi thay đổi giá trị
-        $( "#fuMainCat" ).change( displayVals );
-
-        displayVals();
-
-    </script>
 {{/section}}
 
 <form method="post">
