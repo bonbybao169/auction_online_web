@@ -78,13 +78,15 @@ router.get('/request_seller', async function(req, res) {
     res.locals.temp =  Object.assign({}, res.locals.user);
     user.WantedSeller=1;
     accountModel.patch(user);
-    res.redirect('/bidder');
+    const url = req.headers.referer || '/';
+    res.redirect(url);
 })
 router.get('/cancel_request_seller', async function(req, res) {
     const user = res.locals.user;
     user.WantedSeller=0;
     console.log(res.locals.temp);
     accountModel.patch(user);
-    res.redirect('/bidder');
+    const url = req.headers.referer || '/';
+    res.redirect(url);
 })
 export default router;

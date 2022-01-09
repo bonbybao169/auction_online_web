@@ -2,24 +2,32 @@ import db from "../utils/db.js";
 
 export default {
     findAll(limit, offset) {
-        return db('product').limit(limit).offset(offset);
+        const date = new Date();
+        return db('product').where('DateExpired', '>=', date).limit(limit).offset(offset);
     },
 
     async countAll() {
-        const list = await db('product').count({quantity: 'ID'});
+        const date = new Date();
+        const list = await db('product').count({quantity: 'ID'}).where('DateExpired', '>=', date);
         return list[0].quantity;
     },
 
     findByCatID(catID, limit, offset) {
-        return db('product').where('Category', catID).limit(limit).offset(offset);
+        const date = new Date();
+        return db('product').where('Category', catID)
+            .where('DateExpired', '>=', date).limit(limit).offset(offset);
     },
 
     findByCatIDExceptProID(proID, catID, limit) {
-        return db('product').where('Category', catID).whereNotIn('ID',[proID]).limit(limit);
+        const date = new Date();
+        return db('product').where('Category', catID)
+            .where('DateExpired', '>=', date).whereNotIn('ID',[proID]).limit(limit);
     },
 
     async countByCatID(catID) {
-        const list = await db('product').where('Category', catID).count({quantity: 'ID'});
+        const date = new Date();
+        const list = await db('product').where('Category', catID)
+            .where('DateExpired', '>=', date).count({quantity: 'ID'});
         return list[0].quantity;
     },
 
@@ -38,15 +46,21 @@ export default {
     },
 
     findFiveEarlyExpired() {
-        return db('product').orderBy('DateExpired', 'asc').limit(5);
+        const date= new Date();
+        return db('product').orderBy('DateExpired', 'asc')
+            .where('DateExpired', '>=', date).limit(5);
     },
 
     findFiveHighestPrice() {
-        return db('product').orderBy('PresentPrice', 'desc').limit(5);
+        const date= new Date();
+        return db('product').orderBy('PresentPrice', 'desc')
+            .where('DateExpired', '>=', date).limit(5);
     },
 
     findFiveHighestTurn() {
-        return db('product').orderBy('Turn', 'desc').limit(5);
+        const date= new Date();
+        return db('product').orderBy('Turn', 'desc')
+            .where('DateExpired', '>=', date).limit(5);
     },
 
     async findByProName(proName, limit, offset, DateExpiredDescend, PriceAscend) {
@@ -152,16 +166,28 @@ export default {
         return list[0].quantity;
     },
     async findByAuctionList(username, limit, offset) {
-        const list = await db('auctionhistory').where('BidderID', username).select('ProductID');
+        const date = new Date();
+        const list = await db('auctionhistory')
+            .where('BidderID', username).select('ProductID');
         const listID= [];
         for(let i=0;i<list.length;i++){
             listID.push(list[i].ProductID);
         }
-        return db('product').whereIn('ID', listID).limit(limit).offset(offset);
+        return db('product').whereIn('ID', listID)
+            .where('DateExpired', '>=', date).limit(limit).offset(offset);
     },
     async countByAuctionList(username) {
-        const list = await db('auctionhistory').where('BidderID', username).count({quantity: 'ProductID'});
-        return list[0].quantity;
+        const date = new Date();
+        const list1 = await db('auctionhistory')
+            .where('BidderID', username).select('ProductID');
+        const listID= [];
+        for(let i=0;i<list1.length;i++){
+            listID.push(list1[i].ProductID);
+        }
+        const list2 = await db('product').whereIn('ID', listID)
+            .where('DateExpired', '>=', date)
+            .count({quantity: 'ID'});
+        return list2[0].quantity;
     },
     async countWatchListbyEntity(entity){
         const list = await db('watchlist').where(entity).count({quantity: 'ProductID'});
@@ -204,7 +230,6 @@ export default {
             return Math.round(elapsed/msPerHour ) + ' giờ nữa';
         }
         else if (elapsed < msPerMonth) {
-            console.log(Math.round(elapsed/msPerDay));
             if (Math.round(elapsed/msPerDay) < 4) {
                 return Math.round(elapsed / msPerDay) + ' ngày nữa';
             }

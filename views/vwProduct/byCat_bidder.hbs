@@ -1,7 +1,7 @@
-<div class="card text-center" style="background-color: #f2ca8b" >
-    <h4 class="card-header d-flex justify-content-between">
-        Sản phẩm
-    </h4>
+<div class="card text-center" style="background-color: #e0c1f2" >
+    <h4 class="card-header" style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
+            Sản phẩm
+        </h4>
     <div class="card-body">
     {{#if this.empty}}
         <h5 class="card-title">Không có dữ liệu</h5>
@@ -15,9 +15,10 @@
                             <h6 style="color: dimgray">Ngày đăng: {{DateUpload}}</h6>
                             <h6 style="color: dimgray">Còn lại: {{DateExpired}}</h6>
                         </div>
-                        <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
-                              title="{{Name}}">
+
                         <div class="card-body">
+                            <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
+                                                          title="{{Name}}">
                             <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
                                 &#x20AB;</h5>
                             <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}&#x20AB;</h5>
@@ -28,20 +29,21 @@
                             {{/if}}
                         </div>
                         <div class="card-footer d-flex justify-content-between">
-
-                            <h5 class="card-text my-auto bg-warning " style="width: 130px; height: 60px; padding: 10px 10px">Lượt xem: {{Turn}}</h5>
+                            <h5 class="card-text my-auto bg-warning " style="width: 110px; height: 60px, padding 15px 10px">Lượt ra giá: {{Turn}}</h5>
                             <span>
                                 <a class="btn btn-primary my-2"href="/bidder/products/{{ID}}"  role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <span>Chi tiết</span>
                                 </a>
-                                <a class="btn btn-success" href="#" role="button">
-                                     <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                </a>
-                                <a class="btn btn-secondary disabled" href="#" role="button">
-                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                    <span>Mua ngay</span>
-                                </a>
+                                {{#if (isFalse isLoved)}}
+                                    <a class="btn btn-success" href="/bidder/products/love/{{ID}}" style="background-color:#A3E4DB;" role="button">
+                                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <a class="btn btn-success" href="/bidder/products/unlove/{{ID}}" style="background-color:#D77FA1;" role="button">
+                                         <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                    </a>
+                                {{/if}}
                             </span>
                         </div>
                     </div>
