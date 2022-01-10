@@ -16,38 +16,75 @@
         {{else}}
             <div class="row">
                 {{#each this.products}}
-                    <div class="col-sm-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>{{Name}}</h4>
-                                <h6 style="color: dimgray">Ngày đăng: {{DateUpload}}</h6>
-                            </div>
-                            <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
-                                  title="{{Name}}">
-                            <div class="card-body">
-                                <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
-                                    &#x20AB;</h5>
-                                <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
-                                    &#x20AB;</h5>
-                                {{#if (isNotNull HighestBidder)}}
-                                    <h5 class="card-text text-success mt-3">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
-                                {{else}}
-                                    <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
-                                {{/if}}
-                                <p class="card-text mt-2 align-bottom mt-3">{{TinyDes}}</p>
-                            </div>
-                            <div class="card-footer d-flex justify-content-between">
-                                <h5 class="card-text my-auto bg-warning" style="width: 130px; height: 36px; padding-top: 6px">lượt ra giá: {{Turn}}</h5>
-                                <span>
+                    {{#if (checkNewUpload UploadRecently)}}
+                        <div class="col-sm-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #4bbaff">
+                                    <h4>{{Name}}</h4>
+                                    <h6 style="color: dimgray">Ngày đăng: {{DateUpload}}</h6>
+                                    <h6 style="color: dimgray">Kết thúc: {{DateExpired}}</h6>
+                                </div>
+                                <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
+                                      title="{{Name}}">
+                                <div class="card-body">
+                                    <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
+                                        &#x20AB;</h5>
+                                    <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
+                                        &#x20AB;</h5>
+                                    {{#if (isNotNull HighestBidder)}}
+                                        <h5 class="card-text text-success mt-3">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
+                                    {{else}}
+                                        <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
+                                    {{/if}}
+                                    <p class="card-text mt-2 align-bottom mt-3">{{TinyDes}}</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <h5 class="card-text my-auto bg-warning" style="width: 130px; height: 36px; padding-top: 6px">lượt ra giá: {{Turn}}</h5>
+                                    <span>
                                 <a class="btn btn-primary" href="/products/{{ID}}" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <span>Chi tiết</span>
                                 </a>
                             </span>
-                            </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        {{else}}
+                        <div class="col-sm-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h4>{{Name}}</h4>
+                                    <h6 style="color: dimgray">Ngày đăng: {{DateUpload}}</h6>
+                                    <h6 style="color: dimgray">Kết thúc: {{DateExpired}}</h6>
+                                </div>
+                                <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
+                                      title="{{Name}}">
+                                <div class="card-body">
+                                    <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
+                                        &#x20AB;</h5>
+                                    <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
+                                        &#x20AB;</h5>
+                                    {{#if (isNotNull HighestBidder)}}
+                                        <h5 class="card-text text-success mt-3">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
+                                    {{else}}
+                                        <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
+                                    {{/if}}
+                                    <p class="card-text mt-2 align-bottom mt-3">{{TinyDes}}</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <h5 class="card-text my-auto bg-warning" style="width: 130px; height: 36px; padding-top: 6px">lượt ra giá: {{Turn}}</h5>
+                                    <span>
+                                <a class="btn btn-primary" href="/products/{{ID}}" role="button">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <span>Chi tiết</span>
+                                </a>
+                            </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
                 {{/each}}
             </div>
             <nav aria-label="Page navigation example">

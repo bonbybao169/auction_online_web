@@ -21,16 +21,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="color:#9A0680; font-weight: bold; font-size: large">
-                    Sắp xếp
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/bidder/products/byWatchList"><h6>Danh sách sản phẩm yêu thích</h6></a>
-                    <a class="dropdown-item" href="/bidder/products/byAuctionList"><h6>Danh sách sản phẩm đang đấu giá</h6></a>
-                    <a class="dropdown-item" href="/bidder/products/byWinningList/{{child.CategoryID}}"><h6>Danh sách sản phẩm đã thắng</h6></a>
-                </div>
-            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" method="get" action="/products/search">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword" style="width: 500px" required>

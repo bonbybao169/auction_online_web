@@ -258,6 +258,24 @@ export default {
         }
     },
 
+    timeDifferenceUnder31Min(end, start) {
+        var msPerMinute = 60 * 1000;
+        var msPerHour = msPerMinute * 60;
+        var msPerDay = msPerHour * 24;
+        var msPerMonth = msPerDay * 30;
+        var msPerYear = msPerDay * 365;
+
+        var elapsed = end - start;
+        if (elapsed < msPerHour) {
+            if (Math.round(elapsed / msPerMinute) < 31) {
+                return true
+            }
+            else return false;
+        } else {
+            return false;
+        }
+    },
+
     timeDifference2(end, start) {
         var msPerMinute = 60 * 1000;
         var msPerHour = msPerMinute * 60;

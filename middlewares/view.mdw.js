@@ -14,7 +14,8 @@ export default function(app) {
             isNotNull,
             equal,
             isTrue,
-            isFalse
+            isFalse,
+            checkNewUpload
         }
 
     }));
@@ -36,4 +37,7 @@ function isTrue(value1){
 }
 function isFalse(value1){
     return value1===false;
+}
+function checkNewUpload(newUpload) {
+    return newUpload===true;
 }

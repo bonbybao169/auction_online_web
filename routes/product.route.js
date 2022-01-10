@@ -83,6 +83,7 @@ router.get('/search', async function (req, res) {
     const DateExpiredDescend = req.query.DateExpiredDescend || 0;
     const PriceAscend = req.query.PriceAscend || 0;
 
+    // Phân trang
     const limit = 6;
     const total = await productModel.countByProName(ProName);
     // console.log(total);
@@ -98,12 +99,24 @@ router.get('/search', async function (req, res) {
     }
 
     const list = await productModel.findByProName(ProName, limit, offset, +DateExpiredDescend, +PriceAscend);
+
+    // Kiểm tra sản phẩm mới up lên dưới 31 phút
+    for (let i = 0; i < list.length; i++) {
+        if (productModel.timeDifferenceUnder31Min(new Date(), list[i].DateUpload)) {
+            list[i].UploadRecently = true;
+        } else {
+            list[i].UploadRecently = false;
+        }
+    }
+
+    // Chuyển định dạng ngày để in ra
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
-        list[i].DateExpired = date.toLocaleDateString();
+        list[i].DateExpired = productModel.timeDifference2(list[i].DateExpired, new Date());
     }
+
     // console.log(list);
     res.render('vwProduct/byProName', {
         products: list,
