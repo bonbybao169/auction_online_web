@@ -133,8 +133,6 @@ export default {
 
     async findByID(id) {
         const list = await db('product').where('ID', id);
-        // console.log(list);
-
         return list[0];
     },
 

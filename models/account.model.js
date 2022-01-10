@@ -54,8 +54,14 @@ export default {
         }
         return parseFloat(positiverate[0].quantity/totalrate[0].quantity);
     },
+    async countRatingbyUsername(username,limit ,offset) {
+        const list = await db('rate').where('RatedPerson', username).count({quantity: 'ProductID'});
+        return list[0].quantity;
+    },
     async findRatingbyUsername(username,limit ,offset) {
-        return  await db('rate').where('RatedPerson', username) .limit(limit).offset(offset);;
+        return  await db('rate').where('RatedPerson', username)
+            .orderBy('ProductID', 'desc')
+            .limit(limit).offset(offset);;
     },
     async findByUsername(username) {
         const list = await db('user').where('Username', username);
