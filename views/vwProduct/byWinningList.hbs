@@ -40,6 +40,17 @@
                                          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
                                     </a>
                                 {{/if}}
+                                {{#if (isFalse isCommented)}}
+                                    <a class="btn btn-success" href="/bidder/products/love/{{ID}}" style="background-color:#A3E4DB;" role="button">
+                                         <i class="fa fa-file-text" aria-hidden="true"></i>
+                                         Chưa đánh giá
+                                    </a>
+                                {{else}}
+                                    <a class="btn btn-success" href="/bidder/products/unlove/{{ID}}" style="background-color:#D77FA1;" role="button">
+                                         <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                         Đã đánh giá
+                                    </a>
+                                {{/if}}
                             </span>
                         </div>
                     </div>

@@ -37,7 +37,8 @@ export default {
         for(let i=0;i<list.length;i++){
             listID.push(list[i].ProductID);
         }
-        return db('product').whereIn('ID', listID).limit(limit).offset(offset);
+        return db('product').orderBy('DateExpired', 'desc')
+            .whereIn('ID', listID).limit(limit).offset(offset);
     },
     async countByWatchList(Username) {
         const list = await db('watchlist').where('Username', Username).count({quantity: 'ProductID'});
@@ -191,6 +192,10 @@ export default {
     },
     async countWatchListbyEntity(entity){
         const list = await db('watchlist').where(entity).count({quantity: 'ProductID'});
+        return list[0].quantity;
+    },
+    async countRatebyEntity(entity){
+        const list = await db('rate').where(entity).count({quantity: 'ProductID'});
         return list[0].quantity;
     },
     delete(id) {

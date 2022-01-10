@@ -36,6 +36,11 @@ export default {
         const quanity = await productModel.countWatchListbyEntity(entity);
         return quanity===1;
     },
+    async isCommented(username,productID){
+        const entity = {"Username": username, "ProductID": productID}
+        const quanity = await productModel.countRatebyEntity(entity);
+        return quanity===1;
+    },
     async RateofSb(username){
         const totalrate = await db("rate").where({"RatedPerson": username}).count({quantity: 'ProductID'});
         const positiverate = await db("rate").where({"RatedPerson": username,"Rate": 1}).count({quantity: 'ProductID'});

@@ -299,6 +299,8 @@ router.get('/products/byWinningList', async function(req, res) {
             date = new Date(list[i].DateExpired);
             list[i].DateExpired = date.toLocaleDateString('en-GB');
         }
+        list[i].isCommented = await accountModel.isCommented(res.locals.user.Username,list[i].ID);
+
     }
     // console.log(list);
     res.render('vwProduct/byWinningList', {
@@ -342,6 +344,7 @@ router.get('/products/byAuctionList', async function(req, res) {
             date = new Date(list[i].DateExpired);
             list[i].DateExpired = date.toLocaleDateString('en-GB');
         }
+
     }
     // console.log(list);
     res.render('vwProduct/byWinningList', {
