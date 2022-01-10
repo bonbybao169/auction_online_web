@@ -211,6 +211,11 @@ export default {
         return list[0].quantity;
     },
 
+    async countProductbyEntity(entity){
+        const list = await db('product').where(entity).count({quantity: 'ID'});
+        return list[0].quantity;
+    },
+
     delete(id) {
         return db('product').where('ID', id).del();
     },

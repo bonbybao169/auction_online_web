@@ -1,31 +1,35 @@
-<div class="card text-center">
-    <h4 class="card-header text-left">
+<div class="card text-center" style="background-color: #e0c1f2" >
+    <h4 class="card-header" style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
         Sản phẩm
     </h4>
     <div class="card-body">
         <div class="row">
             {{#each this.products}}
                 <div class="col-sm-4 mb-3">
-                    <div class="card h-100">
+                    {{#if (isTrue isHighest)}}
+                        <div class="card h-100" style="border: 3px solid #F47340; background-color: #FFFCDC"/>
+                    {{else}}
+                        <div class="card h-100"/>
+                    {{/if}}
                         <div class="card-header">
                             <h4>{{Name}}</h4>
                             <h6 style="color: dimgray">Ngày đăng: {{DateUpload}}</h6>
                             <h6 style="color: dimgray">Còn lại: {{DateExpired}}</h6>
                         </div>
-                        <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
-                              title="{{Name}}">
                         <div class="card-body">
+                            <img  class="card-img-top" src="/image/products/{{ID}}-main.jpg"  alt="{{Name}}"
+                                  title="{{Name}}">
                             <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
                                 &#x20AB;</h5>
                             <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}&#x20AB;</h5>
                             {{#if (isNotNull HighestBidder)}}
-                            <h5 class="card-text text-success mt-3">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
+                                <h5 class="card-text mt-3" style="color: #516BEB;">Bidder đang đặt giá cao nhất: {{HighestBidder}}</h5>
                             {{else}}
-                            <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
+                                 <h5 class="card-text text-success mt-3">Chưa có người ra giá</h5>
                             {{/if}}
                         </div>
                         <div class="card-footer d-flex justify-content-between">
-                            <h5 class="card-text my-auto bg-warning " style="width: 130px; height: 60px, padding 10px 10px">lượt ra giá: {{Turn}}</h5>
+                            <h5 class="card-text my-auto bg-warning " style="width: 130px; height: 60px; padding: 10px 10px">Lượt ra giá: {{Turn}}</h5>
                             <span>
                                 <a class="btn btn-primary my-2" href="/bidder/products/{{ID}}" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -40,7 +44,6 @@
                                          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
                                     </a>
                                 {{/if}}
-
                             </span>
                         </div>
                     </div>
@@ -71,12 +74,9 @@
                     {{/if}}
                 {{/each}}
                 <li class="page-item">
-                    <a class="page-link" href="?page=javascript:add(page,1)""">Next</a>
+                    <a class="page-link" href="?page=javascript:add(page,1);">Next</a>
                 </li>
             </ul>
         </nav>
-    </div>
-    <div class="card-footer text-muted">
-        2 days ago
     </div>
 </div>

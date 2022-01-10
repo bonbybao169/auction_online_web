@@ -113,22 +113,20 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-lightshadow" style="background-color:#D9D7F1;" id="navbar">
-    <a class="navbar-brand" href="/bidder">
-        <i class="fa fa-home fa-lg" style="color:#9A0680;" aria-hidden="true"></i>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" style="color:#9A0680;" href="/bidder">Home <span class="sr-only">(current)</span></a>
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-link">
+                <a class="nav-item" href="/bidder" style="color:#9A0680; font-weight: bold; font-size: large">
+                    <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                    Trang chủ
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" style="color:#9A0680;" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="color:#9A0680; font-weight: bold; font-size: large">
                     Danh sách sản phẩm
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -138,8 +136,8 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 mr-sm-2" method="post" action="/bidder/products/search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Name">
+        <form class="form-inline my-2 my-lg-0" method="get" action="/bidder/products/search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword" style="width: 500px" required>
             <button class="btn my-2 my-sm-0" style="background-color:#FFCCD2;" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
                 Tìm kiếm
@@ -151,7 +149,7 @@
                 Account
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Đánh giá sản phẩm</h6></a>
+                <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Điểm đánh giá của bạn</h6></a>
                 <a class="dropdown-item" href="/account"><h6>Thông tin cá nhân</h6></a>
                 {{#if (equal user.WantedSeller 0)}}
                     <a class="dropdown-item text-danger" href="/account/request_seller"><h6>Yêu cầu trở thành Seller</h6></a>

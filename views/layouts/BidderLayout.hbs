@@ -45,7 +45,7 @@
                 Account
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="/products/byCat/{{child.CategoryID}}"><h6>Điểm đánh giá của bạn</h6></a>
+                <a class="dropdown-item" href="/account/rating?id={{user.Username}}"><h6>Điểm đánh giá của bạn</h6></a>
                 <a class="dropdown-item" href="/account"><h6>Thông tin cá nhân</h6></a>
                 {{#if (equal user.WantedSeller 0)}}
                     <a class="dropdown-item text-danger" href="/account/request_seller"><h6>Yêu cầu trở thành Seller</h6></a>

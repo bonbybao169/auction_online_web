@@ -344,10 +344,11 @@ router.get('/products/byAuctionList', async function(req, res) {
             date = new Date(list[i].DateExpired);
             list[i].DateExpired = date.toLocaleDateString('en-GB');
         }
-
+        list[i].isCommented = await accountModel.isCommented(res.locals.user.Username,list[i].ID);
+        list[i].isHighest =  await accountModel.isHighest(res.locals.user.Username,list[i].ID);
     }
     // console.log(list);
-    res.render('vwProduct/byWinningList', {
+    res.render('vwProduct/byAuctionList', {
         layout: "BidderLayout.hbs",
         products: list,
         pageNumbers,

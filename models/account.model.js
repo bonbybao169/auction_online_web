@@ -41,6 +41,11 @@ export default {
         const quanity = await productModel.countRatebyEntity(entity);
         return quanity===1;
     },
+    async isHighest(username,productID){
+        const entity = {"HighestBidder": username, "ID": productID}
+        const quanity = await productModel.countProductbyEntity(entity);
+        return quanity===1;
+    },
     async RateofSb(username){
         const totalrate = await db("rate").where({"RatedPerson": username}).count({quantity: 'ProductID'});
         const positiverate = await db("rate").where({"RatedPerson": username,"Rate": 1}).count({quantity: 'ProductID'});
@@ -49,12 +54,16 @@ export default {
         }
         return parseFloat(positiverate[0].quantity/totalrate[0].quantity);
     },
+    async findRatingbyUsername(username,limit ,offset) {
+        return  await db('rate').where('RatedPerson', username) .limit(limit).offset(offset);;
+    },
     async findByUsername(username) {
         const list = await db('user').where('Username', username);
         if (list.length === 0)
             return null;
         return list[0];
     },
+
     delete(id) {
         return db('user').where('Username', id).del();
     },
