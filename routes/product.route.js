@@ -149,7 +149,6 @@ function timeDifference(end, start) {
             return false;
         }
     }
-
 }
 
 router.get('/:id', async function (req, res) {

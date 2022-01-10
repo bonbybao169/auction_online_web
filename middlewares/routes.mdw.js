@@ -24,21 +24,21 @@ export default function(app) {
         const listHT = await productModel.findFiveHighestTurn();
         for (let i = 0; i < listEE.length; i++) {
             let date = new Date(listEE[i].DateUpload);
-            listEE[i].DateUpload = date.toLocaleDateString();
+            listEE[i].DateUpload = date.toLocaleDateString('en-GB');
             date = new Date(listEE[i].DateExpired);
-            listEE[i].DateExpired = date.toLocaleDateString();
+            listEE[i].DateExpired = productModel.timeDifference2(listEE[i].DateExpired, new Date());
         }
         for (let i = 0; i < listHP.length; i++) {
             let date = new Date(listHP[i].DateUpload);
-            listHP[i].DateUpload = date.toLocaleDateString();
+            listHP[i].DateUpload = date.toLocaleDateString('en-GB');
             date = new Date(listHP[i].DateExpired);
-            listHP[i].DateExpired = date.toLocaleDateString();
+            listHP[i].DateExpired = productModel.timeDifference2(listHP[i].DateExpired, new Date());
         }
         for (let i = 0; i < listHT.length; i++) {
             let date = new Date(listHT[i].DateUpload);
-            listHT[i].DateUpload = date.toLocaleDateString();
+            listHT[i].DateUpload = date.toLocaleDateString('en-GB');
             date = new Date(listHT[i].DateExpired);
-            listHT[i].DateExpired = date.toLocaleDateString();
+            listHT[i].DateExpired = productModel.timeDifference2(listHT[i].DateExpired, new Date());
         }
         // console.log(list);
         res.render('home', {
