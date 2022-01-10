@@ -289,4 +289,22 @@ router.get('/products/byAuctionList', async function(req, res) {
         page
     })
 })
+
+router.get('/myproducts/add', async function(req, res) {
+
+    res.render('homes/seller_home', {
+        layout: "SellerLayout.hbs"
+    })
+})
+
+router.post('/myproducts/add', async function(req, res) {
+    console.log(req.body);
+
+    res.render('homes/seller_home', {
+        layout: "SellerLayout.hbs",
+
+    })
+})
+
+
 export default router;
