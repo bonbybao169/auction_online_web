@@ -15,7 +15,8 @@ export default function(app) {
             equal,
             isTrue,
             isFalse,
-            checkNewUpload
+            checkNewUpload,
+            encryptBidder
         }
 
     }));
@@ -40,4 +41,7 @@ function isFalse(value1){
 }
 function checkNewUpload(newUpload) {
     return newUpload===true;
+}
+function encryptBidder(username) {
+    return "***"+username.slice(-3);
 }
