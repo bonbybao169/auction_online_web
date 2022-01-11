@@ -371,6 +371,7 @@ router.get('/products/:id', async function (req, res) {
     let date = new Date(product.DateUpload);
     product.DateUpload = date.toLocaleDateString('en-GB');
 
+    product.Offer = product.PresentPrice + product.Step;
     if (productModel.timeDifference(product.DateExpired, new Date()) !== false) {
         product.DateExpired = productModel.timeDifference(product.DateExpired, new Date());
     }
@@ -399,7 +400,7 @@ router.get('/products/:id', async function (req, res) {
     if((await accountModel.RateofSb(res.locals.user.Username))>=0.8||(product.BidderRate==0&&(await accountModel.RateofSb(res.locals.user.Username))==false)){
         user.isEligibled=true;
     }
-    console.log(user.isEligibled);
+    console.log(user);
     res.render('vwProduct/detail_bidder.hbs', {
         layout: false,
         product,
