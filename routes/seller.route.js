@@ -305,60 +305,60 @@ router.post('/myproducts/add', async function(req, res) {
     })
 })
 
-router.post('/myproducts/add_mainimg', async function(req, res) {
-    console.log(req.body);
-
-    const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, './upload')
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname);
-        }
-    });
-
-    const upload = multer({ storage });
-    upload.array('fuMain', 1)(req, res, function (err) {
-        console.log(req.body);
-        if (err) {
-            console.error(err);
-        } else {
-            res.render('vwProduct/add', {
-                layout: "SellerLayout.hbs",
-
-            })
-        }
-    });
-
-
-})
-
-router.post('/myproducts/add_thumbimg', async function(req, res) {
-    console.log(req.body);
-
-    const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, './upload')
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname);
-        }
-    });
-
-    const upload = multer({ storage });
-
-    upload.array('fuThumb', 5)(req, res, function (err) {
-        console.log(req.body);
-        if (err) {
-            console.error(err);
-        } else {
-            res.render('vwProduct/add', {
-                layout: "SellerLayout.hbs",
-
-            })
-        }
-    });
-
-})
+// router.post('/myproducts/add_mainimg', async function(req, res) {
+//     console.log(req.body);
+//
+//     const storage = multer.diskStorage({
+//         destination: function (req, file, cb) {
+//             cb(null, './upload')
+//         },
+//         filename: function (req, file, cb) {
+//             cb(null, file.originalname);
+//         }
+//     });
+//
+//     const upload = multer({ storage });
+//     upload.array('fuMain', 1)(req, res, function (err) {
+//         console.log(req.body);
+//         if (err) {
+//             console.error(err);
+//         } else {
+//             res.render('vwProduct/add', {
+//                 layout: "SellerLayout.hbs",
+//
+//             })
+//         }
+//     });
+//
+//
+// })
+//
+// router.post('/myproducts/add_thumbimg', async function(req, res) {
+//     console.log(req.body);
+//
+//     const storage = multer.diskStorage({
+//         destination: function (req, file, cb) {
+//             cb(null, './upload')
+//         },
+//         filename: function (req, file, cb) {
+//             cb(null, file.originalname);
+//         }
+//     });
+//
+//     const upload = multer({ storage });
+//
+//     upload.array('fuThumb', 5)(req, res, function (err) {
+//         console.log(req.body);
+//         if (err) {
+//             console.error(err);
+//         } else {
+//             res.render('vwProduct/add', {
+//                 layout: "SellerLayout.hbs",
+//
+//             })
+//         }
+//     });
+//
+// })
 
 export default router;
