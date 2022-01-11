@@ -123,17 +123,33 @@ router.get('/rating', async function(req, res) {
             user.nonstar.push({});}
     }
     console.log(list);
-    res.render('vwAccount/rating.hbs', {
-        layout: false,
-        comments: list,
-        empty: list.length === 0,
-        pageNumbers,
-        firstPage: +page === 1,
-        lastPage: +page === nPages,
-        previousPage: +page - 1,
-        nextPage: +page + 1,
-        username,
-        user,
-    })
+    if (res.locals.user.Type===2){
+        res.render('vwAccount/rating_seller.hbs', {
+            layout: false,
+            comments: list,
+            empty: list.length === 0,
+            pageNumbers,
+            firstPage: +page === 1,
+            lastPage: +page === nPages,
+            previousPage: +page - 1,
+            nextPage: +page + 1,
+            username,
+            user
+        })
+    }
+    else if (res.locals.user.Type===3){
+        res.render('vwAccount/rating.hbs', {
+            layout: false,
+            comments: list,
+            empty: list.length === 0,
+            pageNumbers,
+            firstPage: +page === 1,
+            lastPage: +page === nPages,
+            previousPage: +page - 1,
+            nextPage: +page + 1,
+            username,
+            user
+        })
+    }
 })
 export default router;

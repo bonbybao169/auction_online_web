@@ -12,6 +12,7 @@ import productRoute from '../routes/product.route.js';
 import authRoute from "../routes/auth.route.js";
 import accountRoute from "../routes/account.route.js";
 import auctionRoute from "../routes/auction.route.js";
+import mailingRoute from "../routes/mailing.route.js";
 
 export default function(app) {
     app.get('/', async function (req, res) {
@@ -90,8 +91,9 @@ export default function(app) {
     app.use("/bidder",bidderRoute);
     app.use("/seller",sellerRoute);
     app.use("/account",accountRoute);
-
     app.use("/auction",auctionRoute);
+    app.use("/mailing",accountRoute);
+
     app.use(function (req, res, next) {
         res.render('404', {layout: false});
     })

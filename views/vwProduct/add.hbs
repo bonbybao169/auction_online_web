@@ -46,12 +46,47 @@
 
 {{/section}}
 
-<form method="post">
+<div class="card">
+    <h4 class="card-header">
+        Sản phẩm mới
+    </h4>
+</div>
+<form action="/seller/myproducts/add_mainimg" method="post" enctype="multipart/form-data">
     <div class="card">
-        <h4 class="card-header">
-            Sản phẩm mới
-        </h4>
+        <h5 class="card-header">
+            Hình ảnh mô tả
+        </h5>
         <div class="card-body">
+            <div class="form-group">
+                <label for="fuMain">Ảnh chính</label>
+                <input type="file" id="fuMain" name="fuMain" >
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+
+<form action="/seller/myproducts/add_thumbimg" method="post" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group">
+                <label for="fuThumb">Ảnh phụ mô tả thêm về sản phẩm</label>
+                <input type="file" id="fuThumb" name="fuThumb" multiple>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<form action="/seller/myproducts/add" method="post">
+    <div class="card">
+        <h5 class="card-header">
+            Thông tin liên quan sản phẩm
+        </h5>
+        <div class="card-body">
+
             <div class="form-group">
                 <label for="txtProName">Tên sản phẩm</label>
                 <input type="text" class="form-control" id="txtProName" name="ProName" autofocus>
@@ -59,30 +94,12 @@
             <div class="form-group">
                 <label class="col-form-label " for="txtCat">Danh mục</label>
                 <div class="input-group">
-                {{#each lcParentCat as |parent|}}
-                    <div class="btn-group" style="border-style: solid; border-width: 1px">
-                        <button type="button" id="txtCat" class="btn btn-outline text-left"  data-toggle="dropdown">
-                            <h5>{{parent.Name}}</h5>
-                        </button>
-                        <div class="dropdown-menu w-100">
-                            {{#each ../lcChildCat as |child|}}
-                                {{#if (isChild child.ParentID parent.CategoryID)}}
-                                    <a class="dropdown-item" id={{child.CategoryID}}"><h6>{{child.Name}}</h6></a>
-                                {{/if}}
-                            {{/each}}
-                        </div>
-                    </div>
-                {{/each}}
+                    <select class="form-select" name="Type" aria-label="Default select example">
+                        {{#each lcChildCat as |child|}}
+                            <option value={{child.CategoryID}}>{{child.Name}}</option>
+                        {{/each}}
+                    </select>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="fuMain">Ảnh chính</label>
-                <input type="file" id="fuMain" name="fuMain" >
-            </div>
-            <div class="form-group">
-                <label for="fuThumb">Ảnh phụ mô tả thêm về sản phẩm</label>
-                <input type="file" id="fuThumb" name="fuThumb" multiple>
             </div>
             <div class="form-group">
                 <label for="txtProName">Lời giới thiệu</label>
@@ -127,13 +144,13 @@
                 </div>
             </div>
             <div class="form-group form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="autorenew">
+                <input class="form-check-input" type="checkbox" value="1" id="autorenew" name="AutoNew">
                 <label class="form-check-label" for="auto-renew">
                     <b>Tự động gia hạn</b>
                 </label>
             </div>
             <div class="form-group form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="ratingrequire">
+                <input class="form-check-input" type="checkbox" value="1" id="ratingrequire" name="Rating">
                 <label class="form-check-label" for="auto-renew">
                     <b>Cho phép bidder chưa được đánh giá mua hàng</b>
                 </label>
