@@ -48,7 +48,7 @@ router.post('/changepass', async function(req, res) {
     const newpass = req.body.newpass;
     const confirmpass = req.body.confirmpass;
     if (newpass !== confirmpass){
-        res.locals.user.Birthday= new Date(res.locals.user.Birthday);
+        res.locals.user.Birthday = new Date(res.locals.user.Birthday);
         const user =  Object.assign({}, res.locals.user);
         user.birth = user.Birthday.getDate()+"/"+(user.Birthday.getMonth()+1)+"/"+user.Birthday.getFullYear();
         res.render('vwAccount/profile.hbs', {
@@ -56,23 +56,26 @@ router.post('/changepass', async function(req, res) {
             user,
             layout: false,
         })
+    }else{
+        const user = await accountModel.findByUsername(res.locals.user.Username);
+        const ret = bcrypt.compareSync(oldpass, user.Password);
+        if (ret === false) {
+            res.locals.user.Birthday= new Date(res.locals.user.Birthday);
+            const user =  Object.assign({}, res.locals.user);
+            user.birth = user.Birthday.getDate()+"/"+(user.Birthday.getMonth()+1)+"/"+user.Birthday.getFullYear();
+            res.render('vwAccount/profile.hbs', {
+                err_message: "Old password is not true!",
+                user,
+                layout: false,
+            })
+        }else{
+            const hash = bcrypt.hashSync(newpass, saltRounds);
+            user.Password = hash;
+            accountModel.patch(user);
+            res.redirect("/logout");
+        }
+
     }
-    const user = await userModel.findByUsername(res.locals.user.Username);
-    const ret = bcrypt.compareSync(oldpass, user.Password);
-    if (ret === false) {
-        res.locals.user.Birthday= new Date(res.locals.user.Birthday);
-        const user =  Object.assign({}, res.locals.user);
-        user.birth = user.Birthday.getDate()+"/"+(user.Birthday.getMonth()+1)+"/"+user.Birthday.getFullYear();
-        res.render('vwAccount/profile.hbs', {
-            err_message: "Old password is not true!",
-            user,
-            layout: false,
-        })
-    }
-    const hash = bcrypt.hashSync(newpass, saltRounds);
-    user.Password = hash;
-    accountModel.patch(user);
-    res.redirect("/auth/login");
 })
 router.get('/request_seller', async function(req, res) {
     const user = res.locals.user;
