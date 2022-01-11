@@ -223,7 +223,8 @@
                         </tr>
                         <tr>
                             <th class="th">Người bán</th>
-                            <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.Seller}}">{{this.product.Seller}}</a></td>
+                            <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.Seller}}">{{this.product.Seller}}</a>
+                                {{this.product.SellerRate}}/10 <span class="fa fa-star checked " style="color:#FFBD35;"></span></td>
 
                         </tr>
                         <tr>
@@ -231,7 +232,8 @@
                             {{#if noBidder}}
                                 <td class="td">Chưa có ai đấu giá.</td>
                             {{else}}
-                                <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.HighestBidder}}">{{this.product.HighestBidder}}</a></td>
+                                <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.HighestBidder}}">{{this.product.HighestBidder}}</a>
+                                    {{this.product.BidderRate}}/10<span class="fa fa-star checked " style="color:#FFBD35;"></span></td>
                             {{/if}}
                         </tr>
                         <tr>

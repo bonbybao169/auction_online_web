@@ -382,6 +382,9 @@ router.get('/products/:id', async function (req, res) {
         product.DateExpired = date.toLocaleDateString('en-GB');
     }
 
+    product.SellerRate = Math.floor(await accountModel.RateofSb(product.Seller) * 10 );
+    product.BidderRate = Math.floor(await accountModel.RateofSb(product.HighestBidder) * 10);
+
     const auctionhistory = await auctionhistoryModel.findByID(product.ID);
     for(let i=0;i<auctionhistory.length;i++){
         date = new Date(auctionhistory[i].AuctionTime);
