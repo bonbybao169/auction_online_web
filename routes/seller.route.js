@@ -3,6 +3,7 @@ import express from 'express';
 import productModel from "../models/product.model.js";
 import accountModel from "../models/account.model.js";
 import auctionhistoryModel from "../models/auctionhistory.model.js";
+import multer from 'multer';
 import auctionModel from "../models/auction.model.js";
 const router = express.Router();
 router.get('/', async function(req, res) {
@@ -292,19 +293,72 @@ router.get('/products/byAuctionList', async function(req, res) {
 
 router.get('/myproducts/add', async function(req, res) {
 
-    res.render('homes/seller_home', {
+    res.render('vwProduct/addnew', {
         layout: "SellerLayout.hbs"
     })
 })
 
 router.post('/myproducts/add', async function(req, res) {
     console.log(req.body);
-
-    res.render('homes/seller_home', {
-        layout: "SellerLayout.hbs",
-
+    res.render('vwProduct/add', {
+        layout: "SellerLayout.hbs"
     })
 })
 
+router.post('/myproducts/add_mainimg', async function(req, res) {
+    console.log(req.body);
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './upload')
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        }
+    });
+
+    const upload = multer({ storage });
+    upload.array('fuMain', 1)(req, res, function (err) {
+        console.log(req.body);
+        if (err) {
+            console.error(err);
+        } else {
+            res.render('vwProduct/add', {
+                layout: "SellerLayout.hbs",
+
+            })
+        }
+    });
+
+
+})
+
+router.post('/myproducts/add_thumbimg', async function(req, res) {
+    console.log(req.body);
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './upload')
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        }
+    });
+
+    const upload = multer({ storage });
+
+    upload.array('fuThumb', 5)(req, res, function (err) {
+        console.log(req.body);
+        if (err) {
+            console.error(err);
+        } else {
+            res.render('vwProduct/add', {
+                layout: "SellerLayout.hbs",
+
+            })
+        }
+    });
+
+})
 
 export default router;
