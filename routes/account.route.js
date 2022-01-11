@@ -2,9 +2,11 @@ import express from 'express';
 import accountModel from "../models/account.model.js";
 import bcrypt from "bcryptjs";
 import productModel from "../models/product.model.js";
+import nodemailer from "nodemailer";
 const saltRounds = 10;
 
 const router = express.Router();
+const temp={};
 router.get('/', async function(req, res) {
     if(req.session.auth!=false){
         const user = await accountModel.findByUsername(req.session.authUser.Username);
@@ -35,14 +37,66 @@ router.get('/logout', async function (req, res) {
     res.redirect("/home");
 });
 router.post('/changeinfo', async function(req, res) {
-    const user = res.locals.user;
-    user.Email = req.body.email||res.locals.user.Email;
-    user.Name = req.body.name||res.locals.user.Name;
-    user.Address = req.body.address||res.locals.user.Address;
-    user.Birthday = req.body.birthday || res.locals.user.Birthday;
-    accountModel.patch(user);
-    res.redirect('/account');
+    const USER = Object.assign({},res.locals.user);
+    USER.Email = req.body.email||res.locals.user.Email;
+    USER.Name = req.body.name||res.locals.user.Name;
+    USER.Address = req.body.address||res.locals.user.Address;
+    USER.Birthday = req.body.birthday || res.locals.user.Birthday;
+    if(USER.Email !== res.locals.user.Email){
+        if((await accountModel.isAvailableEmail(USER.Email))===false){
+            res.locals.user.Birthday = new Date(res.locals.user.Birthday);
+            const user =  Object.assign({}, res.locals.user);
+            user.birth = user.Birthday.getDate()+"/"+(user.Birthday.getMonth()+1)+"/"+user.Birthday.getFullYear();
+            res.render('vwAccount/profile.hbs', {
+                err_message: "Email is not available!",
+                user,
+                layout: false,
+            })
+        }else{
+            const OTP = Math.floor(Math.random() * (999999-100000)) + 100000;;
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'ltdat192@clc.fitus.edu.vn',
+                    pass: 'sttffsuck@13579'
+                }
+            });
+
+            transporter.sendMail({
+                from: 'ltdat192@clc.fitus.edu.vn',
+                to: USER.Email,
+                subject: 'E-Commerce Web App Notification!',
+                text: 'Your OTP is '+ OTP,
+            });
+            temp.user = USER;
+            temp.OTP = OTP;
+            res.render('vwAccount/confirmemail.hbs', {
+                layout: false,
+                user : temp.user,
+            });
+        }
+    }else{
+        accountModel.patch(USER);
+        res.redirect('/account');
+
+    }
 })
+router.post('/confirmemail', async function (req, res) {
+    const confirmotp = req.body.confirmotp;
+    console.log(confirmotp);
+    console.log(temp.OTP);
+    if(parseInt(confirmotp) !== temp.OTP){
+        res.render('vwAccount/confirmemail.hbs', {
+            layout: false,
+            user : temp.user,
+            err_message: "Invalid OTP",
+        });
+    }else{
+        const user = temp.user;
+        accountModel.patch(user);
+        res.redirect("/account");
+    }
+});
 router.post('/changepass', async function(req, res) {
     const oldpass = req.body.oldpass;
     const newpass = req.body.newpass;
@@ -72,9 +126,8 @@ router.post('/changepass', async function(req, res) {
             const hash = bcrypt.hashSync(newpass, saltRounds);
             user.Password = hash;
             accountModel.patch(user);
-            res.redirect("/logout");
+            res.redirect("/account/logout");
         }
-
     }
 })
 router.get('/request_seller', async function(req, res) {
