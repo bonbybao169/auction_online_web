@@ -152,8 +152,6 @@ export default {
 
     async findHighestBidderByProID(id) {
         const list = await db('product').select('HighestBidder').where('ID', id);
-        // console.log(list);
-
         return list[0];
     },
 

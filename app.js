@@ -9,7 +9,6 @@ import activate_route_mdw from './middlewares/routes.mdw.js';
 import categoryModel from './models/category.model.js';
 import { connectionInfo } from './utils/db.js';
 
-
 const MySqlSession = mySqlSessionStore(session);
 const app = express();
 app.use(morgan('dev'));

@@ -223,14 +223,15 @@
                         </tr>
                         <tr>
                             <th class="th">Người bán</th>
-                            <td class="td">{{this.product.Seller}}</td>
+                            <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.Seller}}">{{this.product.Seller}}</a></td>
+
                         </tr>
                         <tr>
                             <th class="th">Người đang đặt giá cao nhất</th>
                             {{#if noBidder}}
                                 <td class="td">Chưa có ai đấu giá.</td>
                             {{else}}
-                                <td class="td">{{this.product.HighestBidder}}</td>
+                                <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.HighestBidder}}">{{this.product.HighestBidder}}</a></td>
                             {{/if}}
                         </tr>
                         <tr>
@@ -310,17 +311,17 @@
                     <h3 style="text-align: center">Đấu giá</h3>
                 </div>
                 <div class="card-body">
-                {{#if (isTrue this.user.isEligibled)}}
+                {{#if (isTrue this.User.isEligibled)}}
                     <table style="width:100%; font-size: large">
-                        {{#if (isNotNull this.user.HighestPrice)}}
+                        {{#if (isNotNull this.User.HighestPrice)}}
                             <tr>
                                 <th class="th">Lần ra giá cuối cùng:</th>
-                                <td style="font-weight: bolder; color: red">{{format_number this.user.HighestPrice}}&#x20AB;
+                                <td style="font-weight: bolder; color: red">{{format_number this.User.HighestPrice}}&#x20AB;
                                 </td>
                             </tr>
                             <tr>
                                 <th class="th">Vào lúc:</th>
-                                <td >{{this.user.AuctionTime}};
+                                <td >{{this.User.AuctionTime}};
                                 </td>
                             </tr>
                         {{else}}
@@ -332,7 +333,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <form method="post" action="/bidder/product/addnewprice/{{this.product.ID}}">
+                            <form method="post" >
                                 <input type="hidden" name="BidderID" value={{user.Username}}>
                                 <input type="hidden" name="ProductID" value={{this.product.ID}}>
                                 <div>
@@ -370,7 +371,7 @@
                                       </div>
                                       <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                        <button type="submit"  class="btn btn-success" formaction="/auction/addNewPrice">Xác nhận</button>
+                                        <button type="submit"  class="btn btn-success" formaction="/bidder/products/addnewprice/{{this.product.ID}}">Xác nhận</button>
                                       </div>
                                     </div>
                                   </div>

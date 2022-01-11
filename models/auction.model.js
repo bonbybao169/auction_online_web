@@ -2,7 +2,9 @@ import db from '../utils/db.js';
 
 export default {
     async findHighestPrice(BidderID, ProductID) {
-        const list = await db('autoauctionsystem').select('HighestPrice').where('BidderID', BidderID).where('ProductID', ProductID);
+        const list = await db('autoauctionsystem').select('HighestPrice')
+            .where('BidderID', BidderID).where('ProductID', ProductID)
+            .orderBy("HighestPrice","desc");
         return list[0].HighestPrice;
     },
     async find(BidderID, ProductID){
