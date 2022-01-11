@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auction Online</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        img {
+            max-width: 100%;
+        }
+
+        .preview {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+        @media screen and (max-width: 996px) {
+            .preview {
+                margin-bottom: 20px;
+            }
+        }
+
+        .preview-pic {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+
+        .preview-pic img {
+            height: 500px;
+            width: 500px;
+        }
+
+        .preview-thumbnail img {
+            height: 110px;
+            width: 200px;
+        }
+
+        .preview-thumbnail.nav-tabs {
+            margin-top: 15px;
+        }
+
+        .preview-thumbnail.nav-tabs li {
+            width: 23%;
+            border: solid #c0c0c0;
+            margin-right: 2.5%;
+        }
+
+        .preview-thumbnail.nav-tabs li img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .preview-thumbnail.nav-tabs li a {
+            padding: 0;
+            margin: 0;
+        }
+
+        .preview-thumbnail.nav-tabs li:last-of-type {
+            margin-right: 0;
+        }
+
+        .tab-content {
+            overflow: hidden;
+        }
+
+        .tab-content img {
+            width: 100%;
+            -webkit-animation-name: opacity;
+            animation-name: opacity;
+            -webkit-animation-duration: .3s;
+            animation-duration: .3s;
+        }
+
+        .th {
+            padding: 10px;
+            width: 45%;
+            vertical-align: top;
+        }
+        .td {
+            padding: 10px;
+            height: 20px;
+        }
+        #th1{
+            width: 30%;
+        }
+        #th2{
+            width: 35%;
+        }
+        #th3{
+            width: 35%;
+        }
+        .table tr { line-height: 20px; }
+        .my-custom-scrollbar {
+            position: relative;
+            height: 200px;
+            overflow: auto;
+        }
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-lightshadow" style="background-color:#D9D7F1;" id="navbar">
+    <a class="navbar-brand" href="/seller">
+        <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/seller">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-expanded="false">
+                    Sản phẩm của tôi
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/seller/myproducts/byPostingList"><h6>Sản phẩm đang đăng</h6></a>
+                    <a class="dropdown-item" href="/seller/myproducts/bySuccessfulAutionList"><h6>Sản phẩm đấu giá thành công</h6></a>
+                    <a class="dropdown-item" href="/seller/myproducts/add"><h6>Thêm sản phẩm mới</h6></a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-expanded="false">
+                    Danh sách sản phẩm
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/seller/products/byWatchList"><h6>Sản phẩm yêu thích</h6></a>
+                    <a class="dropdown-item" href="/seller/products/byAuctionList"><h6>Sản phẩm đang đấu giá</h6></a>
+                    <a class="dropdown-item" href="/seller/products/byWinningList/{{child.CategoryID}}"><h6>Sản phẩm đã thắng</h6></a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0 mr-sm-2" method="post" action="/seller/products/search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Name">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                Tìm kiếm
+            </button>
+        </form>
+        <div class="dropdown my-2 my-lg-0">
+            <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                <b>{{user.Name}}</b>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/account/rating?id={{user.Username}}"><h6>Điểm đánh giá của bạn</h6></a>
+                <a class="dropdown-item" href="/account/profile">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Thông tin cá nhân
+                </a>
+                <a class="dropdown-item" href="/account/logout">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="preview col-sm-6" >
+            <div class="preview-pic tab-content">
+                <div class="tab-pane active" id="pic-1"><img src="/image/products/{{this.product.ID}}-main.jpg"/></div>
+                <div class="tab-pane" id="pic-2"><img src="/image/products/{{this.product.ID}}-thumb1.jpg" alt=""/>
+                </div>
+                <div class="tab-pane" id="pic-3"><img src="/image/products/{{this.product.ID}}-thumb2.jpg" alt=""/>
+                </div>
+                <div class="tab-pane" id="pic-4"><img src="/image/products/{{this.product.ID}}-thumb3.jpg" alt=""/>
+                </div>
+            </div>
+            <ul class="preview-thumbnail nav nav-tabs">
+                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img
+                        src="/image/products/{{this.product.ID}}-main.jpg" alt=""/></a></li>
+                <li><a data-target="#pic-2" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb1.jpg"
+                                                                   alt=""/></a></li>
+                <li><a data-target="#pic-3" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb2.jpg"
+                                                                   alt=""/></a></li>
+                <li><a data-target="#pic-4" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb3.jpg"
+                                                                   alt=""/></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <div class="card ">
+                <div class="card-header">
+                    <h3 style="text-align: center">{{this.product.Name}}</h3>
+                </div>
+                <div class="card-body">
+                    <table style="width:100%; font-size: large">
+                        <tr>
+                            <th class="th">Giá hiện tại</th>
+                            <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.PresentPrice}}&#x20AB;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">Giá mua ngay</th>
+                            <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.PriceBuyNow}}&#x20AB;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">Bước giá</th>
+                            <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.Step}}&#x20AB;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">Người bán</th>
+                            <td class="td">{{this.product.Seller}}</td>
+                        </tr>
+                        <tr>
+                            <th class="th">Người đang đặt giá cao nhất</th>
+                            {{#if noBidder}}
+                                <td class="td">Chưa có ai đấu giá.</td>
+                            {{else}}
+                                <td class="td">{{this.product.HighestBidder}}</td>
+                            {{/if}}
+                        </tr>
+                        <tr>
+                            <th class="th">Thời điểm đăng</th>
+                            <td class="td">{{this.product.DateUpload}}</td>
+                        </tr>
+                        <tr>
+                            <th class="th">Thời điểm kết thúc</th>
+                            <td class="td">{{this.product.DateExpired}}</td>
+                        </tr>
+                        <tr>
+                            <th class="th">Mô tả</th>
+                            <td class="td">{{this.product.TinyDes}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    {{#if (isTrue this.product.isLoved)}}
+                        <a class="btn btn-success" href="/seller/products/unlove/{{this.product.ID}}" style="background-color:#D77FA1;" role="button">
+                            <i class="fa fa fa-thumbs-up" aria-hidden="true"></i>
+                            Đã yêu thích
+                        </a>
+                    {{else}}
+                        <a class="btn btn-success" href="/seller/products/love/{{this.product.ID}}" style="background-color:#A3E4DB;" role="button">
+                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            Yêu thích
+                        </a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-4">
+            <!-- Đây là tạm thôi -->
+            <div class="card">
+                <div class="card-header">
+                    Lịch sử đấu giá
+                </div>
+                <div class="card-body table-wrapper-scroll-y my-custom-scrollbar" style="height: 500px">
+                    <table class="table table-bordered table-striped mb-0" >
+                        <thead>
+                        <tr>
+                            <th class="th-sm" scope="col" id="th1" >Name
+                            </th>
+                            <th class="th-sm" scope="col" id="th2">Current Price
+                            </th>
+                            <th class="th-sm" scope="col" id="th3">Auction Time
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each this.auctionhistory}}
+                            <tr>
+                                <td >{{Name}}</td>
+                                <td >{{CurrentPrice}}</td>
+                                <td >{{AuctionTime}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name
+                            </th>
+                            <th>Current Price
+                            </th>
+                            <th>Auction Time
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {{#if (isFalse this.product.isExpired)}}
+            <div class="col-sm-6  mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        Đấu giá
+                    </div>
+                    <div class="card-body">
+                        {{#if (isTrue this.user.isEligibled)}}
+                            {{#if (isNotNull this.user.HighestPrice)}}
+                                <h6>Lần ra giá cuối cùng: {{this.user.HighestPrice}} vào lúc {{this.user.AuctionTime}} </h6>
+                            {{else}}
+                                <h4>Bạn chưa ra giá lần nào. Hãy đấu giá! </h4>
+                            {{/if}}
+                            <form method="post" action="/seller/product/addnewprice/{{this.product.ID}}">
+                                <input type="hidden" name="BidderID" value={{user.Username}}>
+                                <input type="hidden" name="ProductID" value={{this.product.ID}}>
+                                <div>
+                                    <h6>Giá cao nhất bạn có thể chấp nhận:</h6>
+                                    <input type="text" onchange="getHighestPrice()" id="HighestPrice" name="HighestPrice">
+                                    <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                                        Ra giá
+                                    </button>
+                                </div>
+                                <script type="text/javascript">
+                                    function getHighestPrice(){
+                                        document.getElementById("price").innerHTML= document.getElementById("HighestPrice").value;
+                                    }
+                                </script>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Bạn đang đấu giá sản phẩm</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div>
+                                                    Tên sản phẩm: {{this.product.Name}}
+                                                </div><span>
+                                Giá cao nhất bạn có chấp nhận: <a id="price"></a>vnđ
+                                </span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                <button type="submit"  class="btn btn-success" formaction="/auction/addNewPrice">Xác nhận</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        {{else}}
+                            <h5>Bạn không đủ điều kiện để đấu giá sản phẩm này</h5>
+                        {{/if}}
+                    </div>
+
+                </div>
+            </div>
+        {{/if}}
+    </div>
+</div>
+<div class="container-fluid mt-5" style="background-color: #a6c7f0">
+    <div class="card" style="background-color: #a6c7f0">
+        <div class="card-header">
+            <h4>Sản phẩm khác</h4>
+        </div>
+        <div class="card-body">
+            <div class="row" style="text-align: center">
+                {{#each this.sameproducts}}
+                    <div class="col-sm-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h4>{{Name}}</h4>
+                            </div>
+                            <div class="card-body">
+                                <img src="/image/products/{{ID}}-main.jpg" width="300" height="200" alt="{{Name}}"
+                                     title="{{Name}}">
+                                <h5 class="card-text text-danger mt-3">Giá hiện tại: {{format_number PresentPrice}}
+                                    &#x20AB;</h5>
+                                <h5 class="card-text text-danger">Giá mua ngay: {{format_number PriceBuyNow}}
+                                    &#x20AB;</h5>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <h5 class="mt-2">Lượt: {{Turn}}</h5>
+                                <span>
+                                <a class="btn btn-primary" href="/seller/products/{{ID}}" role="button">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <span>Chi tiết</span>
+                                </a>
+                                <a class="btn btn-secondary disabled" href="#" role="button">
+                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    <span>Mua ngay</span>
+                                </a>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+        crossorigin="anonymous"></script>
+</body>
+</html>
