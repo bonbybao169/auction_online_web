@@ -5,6 +5,7 @@ import accountModel from "../models/account.model.js";
 import auctionhistoryModel from "../models/auctionhistory.model.js";
 import multer from 'multer';
 import auctionModel from "../models/auction.model.js";
+import * as fs from "fs";
 const router = express.Router();
 router.get('/', async function(req, res) {
     res.redirect('/seller/home');
@@ -293,7 +294,7 @@ router.get('/products/byAuctionList', async function(req, res) {
 
 router.get('/myproducts/add', async function(req, res) {
 
-    res.render('vwProduct/addnew', {
+    res.render('vwProduct/add', {
         layout: "SellerLayout.hbs"
     })
 })
@@ -305,60 +306,61 @@ router.post('/myproducts/add', async function(req, res) {
     })
 })
 
-// router.post('/myproducts/add_mainimg', async function(req, res) {
-//     console.log(req.body);
-//
-//     const storage = multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, './upload')
-//         },
-//         filename: function (req, file, cb) {
-//             cb(null, file.originalname);
-//         }
-//     });
-//
-//     const upload = multer({ storage });
-//     upload.array('fuMain', 1)(req, res, function (err) {
-//         console.log(req.body);
-//         if (err) {
-//             console.error(err);
-//         } else {
-//             res.render('vwProduct/add', {
-//                 layout: "SellerLayout.hbs",
-//
-//             })
-//         }
-//     });
-//
-//
-// })
-//
-// router.post('/myproducts/add_thumbimg', async function(req, res) {
-//     console.log(req.body);
-//
-//     const storage = multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, './upload')
-//         },
-//         filename: function (req, file, cb) {
-//             cb(null, file.originalname);
-//         }
-//     });
-//
-//     const upload = multer({ storage });
-//
-//     upload.array('fuThumb', 5)(req, res, function (err) {
-//         console.log(req.body);
-//         if (err) {
-//             console.error(err);
-//         } else {
-//             res.render('vwProduct/add', {
-//                 layout: "SellerLayout.hbs",
-//
-//             })
-//         }
-//     });
-//
-// })
+router.post('/myproducts/add_mainimg', async function(req, res) {
+    console.log(req.body);
+    const ID= await productModel.findIDMax();
+    const url = req.headers.referer || '/';
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './image/product')
+        },
+        filename: function (req, file, cb) {
+            cb(null, ID+"-main.jpg");
+        }
+    });
+
+    const upload = multer({ storage });
+    upload.array('fuMain', 1)(req, res, function (err) {
+        console.log(req.body);
+        if (err) {
+            console.error(err);
+        } else {
+            res.redirect(url);
+        }
+    });
+
+
+})
+
+router.post('/myproducts/add_thumbimg', async function(req, res) {
+    console.log(req.body);
+    const ID= await productModel.findIDMax();
+    const url = req.headers.referer || '/';
+    let i=1;
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './image/product')
+        },
+        filename: function (req, file, cb) {
+
+                cb(null, ID+'-thumb'+i+'.jpg');
+                i++;
+
+
+        }
+    });
+
+    const upload = multer({ storage });
+
+    upload.array('fuThumb', 3)(req, res, function (err) {
+        console.log(req.body);
+        if (err) {
+            console.error(err);
+        } else {
+            res.redirect(url);
+        }
+    });
+
+})
 
 export default router;
