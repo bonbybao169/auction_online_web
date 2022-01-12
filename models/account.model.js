@@ -66,7 +66,10 @@ export default {
     async findRatingbyUsername(username,limit ,offset) {
         return  await db('rate').where('RatedPerson', username)
             .orderBy('ProductID', 'desc')
-            .limit(limit).offset(offset);;
+            .limit(limit).offset(offset);
+    },
+    async rateSeller(entity) {
+        return await db('rate').insert(entity);
     },
     async findByUsername(username) {
         const list = await db('user').where('Username', username);

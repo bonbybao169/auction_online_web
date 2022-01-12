@@ -302,7 +302,10 @@ router.get('/products/byWinningList', async function(req, res) {
             list[i].DateExpired = date.toLocaleDateString('en-GB');
         }
         list[i].isCommented = await accountModel.isCommented(res.locals.user.Username,list[i].ID);
-
+        if(list[i].isCommented===true){
+            list[i].Comment = await productModel.findRatebyEntity({"Username":res.locals.user.Username,"ProductID":list[i].ID});
+        }
+        console.log(list[i])
     }
     // console.log(list);
     res.render('vwProduct/byWinningList', {
@@ -427,9 +430,10 @@ router.get('/products/love/:id', async function (req, res) {
     const product = await productModel.findByID(proID);
     if(product == null){
         res.redirect(url)
+    }else{
+        accountModel.Love(res.locals.user.Username,product.ID);
+        res.redirect(url);
     }
-    accountModel.Love(res.locals.user.Username,product.ID);
-    res.redirect(url);
 })
 
 router.get('/products/unlove/:id', async function (req, res) {
@@ -438,11 +442,37 @@ router.get('/products/unlove/:id', async function (req, res) {
     const url = req.headers.referer || '/';
     if(product == null){
         res.redirect(url)
+    }else{
+        accountModel.Unlove(res.locals.user.Username,product.ID);
+        res.redirect(url);
     }
-    accountModel.Unlove(res.locals.user.Username,product.ID);
-    res.redirect(url);
-})
 
+})
+router.post('/products/rate/:id', async function (req, res) {
+    console.log(req.body);
+    const proID = req.params.id || 0;
+    const product = await productModel.findByID(proID);
+    const rate = req.body.Rate;
+    const description = req.body.Description;
+    const seller = product.Seller;
+    const date = new Date();
+    const entity={
+        Username: res.locals.user.Username,
+        ProductID: proID,
+        Rate: rate,
+        Description: description,
+        RatedPerson: seller,
+        Date: date,
+    }
+    console.log(entity);
+    const url = req.headers.referer || '/';
+    if(product == null){
+        res.redirect(url)
+    }else{
+        accountModel.rateSeller(entity);
+        res.redirect(url);
+    }
+})
 router.post('/products/addnewprice/:id', async function (req, res) {
     req.body.AuctionTime = new Date();
     console.log(req.body);

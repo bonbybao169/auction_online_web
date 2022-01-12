@@ -220,7 +220,10 @@ export default {
         const list = await db('rate').where(entity).count({quantity: 'ProductID'});
         return list[0].quantity;
     },
-
+    async findRatebyEntity(entity){
+        const list = await db('rate').where(entity);
+        return list[0];
+    },
     async countProductbyEntity(entity){
         const list = await db('product').where(entity).count({quantity: 'ID'});
         return list[0].quantity;
