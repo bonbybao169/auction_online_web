@@ -12,6 +12,12 @@ export default {
         return list[0].quantity;
     },
 
+    async findSellerIDByProID(ProID) {
+        const list = await db('product').where('ID', ProID).select('Seller');
+        // console.log("Seller", list[0].Seller);
+        return list[0].Seller;
+    },
+
     async findIDMax() {
 
         const list = await db('product').max({ maxID: 'ID' });
@@ -310,5 +316,11 @@ export default {
     updateHighestPriceAndBidderAndTurn(proID, highestPrice, highestBidder, newTurn) {
         return db('product').where('ID', proID).update({PresentPrice: highestPrice,
             HighestBidder: highestBidder, Turn: newTurn});
-    }
+    },
+
+    async getProNameByProID (proID) {
+        const list = await db('product').where('ID', proID).select('Name');
+        // console.log('ProName', list[0].Name);
+        return list[0].Name;
+    },
 }
