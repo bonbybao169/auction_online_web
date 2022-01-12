@@ -143,6 +143,9 @@ img {
             {{#if err_message}}
                 <div class="alert alert-warning alert-dismissible fade show" id="err" role="alert">
                     <strong>Change Failed!</strong> {{err_message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             {{/if}}
             <form method="post" action="/account/changeinfo">

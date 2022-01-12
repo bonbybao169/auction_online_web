@@ -148,14 +148,12 @@ export default {
 
     async findPresentPriceByProID(id) {
         const list = await db('product').select('PresentPrice').where('ID', id);
-        // console.log(list);
 
         return list[0].PresentPrice;
     },
 
     async findStepByProID(id) {
         const list = await db('product').select('Step').where('ID', id);
-        // console.log(list);
 
             return list[0].Step;
     },

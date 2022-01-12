@@ -41,6 +41,11 @@ export default {
         const quanity = await productModel.countRatebyEntity(entity);
         return quanity===1;
     },
+    async isBlocked(username,productID){
+        const entity = {"BidderID": username, "ProductID": productID}
+        const list = await db('blockbidder').where(entity).count({quantity: 'ProductID'});
+        return list[0].quantity===1;
+    },
     async isHighest(username,productID){
         const entity = {"HighestBidder": username, "ID": productID}
         const quanity = await productModel.countProductbyEntity(entity);
@@ -76,9 +81,11 @@ export default {
 
     async patch(entity) {
         const username = entity.Username;
+        console.log(entity);
         entity.Birthday= new Date(entity.Birthday);
         entity.Birthday.setHours(entity.Birthday.getHours()+7);
         entity.Birthday = entity.Birthday.toISOString().slice(0, 19).replace('T', ' ');
+        console.log(entity);
         return db('user').update(entity).where('Username', username);
     },
 

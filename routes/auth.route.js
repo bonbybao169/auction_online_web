@@ -88,11 +88,12 @@ router.post('/confirmregister', async function (req, res) {
             layout: false,
             err_message: "Invalid OTP",
         });
+    }else{
+        const user = temp.user;
+        console.log(user);
+        accountModel.add(user);
+        res.redirect("/auth/login");
     }
-    const user = temp.user;
-    console.log(user);
-    accountModel.add(user);
-    res.redirect("/auth/login");
 });
 
 
@@ -186,23 +187,27 @@ router.post('/forgotpassword', async function (req, res) {
 
 router.post('/changepassword', async function (req, res) {
     const confirmotp = req.body.confirmotp;
-    if(confirmotp !== temp.OTP){
+    if(parseInt(confirmotp) !== temp.OTP){
         res.render('vwAuth/forgotpassword.hbs', {
             layout: false,
             err_message: "Invalid OTP",
         });
+    }else{
+        if(req.body.newpassword !== req.body.confirmpassword){
+            res.render('vwAuth/forgotpassword.hbs', {
+                layout: false,
+                err_message: "Invalid confirm password",
+            });
+        }else{
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.newpassword, salt);
+            temp.user.Password = hash;
+            accountModel.patch(temp.user);
+            res.redirect("/auth/login");
+        }
     }
-    if(req.body.newpassword !== req.body.confirmpassword){
-        res.render('vwAuth/forgotpassword.hbs', {
-            layout: false,
-            err_message: "Invalid confirm password",
-        });
-    }
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.newpassword, salt);
-    temp.user.Password = hash;
-    accountModel.patch(temp.user);
-    res.redirect("/auth/login");
+
+
 });
 
 export default router;

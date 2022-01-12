@@ -405,6 +405,11 @@ router.get('/products/:id', async function (req, res) {
     if((await accountModel.RateofSb(res.locals.user.Username))>=0.8||(product.BidderRate==0&&(await accountModel.RateofSb(res.locals.user.Username))==false)){
         User.isEligibled=true;
     }
+    User.isBlocked = false;
+    if ((await accountModel.isBlocked(res.locals.user.Username,product.ID)) === true){
+        User.isBlocked = true;
+    }
+    console.log(User);
     res.render('vwProduct/detail_bidder.hbs', {
         layout: false,
         product,
