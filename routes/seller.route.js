@@ -6,6 +6,7 @@ import auctionhistoryModel from "../models/auctionhistory.model.js";
 import multer from 'multer';
 import auctionModel from "../models/auction.model.js";
 import * as fs from "fs";
+import categoryModel from "../models/category.model.js";
 const router = express.Router();
 router.get('/', async function(req, res) {
     res.redirect('/seller/home');
@@ -301,9 +302,16 @@ router.get('/myproducts/add', async function(req, res) {
 
 router.post('/myproducts/add', async function(req, res) {
     console.log(req.body);
-    res.render('vwProduct/add', {
-        layout: "SellerLayout.hbs"
-    })
+    const url = req.headers.referer || '/';
+    req.body.DateExpired=new Date(req.body.DateExpired);
+    req.body.DateExpired.setHours(req.body.DateExpired.getHours()+7);
+    req.body.DateUpload=new Date();
+    req.body.DateUpload.setHours(req.body.DateUpload.getHours()+7);
+    req.body.PresentPrice=req.body.StartingPrice;
+    req.body.Seller =res.locals.user.Username;
+    const ret = await productModel.add(req.body);
+    console.log(req.body);
+    res.redirect(url);
 })
 
 router.post('/myproducts/add_mainimg', async function(req, res) {
@@ -312,7 +320,7 @@ router.post('/myproducts/add_mainimg', async function(req, res) {
     const url = req.headers.referer || '/';
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, './image/product')
+            cb(null, './image/products')
         },
         filename: function (req, file, cb) {
             cb(null, ID+"-main.jpg");
@@ -339,7 +347,7 @@ router.post('/myproducts/add_thumbimg', async function(req, res) {
     let i=1;
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, './image/product')
+            cb(null, './image/products')
         },
         filename: function (req, file, cb) {
 
