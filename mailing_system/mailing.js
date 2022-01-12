@@ -8,10 +8,10 @@ const client = new SMTPClient({
 });
 
 export default {
-    addPriceSucces(BidderID, ProName, AllNeededMail) {
+    async addPriceSuccess(BidderID, ProName, AllNeededMail) {
         try {
             const message = await client.sendAsync({
-                text: BidderID + "đã ra giá sản phẩm " + ProName + " thành công",
+                text: BidderID + " đã ra giá sản phẩm " + ProName + " thành công",
                 from: 'emotionauction@gmail.com',
                 to: AllNeededMail,
                 subject: 'Ra giá thành công trên Emotion Auction',
@@ -22,7 +22,7 @@ export default {
         }
     },
 
-    RefuseBidder(ProName, AllNeededMail) {
+    async RefuseBidder(ProName, AllNeededMail) {
         try {
             const message = await client.sendAsync({
                 text: 'Bạn đã bị từ chối ra giá đối với sản phẩm ' + ProName,
@@ -36,7 +36,7 @@ export default {
         }
     },
 
-    AuctionEndingWithoutBidder(ProName, AllNeededMail) {
+    async AuctionEndingWithoutBidder(ProName, AllNeededMail) {
         try {
             const message = await client.sendAsync({
                 text: 'Sản phẩm ' + ProName + " đã kết thúc mà không ai đấu giá",
@@ -50,7 +50,7 @@ export default {
         }
     },
 
-    AuctionEnding(ProName, AllNeededMail) {
+    async AuctionEnding(ProName, AllNeededMail) {
         try {
             const message = await client.sendAsync({
                 text: 'Sản phẩm ' + ProName + " đã kết thúc đấu giá",

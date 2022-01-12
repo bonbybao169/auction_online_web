@@ -95,5 +95,11 @@ export default {
 
     getListSeller() {
         return db('user').where('Type', 3);
-    }
+    },
+
+    async getEmailByBidderID(BidderID) {
+        const list = await db('user').where('Username', BidderID).select('Email');
+        // console.log("Email", list[0].Email)
+        return list[0].Email;
+    },
 }

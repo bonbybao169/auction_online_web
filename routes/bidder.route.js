@@ -4,7 +4,9 @@ import accountModel from "../models/account.model.js";
 import auctionhistoryModel from "../models/auctionhistory.model.js";
 import auctionModel from "../models/auction.model.js";
 import auctionHistoryModel from "../models/auctionhistory.model.js";
+import mailingSystem from '../mailing_system/mailing.js';
 const router = express.Router();
+
 router.get('/', async function(req, res) {
     res.redirect('/bidder/home');
 })
@@ -447,13 +449,19 @@ router.post('/products/addnewprice/:id', async function (req, res) {
     let turn = await productModel.findTurnByProID(req.body.ProductID);
     const requiredPrice = presentPrice+stepPrice;
     var User = await auctionModel.find(res.locals.user.Username, req.body.ProductID);
-    console.log(User);
+    const Seller = await productModel.findSellerIDByProID(req.body.ProductID);
+    const ProName = await productModel.getProNameByProID(req.body.ProductID);
+    // console.log(User);
+    // console.log(Seller);
     if (req.body.HighestPrice >= (presentPrice+stepPrice) && (typeof (User) ==="undefined"||req.body.HighestPrice>= User.HighestPrice)) {
         await auctionModel.add(req.body);
 
         if (highestBidder.HighestBidder === null) {
             await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID,turn+1);
             await auctionHistoryModel.add({BidderID: req.body.BidderID, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+            const AllNeededMails = await accountModel.getEmailByBidderID(req.body.BidderID) + ", " + await accountModel.getEmailByBidderID(Seller);
+            // console.log(AllNeededMails);
+            await mailingSystem.addPriceSuccess(req.body.BidderID, ProName, AllNeededMails);
         }else if (highestBidder.HighestBidder === req.body.BidderID) {
 
         }
@@ -463,10 +471,16 @@ router.post('/products/addnewprice/:id', async function (req, res) {
                 presentPrice = anotherHighestPrice + stepPrice;
                 await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID, turn+1);
                 await auctionHistoryModel.add({BidderID: req.body.BidderID, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+                const AllNeededMails = await accountModel.getEmailByBidderID(req.body.BidderID) + ", " + await accountModel.getEmailByBidderID(Seller) + ", " + await accountModel.getEmailByBidderID(highestBidder.HighestBidder);
+                // console.log(AllNeededMails);
+                await mailingSystem.addPriceSuccess(req.body.BidderID, ProName, AllNeededMails);
             } else {
                 presentPrice = highestPrice;
                 await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, highestBidder.HighestBidder,turn+1);
                 await auctionHistoryModel.add({BidderID: highestBidder.HighestBidder, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
+                const AllNeededMails = await accountModel.getEmailByBidderID(req.body.BidderID) + ", " + await accountModel.getEmailByBidderID(Seller) + ", " + await accountModel.getEmailByBidderID(highestBidder.HighestBidder);
+                // console.log(AllNeededMails);
+                await mailingSystem.addPriceSuccess(req.body.BidderID, ProName, AllNeededMails);
             }
         }
     }
