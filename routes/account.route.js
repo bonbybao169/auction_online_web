@@ -151,7 +151,10 @@ router.get('/rating', async function(req, res) {
     const page = req.query.page || 1;
     const limit = 6;
     const total = await accountModel.countRatingbyUsername(username);
+
     let nPages = Math.floor(total / limit);
+
+
     if (total % limit > 0) nPages++;
     const pageNumbers = [];
     const offset = (page - 1) * limit;
@@ -169,7 +172,8 @@ router.get('/rating', async function(req, res) {
     }
     var rating ={};
     rating.rate=Math.floor(await accountModel.RateofSb(username)*10);
-    if(rating.rate!==null){
+    
+    if(rating.rate!==0){
         rating.star=[];rating.halfstar=[];rating.nonstar=[];
         for (let i = 0; i < Math.floor(rating.rate/2); i++) {
             rating.star.push({});}
@@ -178,16 +182,17 @@ router.get('/rating', async function(req, res) {
         for (let i = 0; i < Math.floor((10-rating.rate)/2); i++) {
             rating.nonstar.push({});}
     }
-    console.log(list);
-    console.log(res.locals.user.Type);
+    if(list.length===0)
+        nPages=1;
+
     if (res.locals.user.Type===2){
         res.render('vwAccount/rating_seller.hbs', {
             layout: false,
             comments: list,
             empty: list.length === 0,
             pageNumbers,
-            firstPage: +page === 1,
-            lastPage: +page === nPages,
+            firstPage: +page === 1 ,
+            lastPage: +page === nPages ,
             previousPage: +page - 1,
             nextPage: +page + 1,
             username,
