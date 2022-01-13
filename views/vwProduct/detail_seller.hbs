@@ -204,7 +204,7 @@
             </div>
             <ul class="preview-thumbnail nav nav-tabs">
                 <li class="active"><a data-target="#pic-1" data-toggle="tab"><img
-                    src="/image/products/{{this.product.ID}}-main.jpg" alt=""/></a></li>
+                        src="/image/products/{{this.product.ID}}-main.jpg" alt=""/></a></li>
                 <li><a data-target="#pic-2" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb1.jpg"
                                                                    alt=""/></a></li>
                 <li><a data-target="#pic-3" data-toggle="tab"><img src="/image/products/{{this.product.ID}}-thumb2.jpg"
@@ -214,8 +214,8 @@
             </ul>
         </div>
         <div class="col-sm-6">
-            <div class="card ">
-                <div class="card-header">
+            <div class="card " style="background-color: #e0c1f2">
+                <div class="card-header"  style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
                     <h3 style="text-align: center">{{this.product.Name}}</h3>
                 </div>
                 <div class="card-body">
@@ -235,16 +235,14 @@
                             <td class="td" style="font-weight: bolder; color: red">{{format_number this.product.Step}}&#x20AB;
                             </td>
                         </tr>
-                        <tr>
-                            <th class="th">Người bán</th>
-                            <td class="td">{{this.product.Seller}}</td>
-                        </tr>
+
                         <tr>
                             <th class="th">Người đang đặt giá cao nhất</th>
                             {{#if noBidder}}
                                 <td class="td">Chưa có ai đấu giá.</td>
                             {{else}}
-                                <td class="td">{{this.product.HighestBidder}}</td>
+                                <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.HighestBidder}}">{{this.product.HighestBidder}}</a>
+                                    {{this.product.BidderRate}}/10<span class="fa fa-star checked " style="color:#FFBD35;"></span></td>
                             {{/if}}
                         </tr>
                         <tr>
@@ -256,122 +254,145 @@
                             <td class="td">{{this.product.DateExpired}}</td>
                         </tr>
                         <tr>
-                            <th class="th">Mô tả</th>
-                            <td class="td">{{this.product.TinyDes}}</td>
+                            <th class="th">Mô tả
+                                <a class="btn btn-link " href="/seller/myproducts/editdescription?id={{this.product.ID}}" role="button">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </th>
+                            <td class="td">{{{this.product.FullDes}}}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="card-footer">
                     {{#if (isTrue this.product.isLoved)}}
-                        <a class="btn btn-success" href="/seller/products/unlove/{{this.product.ID}}" style="background-color:#D77FA1;" role="button">
+                        <a class="btn btn-success" href="/bidder/products/unlove/{{this.product.ID}}" style="background-color:#D77FA1;" role="button">
                             <i class="fa fa fa-thumbs-up" aria-hidden="true"></i>
                             Đã yêu thích
                         </a>
                     {{else}}
-                        <a class="btn btn-success" href="/seller/products/love/{{this.product.ID}}" style="background-color:#A3E4DB;" role="button">
+                        <a class="btn btn-success" href="/bidder/products/love/{{this.product.ID}}" style="background-color:#A3E4DB;" role="button">
                             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                             Yêu thích
                         </a>
                     {{/if}}
                 </div>
+
             </div>
         </div>
         <div class="col-sm-6 mt-4">
             <!-- Đây là tạm thôi -->
-            <div class="card">
-                <div class="card-header">
-                    Lịch sử đấu giá
+            <div class="card " style="background-color: #e0c1f2">
+                <div class="card-header"  style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
+                    <h3 style="text-align: center">Lịch sử đấu giá</h3>
                 </div>
                 <div class="card-body table-wrapper-scroll-y my-custom-scrollbar" style="height: 500px">
                     <table class="table table-bordered table-striped mb-0" >
                         <thead>
                         <tr>
-                            <th class="th-sm" scope="col" id="th1" >Name
+                            <th class="th-sm" scope="col" id="th1" >Thời điểm ra giá
                             </th>
-                            <th class="th-sm" scope="col" id="th2">Current Price
+                            <th class="th-sm" scope="col" id="th2">Ra giá
                             </th>
-                            <th class="th-sm" scope="col" id="th3">Auction Time
+                            <th class="th-sm" scope="col" id="th3">Bidder
                             </th>
+
                         </tr>
                         </thead>
                         <tbody>
                         {{#each this.auctionhistory}}
                             <tr>
-                                <td >{{Name}}</td>
-                                <td >{{CurrentPrice}}</td>
                                 <td >{{AuctionTime}}</td>
+                                <td >{{CurrentPrice}}</td>
+                                <td >{{Name}}</td>
                             </tr>
                         {{/each}}
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Name
-                            </th>
-                            <th>Current Price
-                            </th>
-                            <th>Auction Time
-                            </th>
-                        </tr>
-                        </tfoot>
+
                     </table>
                 </div>
             </div>
         </div>
         {{#if (isFalse this.product.isExpired)}}
             <div class="col-sm-6  mt-4">
-                <div class="card">
-                    <div class="card-header">
-                        Đấu giá
+                <div class="card " style="background-color: #e0c1f2">
+                    <div class="card-header"  style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
+                        <h3 style="text-align: center">Đấu giá</h3>
                     </div>
                     <div class="card-body">
-                        {{#if (isTrue this.user.isEligibled)}}
-                            {{#if (isNotNull this.user.HighestPrice)}}
-                                <h6>Lần ra giá cuối cùng: {{this.user.HighestPrice}} vào lúc {{this.user.AuctionTime}} </h6>
+                        {{#if (isFalse this.User.isBlocked)}}
+                            {{#if (isTrue this.User.isEligibled)}}
+                                <table style="width:100%; font-size: large">
+                                    {{#if (isNotNull this.User.HighestPrice)}}
+                                        <tr>
+                                            <th class="th">Lần ra giá cuối cùng:</th>
+                                            <td style="font-weight: bolder; color: red">{{format_number this.User.HighestPrice}}&#x20AB;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Vào lúc:</th>
+                                            <td >{{this.User.AuctionTime}};
+                                            </td>
+                                        </tr>
+                                    {{else}}
+                                        <h4 style="text-align: center">Bạn chưa ra giá lần nào. Hãy đấu giá! </h4>
+                                    {{/if}}
+                                    <tr>
+                                        <th class="th">Giá đề nghị:</th>
+                                        <td style="font-weight: bolder; color: red">{{format_number this.product.Offer}}&#x20AB;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <form method="post" >
+                                            <input type="hidden" name="BidderID" value={{user.Username}}>
+                                            <input type="hidden" name="ProductID" value={{this.product.ID}}>
+                                            <div>
+                                                <th class="th">Giá của bạn:</th>
+
+                                                <td style="font-weight: bolder; color: red">
+                                                    <input type="text" onchange="getHighestPrice()" id="HighestPrice" name="HighestPrice">
+                                                    &#x20AB;
+                                                    <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">
+                                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                                                        Ra giá
+                                                    </button>
+                                                </td>
+                                            </div>
+                                            <script type="text/javascript">
+                                                function getHighestPrice(){
+                                                    document.getElementById("price").innerHTML= document.getElementById("HighestPrice").value;
+                                                }
+                                            </script>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Bạn đang đấu giá sản phẩm</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div>
+                                                                Tên sản phẩm: {{this.product.Name}}
+                                                            </div><span>
+                                            Giá cao nhất bạn có chấp nhận: <a id="price"></a>vnđ
+                                            </span>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                            <button type="submit"  class="btn btn-success" formaction="/seller/products/addnewprice/{{this.product.ID}}">Xác nhận</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </tr>
+                                </table>
                             {{else}}
-                                <h4>Bạn chưa ra giá lần nào. Hãy đấu giá! </h4>
+                                <h4 style="text-align: center">Bạn không đủ điều kiện để đấu giá sản phẩm này</h4>
                             {{/if}}
-                            <form method="post" action="/seller/product/addnewprice/{{this.product.ID}}">
-                                <input type="hidden" name="BidderID" value={{user.Username}}>
-                                <input type="hidden" name="ProductID" value={{this.product.ID}}>
-                                <div>
-                                    <h6>Giá cao nhất bạn có thể chấp nhận:</h6>
-                                    <input type="text" onchange="getHighestPrice()" id="HighestPrice" name="HighestPrice">
-                                    <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">
-                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
-                                        Ra giá
-                                    </button>
-                                </div>
-                                <script type="text/javascript">
-                                    function getHighestPrice(){
-                                        document.getElementById("price").innerHTML= document.getElementById("HighestPrice").value;
-                                    }
-                                </script>
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Bạn đang đấu giá sản phẩm</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div>
-                                                    Tên sản phẩm: {{this.product.Name}}
-                                                </div><span>
-                                Giá cao nhất bạn có chấp nhận: <a id="price"></a>vnđ
-                                </span>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                                <button type="submit"  class="btn btn-success" formaction="/auction/addNewPrice">Xác nhận</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         {{else}}
-                            <h5>Bạn không đủ điều kiện để đấu giá sản phẩm này</h5>
+                            <h4 style="text-align: center">Bạn đã bị từ chối ra giá</h4>
                         {{/if}}
                     </div>
 
@@ -404,14 +425,11 @@
                             <div class="card-footer d-flex justify-content-between">
                                 <h5 class="mt-2">Lượt: {{Turn}}</h5>
                                 <span>
-                                <a class="btn btn-primary" href="/seller/products/{{ID}}" role="button">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                    <span>Chi tiết</span>
-                                </a>
-                                <a class="btn btn-secondary disabled" href="#" role="button">
-                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                    <span>Mua ngay</span>
-                                </a>
+                                    <a class="btn btn-primary" href="/seller/myproducts/posting/{{ID}}" role="button">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        <span>Chi tiết</span>
+                                    </a>
+
                             </span>
                             </div>
                         </div>
@@ -421,7 +439,6 @@
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"

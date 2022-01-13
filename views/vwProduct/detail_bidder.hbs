@@ -273,25 +273,26 @@
                 </div>
                 <div class="card-body table-wrapper-scroll-y my-custom-scrollbar" style="height: 500px">
                     <table class="table table-bordered table-striped mb-0" >
-                      <thead>
+                        <thead>
                         <tr>
-                          <th class="th-sm" scope="col" id="th1" >Name
-                          </th>
-                          <th class="th-sm" scope="col" id="th2">Current Price
-                          </th>
-                          <th class="th-sm" scope="col" id="th3">Auction Time
-                          </th>
+                            <th class="th-sm" scope="col" id="th1" >Thời điểm ra giá
+                            </th>
+                            <th class="th-sm" scope="col" id="th2">Ra giá
+                            </th>
+                            <th class="th-sm" scope="col" id="th3">Bidder
+                            </th>
+
                         </tr>
-                      </thead>
-                      <tbody>
+                        </thead>
+                        <tbody>
                         {{#each this.auctionhistory}}
                             <tr>
-                              <td >{{Name}}</td>
-                              <td >{{CurrentPrice}}</td>
-                              <td >{{AuctionTime}}</td>
+                                <td >{{AuctionTime}}</td>
+                                <td >{{CurrentPrice}}</td>
+                                <td >{{Name}}</td>
                             </tr>
                         {{/each}}
-                      </tbody>
+                        </tbody>
                       <tfoot>
                         <tr>
                           <th>Name
