@@ -138,15 +138,14 @@ router.get('/request_seller', async function(req, res) {
         Date: date,
     }
     res.locals.user.WantedSeller = 1;
-    accountModel.patch(user);
-
+    accountModel.patch(res.locals.user);
+    accountModel.upgradeSeller(entity);
     const url = req.headers.referer || '/';
     res.redirect(url);
 })
 router.get('/cancel_request_seller', async function(req, res) {
     const user = res.locals.user;
-    user.WantedSeller=0;
-    console.log(res.locals.temp);
+    user.WantedSeller = 0;
     accountModel.patch(user);
     const url = req.headers.referer || '/';
     res.redirect(url);

@@ -9,6 +9,9 @@ export default {
         const list = [entity];
         return db('user').insert(list);
     },
+    async upgradeSeller(entity) {
+        return db('upgradeseller').insert(entity);
+    },
     async isAvailableUsername(Username){
         const list = await db('user').where('Username', Username).count({quantity: 'Username'});
         if( list[0].quantity == 0){

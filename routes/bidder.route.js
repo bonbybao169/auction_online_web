@@ -492,10 +492,11 @@ router.post('/products/addnewprice/:id', async function (req, res) {
         await auctionModel.add(req.body);
 
         if (highestBidder.HighestBidder === null) {
+            presentPrice = presentPrice + stepPrice;
+            console.log(presentPrice);
             await productModel.updateHighestPriceAndBidderAndTurn(req.body.ProductID, presentPrice, req.body.BidderID,turn+1);
             await auctionHistoryModel.add({BidderID: req.body.BidderID, ProductID: req.body.ProductID, CurrentPrice: presentPrice, AuctionTime: req.body.AuctionTime});
             const AllNeededMails = await accountModel.getEmailByBidderID(req.body.BidderID) + ", " + await accountModel.getEmailByBidderID(Seller);
-            // console.log(AllNeededMails);
             await mailingSystem.addPriceSuccess(req.body.BidderID, ProName, AllNeededMails);
         }else if (highestBidder.HighestBidder === req.body.BidderID) {
 
