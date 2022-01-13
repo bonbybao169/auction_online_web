@@ -23,7 +23,7 @@ export default {
         const list = await db('product').max({ maxID: 'ID' });
         return list[0].maxID+1;
     },
-    
+
     findByCatID(catID, limit, offset) {
         const date = new Date();
         return db('product').where('Category', catID)
