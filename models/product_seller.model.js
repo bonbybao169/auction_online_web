@@ -35,18 +35,26 @@ export default {
         return list[0].quantity;
     },
 
-    findAllMyproductAuction(username,limit, offset) {
+    async findAllMyproductAuction(username,limit, offset) {
         const date = new Date();
-        return db('product')
+        const listID= [];
+        const list= await db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Seller', username).limit(limit).offset(offset);
+            .where('Seller', username).limit(limit).offset(offset).distinct('product.ID');
+
+        for(let i=0;i<list.length;i++){
+            console.log(list[i])
+            listID.push(list[i].ID);
+        }
+        return db('product').orderBy('DateExpired', 'desc')
+            .whereIn('ID', listID).limit(limit).offset(offset);
     },
 
     async countAllMyproductAuction(username) {
         const date = new Date();
         const list = await  db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Seller', username).count({quantity: 'ID'});
+            .where('Seller', username).countDistinct({quantity: 'ID'});
         return list[0].quantity;
     },
 
@@ -55,12 +63,17 @@ export default {
 
 
 
-    findByCatIDAuction(username,catID, limit, offset) {
+    async findByCatIDAuction(username,catID, limit, offset) {
         const date = new Date();
-
-        return db('product')
+        const listID= [];
+        const list= await db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Category', catID).where('Seller', username).limit(limit).offset(offset);
+            .where('Category', catID).where('Seller', username).limit(limit).offset(offset).distinct('product.ID');
+        for(let i=0;i<list.length;i++){
+            listID.push(list[i].ID);
+        }
+        return db('product').orderBy('DateExpired', 'desc')
+            .whereIn('ID', listID).limit(limit).offset(offset);
     },
 
 
@@ -69,7 +82,7 @@ export default {
         const date = new Date();
         const list = await  db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Category', catID).where('Seller', username).count({quantity: 'ID'});
+            .where('Category', catID).where('Seller', username).countDistinct({quantity: 'ID'});
         return list[0].quantity;
     },
 
