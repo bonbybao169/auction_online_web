@@ -136,7 +136,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/seller/myproducts/byPostingList"><h6>Sản phẩm đang đăng</h6></a>
-                    <a class="dropdown-item" href="/seller/myproducts/bySuccessfulAutionList"><h6>Sản phẩm đấu giá thành công</h6></a>
+                    <a class="dropdown-item" href="/seller/myproducts/bySuccessfulAuctionList"><h6>Sản phẩm đấu giá thành công</h6></a>
                     <a class="dropdown-item" href="/seller/myproducts/add"><h6>Thêm sản phẩm mới</h6></a>
                 </div>
             </li>
@@ -264,9 +264,10 @@
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                             </th>
-                            <td class="td">{{this.product.TinyDes}}</td>
+
                         </tr>
                     </table>
+                    <div ><ul>{{{this.product.FullDes}}}</ul></div>
                 </div>
 
             </div>
@@ -293,15 +294,26 @@
                         </thead>
                         <tbody>
                         {{#each this.auctionhistory}}
-                            <tr>
-                                <td >{{Name}}</td>
-                                <td >{{CurrentPrice}}</td>
-                                <td >{{AuctionTime}}</td>
-                                <td class="text-center" > <a class="btn btn-sm btn-danger " href="/seller/myproducts/blockbidder?id={{Username}}" role="button">
-                                    <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            </tr>
+
+
+                                <tr>
+                                    <td >{{AuctionTime}}</td>
+                                    <td >{{CurrentPrice}}</td>
+                                    <td  class="td"><a style="color:#D77FA1" href="/account/rating?id={{Username}}">{{Name}}</td>
+                                    {{#if isBlocked}}
+                                        <td class="text-center" > <a class="btn btn-sm disabled "  role="button">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    {{else}}
+                                        <td class="text-center" > <a class="btn btn-sm btn-danger " href="/seller/myproducts/blockbidder/{{../this.product.ID}}?user={{Username}}" role="button">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    {{/if}}
+
+                                </tr>
+
                         {{/each}}
                         </tbody>
 
@@ -336,11 +348,10 @@
                             <div class="card-footer d-flex justify-content-between">
                                 <h5 class="mt-2">Lượt: {{Turn}}</h5>
                                 <span>
-                                <a class="btn btn-primary" href="/seller/myproducts/posting/{{ID}}" role="button">
+                                <a class="btn btn-primary" href="/seller/myproducts/byPostingList/{{ID}}" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <span>Chi tiết</span>
                                 </a>
-
                             </span>
                             </div>
                         </div>

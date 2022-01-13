@@ -1,4 +1,5 @@
 import productModel from "../models/product.model.js";
+import accountModel from "../models/account.model.js";
 import express from 'express';
 
 const router = express.Router();
@@ -171,6 +172,8 @@ router.get('/:id', async function (req, res) {
     const list = await productModel.findByCatIDExceptProID(product.ID, product.Category, 5);
 
     // console.log(list);
+    product.SellerRate = Math.floor(await accountModel.RateofSb(product.Seller) * 10 );
+    product.BidderRate = Math.floor(await accountModel.RateofSb(product.HighestBidder) * 10);
 
     let date = new Date(product.DateUpload);
     product.DateUpload = date.toLocaleDateString('en-GB');

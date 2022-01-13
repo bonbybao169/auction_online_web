@@ -111,9 +111,13 @@ export default {
         return db('user').where('Type', 3);
     },
 
+    addBlockBidder(entity) {
+        return db('blockbidder').insert(entity);
+    },
+
     async getEmailByBidderID(BidderID) {
         const list = await db('user').where('Username', BidderID).select('Email');
         // console.log("Email", list[0].Email)
         return list[0].Email;
-    },
+    }
 }
