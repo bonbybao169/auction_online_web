@@ -8,7 +8,7 @@ export default {
         return await db('auctionhistory')
             .join('user', 'user.Username', '=', 'auctionhistory.BidderID')
             .where({"ProductID": ProductID})
-            .select('user.Name',"auctionhistory.CurrentPrice","auctionhistory.AuctionTime")
+            .select('user.Name',"user.Username","auctionhistory.CurrentPrice","auctionhistory.AuctionTime")
             .orderBy("AuctionTime",'desc');
     }
 }

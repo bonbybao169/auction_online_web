@@ -294,15 +294,26 @@
                         </thead>
                         <tbody>
                         {{#each this.auctionhistory}}
-                            <tr>
-                                <td >{{Name}}</td>
-                                <td >{{CurrentPrice}}</td>
-                                <td >{{AuctionTime}}</td>
-                                <td class="text-center" > <a class="btn btn-sm btn-danger " href="/seller/myproducts/blockbidder?id={{Username}}" role="button">
-                                    <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            </tr>
+
+
+                                <tr>
+                                    <td >{{AuctionTime}}</td>
+                                    <td >{{CurrentPrice}}</td>
+                                    <td  class="td"><a style="color:#D77FA1" href="/account/rating?id={{Username}}">{{Name}}</td>
+                                    {{#if isBlocked}}
+                                        <td class="text-center" > <a class="btn btn-sm disabled "  role="button">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    {{else}}
+                                        <td class="text-center" > <a class="btn btn-sm btn-danger " href="/seller/myproducts/blockbidder/{{../this.product.ID}}?user={{Username}}" role="button">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    {{/if}}
+
+                                </tr>
+
                         {{/each}}
                         </tbody>
 
