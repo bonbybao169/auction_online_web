@@ -4,7 +4,7 @@ export const connectionInfo = {
     host: '127.0.0.1',
     port: 3306,
     user: 'root',
-    password: "Sttffsuck@123",
+    password: process.env.pass,
     database: 'auction_system'
 };
 const knex = knexObj({

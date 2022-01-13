@@ -46,16 +46,16 @@
             <div id="carouselControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active" id="pic-1">
-                        <img src="/image/products/{{this.product.ID}}-main.jpg" class="d-block w-100" alt="">
+                        <img src="/image/products/{{this.product.ID}}-main.jpg" class="d-block w-100" style="height: 500px" alt="">
                     </div>
                     <div class="carousel-item" id="pic-2">
-                        <img src="/image/products/{{this.product.ID}}-thumb1.jpg" class="d-block w-100" alt="">
+                        <img src="/image/products/{{this.product.ID}}-thumb1.jpg" class="d-block w-100" style="height: 500px" alt="">
                     </div>
                     <div class="carousel-item" id="pic-3">
-                        <img src="/image/products/{{this.product.ID}}-thumb2.jpg" class="d-block w-100" alt="">
+                        <img src="/image/products/{{this.product.ID}}-thumb2.jpg" class="d-block w-100" style="height: 500px" alt="">
                     </div>
                     <div class="carousel-item" id="pic-4">
-                        <img src="/image/products/{{this.product.ID}}-thumb3.jpg" class="d-block w-100" alt="">
+                        <img src="/image/products/{{this.product.ID}}-thumb3.jpg" class="d-block w-100" style="height: 500px" alt="">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-target="#carouselControls" data-slide="prev">
@@ -96,15 +96,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Người bán</th>
-                            <td>{{encryptBidder this.product.Seller}}</td>
+                            <th class="th">Người bán</th>
+                            <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.Seller}}">{{this.product.Seller}}</a>
+                                {{this.product.SellerRate}}/10 <span class="fa fa-star checked " style="color:#FFBD35;"></span></td>
+
                         </tr>
                         <tr>
-                            <th>Người đang đặt giá cao nhất</th>
-                            {{#if (isNotNull this.product.HighestBidder)}}
-                                <td>{{encryptBidder this.product.HighestBidder}}</td>
+                            <th class="th">Người đang đặt giá cao nhất</th>
+                            {{#if noBidder}}
+                                <td class="td">Chưa có ai đấu giá.</td>
                             {{else}}
-                                <td>Chưa có người ra giá</td>
+                                <td class="td"><a style="color:#D77FA1" href="/account/rating?id={{this.product.HighestBidder}}">{{this.product.HighestBidder}}</a>
+                                    {{this.product.BidderRate}}/10<span class="fa fa-star checked " style="color:#FFBD35;"></span></td>
                             {{/if}}
                         </tr>
                         <tr>
