@@ -102,7 +102,7 @@ router.get('/products', async function(req, res) {
 
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = productModel.distance(date);
     }
@@ -138,7 +138,7 @@ router.get('/products/byCat/:id', async function (req, res) {
     const list = await productModel.findByCatID(catID, limit, offset);
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = productModel.distance(date);
     }
@@ -174,7 +174,7 @@ router.get('/myproducts/byPostingList', async function(req, res) {
 
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = productModel.distance(date);
     }
@@ -211,7 +211,7 @@ router.get('/myproducts/byPostingList/byCat/:id', async function (req, res) {
     const list = await myproductModel.findByCatIDPosting(username,catID, limit, offset);
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = productModel.distance(date);
     }
@@ -246,7 +246,7 @@ router.get('/myproducts/bySuccessfulAuctionList', async function(req, res) {
 
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = productModel.distance(date);
         list[i].isCancel= await myproductModel.isCancel(list[i].ID);
@@ -284,7 +284,7 @@ router.get('/myproducts/bySuccessfulAuctionList/byCat/:id', async function (req,
     const list = await myproductModel.findByCatIDAuction(username,catID, limit, offset);
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
         list[i].DateExpired = productModel.distance(date);
         list[i].isCancel= await myproductModel.isCancel(list[i].ID);

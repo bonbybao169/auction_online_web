@@ -23,9 +23,9 @@ router.get('/', async function (req, res) {
 
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
-        list[i].DateExpired = date.toLocaleDateString();
+        list[i].DateExpired = date.toLocaleDateString('en-GB');
     }
     // console.log(list);
     res.render('vwProduct/index', {
@@ -60,9 +60,9 @@ router.get('/byCat/:id', async function (req, res) {
     const list = await productModel.findByCatID(catID, limit, offset);
     for (let i = 0; i < list.length; i++) {
         let date = new Date(list[i].DateUpload);
-        list[i].DateUpload = date.toLocaleDateString();
+        list[i].DateUpload = date.toLocaleDateString('en-GB');
         date = new Date(list[i].DateExpired);
-        list[i].DateExpired = date.toLocaleDateString();
+        list[i].DateExpired = date.toLocaleDateString('en-GB');
     }
     // console.log(list);
     console.log(pageNumbers);
