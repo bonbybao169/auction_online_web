@@ -131,10 +131,15 @@ router.post('/changepass', async function(req, res) {
     }
 })
 router.get('/request_seller', async function(req, res) {
-    const user = res.locals.user;
-    res.locals.temp =  Object.assign({}, res.locals.user);
-    user.WantedSeller=1;
+    const username = res.locals.user.Username;
+    const date = new Date();
+    const entity = {
+        BidderID: username,
+        Date: date,
+    }
+    res.locals.user.WantedSeller = 1;
     accountModel.patch(user);
+
     const url = req.headers.referer || '/';
     res.redirect(url);
 })
@@ -168,18 +173,18 @@ router.get('/rating', async function(req, res) {
         list[i].product = await productModel.findByID(list[i].ProductID);
     }
     var rating ={};
-    rating.rate=Math.floor(await accountModel.RateofSb(username)*10);
-    if(rating.rate!==null){
-        rating.star=[];rating.halfstar=[];rating.nonstar=[];
-        for (let i = 0; i < Math.floor(rating.rate/2); i++) {
-            rating.star.push({});}
-        for (let i = 0; i < ((10-rating.rate)%2); i++) {
-            rating.halfstar.push({});}
-        for (let i = 0; i < Math.floor((10-rating.rate)/2); i++) {
-            rating.nonstar.push({});}
+    rating.total = true;
+    if(await accountModel.RateofSb(username) === false){
+        rating.total=false;
     }
-    console.log(list);
-    console.log(res.locals.user.Type);
+    rating.rate=Math.floor(await accountModel.RateofSb(username)*10);
+    rating.star=[];rating.halfstar=[];rating.nonstar=[];
+    for (let i = 0; i < Math.floor(rating.rate/2); i++) {
+        rating.star.push({});}
+    for (let i = 0; i < ((10-rating.rate)%2); i++) {
+        rating.halfstar.push({});}
+    for (let i = 0; i < Math.floor((10-rating.rate)/2); i++) {
+        rating.nonstar.push({});}
     if (res.locals.user.Type===2){
         res.render('vwAccount/rating_seller.hbs', {
             layout: false,

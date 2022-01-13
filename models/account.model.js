@@ -56,8 +56,9 @@ export default {
         const positiverate = await db("rate").where({"RatedPerson": username,"Rate": 1}).count({quantity: 'ProductID'});
         if(totalrate[0].quantity==0){
             return false;
+        }else{
+            return parseFloat(positiverate[0].quantity/totalrate[0].quantity);
         }
-        return parseFloat(positiverate[0].quantity/totalrate[0].quantity);
     },
     async countRatingbyUsername(username,limit ,offset) {
         const list = await db('rate').where('RatedPerson', username).count({quantity: 'ProductID'});
