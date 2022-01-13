@@ -267,13 +267,12 @@
                     <div ><ul>{{{this.product.FullDes}}}</ul></div>
                 </div>
                 <div class="card-footer">
-                    {{#if (isTrue ../this.sameproducts.isCancel)}}
-                        <a class="btn btn-secondary disabled"   role="button">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                            Huỷ giao dịch
+                    {{#if this.product.isCancel}}
+                        <a class="btn text-danger"  >
+                            Giao dịch đã bị huỷ
                         </a>
                     {{else}}
-                        <a class="btn btn-danger" href="/seller/myproducts/successauction/cancel/{{ID}}"  role="button">
+                        <a class="btn btn-danger" href="/seller/myproducts/canceltransaction/{{this.product.ID}}"  role="button">
                             <i class="fa fa-times" aria-hidden="true"></i>
                             Huỷ giao dịch
                         </a>
@@ -306,7 +305,7 @@
                             <tr>
                                 <td >{{AuctionTime}}</td>
                                 <td >{{CurrentPrice}}</td>
-                                <td >{{Name}}</td>
+                                <td  class="td"><a style="color:#D77FA1" href="/account/rating?id={{Username}}">{{Name}}</td>
                             </tr>
                         {{/each}}
                         </tbody>
@@ -316,7 +315,7 @@
             </div>
         </div>
         <div class="col-sm-6  mt-4">
-            <form action="/seller/myproducts/add_mainimg" method="post" enctype="multipart/form-data">
+            <form action="/seller/myproducts/rateBidder/{{this.product.ID}}" method="post" >
                 <div class="card " style="background-color: #e0c1f2">
                     <div class="card-header"  style="background-color: #b7aef2; text-align: center; color: #9A0680; font-weight: bold">
                         <h3 style="text-align: center">Đánh giá<span class="fa fa-star checked " style="color:#FFBD35;"></span></h3>
@@ -335,7 +334,7 @@
                         </h5>
                         <div class="form-group">
                             <label for="txtContent">Lời đánh giá</label>
-                            <textarea class="form-control" id="txtContent" name="Description" rows="3"></textarea>
+                            <textarea class="form-control" id="txtContent" name="Description" rows="6"></textarea>
                         </div>
                     </div>
                     <div class="card-footer text-muted">
@@ -377,7 +376,7 @@
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                         <span>Chi tiết</span>
                                     </a>
-                                    {{#if (isTrue ../this.sameproducts.isCancel)}}
+                                    {{#if isCancel}}
                                         <a class="btn btn-secondary disabled"   role="button">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                             Huỷ giao dịch

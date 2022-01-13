@@ -25,6 +25,12 @@ export default {
             .where('DateExpired', '>=', date).where('Seller', username).limit(limit).offset(offset);
 
     },
+    findByCatIDPostingDif(username,ProID,catID, limit, offset) {
+        const date = new Date();
+        return db('product').where('Category', catID).whereNot('ID', ProID)
+            .where('DateExpired', '>=', date).where('Seller', username).limit(limit).offset(offset);
+
+    },
 
 
 
@@ -76,6 +82,20 @@ export default {
             .whereIn('ID', listID).limit(limit).offset(offset);
     },
 
+    async findByCatIDAuctionDif(username,ProID,catID, limit, offset) {
+        const date = new Date();
+        const listID= [];
+        const list= await db('product')
+            .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
+            .where('Category', catID).where('Seller', username).limit(limit).offset(offset).distinct('product.ID');
+        for(let i=0;i<list.length;i++){
+            if (list[i].ID !==ProID)
+            listID.push(list[i].ID);
+        }
+        return db('product').orderBy('DateExpired', 'desc')
+            .whereIn('ID', listID).limit(limit).offset(offset);
+    },
+
 
 
     async countByCatIDAuction(username,catID) {
@@ -91,7 +111,19 @@ export default {
         return db('product')
             .where({ ID: ProID })
             .update({ FullDes: newDes }, ['ID', 'FullDes']);
-    }
+    },
+
+    cancelTransaction(ProID) {
+        return db('product')
+            .where({ ID: ProID })
+            .update({ isCancel: 1 }, ['ID', 'isCancel']);
+    },
+
+    async isCancel(ProID){
+        const list = await db('product').where('ID', ProID).select('isCancel');
+        return list[0].isCancel===1;
+    },
+
 
 
 }
