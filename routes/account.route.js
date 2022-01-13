@@ -167,18 +167,19 @@ router.get('/rating', async function(req, res) {
         list[i].Date = date.toLocaleDateString('en-GB');
         list[i].product = await productModel.findByID(list[i].ProductID);
     }
-    var user ={};
-    user.rate=Math.floor(await accountModel.RateofSb(username)*10);
-    if(user.rate!==null){
-        user.star=[];user.halfstar=[];user.nonstar=[];
-        for (let i = 0; i < Math.floor(user.rate/2); i++) {
-            user.star.push({});}
-        for (let i = 0; i < ((10-user.rate)%2); i++) {
-            user.halfstar.push({});}
-        for (let i = 0; i < Math.floor((10-user.rate)/2); i++) {
-            user.nonstar.push({});}
+    var rating ={};
+    rating.rate=Math.floor(await accountModel.RateofSb(username)*10);
+    if(rating.rate!==null){
+        rating.star=[];rating.halfstar=[];rating.nonstar=[];
+        for (let i = 0; i < Math.floor(rating.rate/2); i++) {
+            rating.star.push({});}
+        for (let i = 0; i < ((10-rating.rate)%2); i++) {
+            rating.halfstar.push({});}
+        for (let i = 0; i < Math.floor((10-rating.rate)/2); i++) {
+            rating.nonstar.push({});}
     }
     console.log(list);
+    console.log(res.locals.user.Type);
     if (res.locals.user.Type===2){
         res.render('vwAccount/rating_seller.hbs', {
             layout: false,
@@ -190,7 +191,7 @@ router.get('/rating', async function(req, res) {
             previousPage: +page - 1,
             nextPage: +page + 1,
             username,
-            user
+            rating
         })
     }
     else if (res.locals.user.Type===3){
@@ -204,7 +205,7 @@ router.get('/rating', async function(req, res) {
             previousPage: +page - 1,
             nextPage: +page + 1,
             username,
-            user
+            rating
         })
     }
 })

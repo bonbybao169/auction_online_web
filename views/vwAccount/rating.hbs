@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Auction Online</title>
+    <title>Emotion Auction</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -55,6 +55,7 @@
             font-size:13px;
         }
     </style>
+    {{{_sections.css}}}
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-lightshadow navbar-fixed-top" style="background-color:#D9D7F1;" id="navbar">
@@ -112,14 +113,14 @@
         <div class="col-sm-7" style="padding: 30px">
             <div class="rating-block">
                 <h4>Average {{username}}'s rating:</h4>
-                <h2 class="bold padding-bottom-7"><small>{{this.user.rate}}/10</small></h2>
-                {{#each this.user.star}}
+                <h2 class="bold padding-bottom-7"><small>{{this.rating.rate}}/10</small></h2>
+                {{#each this.rating.star}}
                     <span class="fa fa-star checked" style="color:#FFBD35;"></span>
                 {{/each}}
-                {{#each this.user.halfstar}}
+                {{#each this.rating.halfstar}}
                     <span class="fa fa-star-half-o"style="color:#FFBD35;"></span>
                 {{/each}}
-                {{#each this.user.nonstar}}
+                {{#each this.rating.nonstar}}
                     <span class="fa fa-star-o"></span>
                 {{/each}}
             </div>
@@ -191,5 +192,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
         integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
+{{{_sections.js}}}
 </body>
 </html>
