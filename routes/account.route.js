@@ -191,7 +191,21 @@ router.get('/rating', async function(req, res) {
     if(list.length===0)
         nPages=1;
 
-    if (res.locals.user.Type===2){
+    // console.log(typeof(res.locals.user)==='undefined');
+    if (typeof(res.locals.user)==='undefined') {
+        res.render('vwAccount/rating_guest.hbs', {
+            layout: false,
+            comments: list,
+            empty: list.length === 0,
+            pageNumbers,
+            firstPage: +page === 1 ,
+            lastPage: +page === nPages ,
+            previousPage: +page - 1,
+            nextPage: +page + 1,
+            username,
+            rating
+        })
+    } else if (res.locals.user.Type===2){
         res.render('vwAccount/rating_seller.hbs', {
             layout: false,
             comments: list,

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotion Auction</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            min-width: fit-content;
+            width:100%;
+        }
+        .btn-grey{
+            background-color:#D8D8D8;
+            color:#FFF;
+        }
+        .rating-block{
+            background-color:#FAFAFA;
+            border:1px solid #EFEFEF;
+            padding:15px 15px ;
+            border-radius:3px;
+        }
+        .bold{
+            font-weight:700;
+        }
+        .padding-bottom-7{
+            padding-bottom:7px;
+        }
+
+        .review-block{
+            background-color:#FAFAFA;
+            border:1px solid #EFEFEF;
+            padding:15px;
+            border-radius:3px;
+            margin-bottom:15px;
+        }
+        .review-block-name{
+            font-size:12px;
+            margin:10px 0;
+        }
+        .review-block-date{
+            font-size:12px;
+        }
+        .review-block-rate{
+            font-size:13px;
+            margin-bottom:15px;
+        }
+        .review-block-title{
+            font-size:15px;
+            font-weight:700;
+            margin-bottom:10px;
+        }
+        .review-block-description{
+            font-size:13px;
+        }
+    </style>
+    {{{_sections.css}}}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-lightshadow navbar-fixed-top" style="background-color:#D9D7F1;" id="navbar">
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-link">
+                <a class="nav-item" href="/home" style="color:#9A0680; font-weight: bold; font-size: large">
+                    <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                    Trang chủ
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="get" action="/products/search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword" style="width: 500px" required>
+            <button class="btn my-2 my-sm-0" style="background-color:#FFCCD2;" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                Tìm kiếm
+            </button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7" style="padding: 30px">
+            <div class="rating-block">
+                <h4>Average {{username}}'s rating:</h4>
+                <h2 class="bold padding-bottom-7"><small>{{this.rating.rate}}/10</small></h2>
+                {{#each this.rating.star}}
+                    <span class="fa fa-star checked" style="color:#FFBD35;"></span>
+                {{/each}}
+                {{#each this.rating.halfstar}}
+                    <span class="fa fa-star-half-o"style="color:#FFBD35;"></span>
+                {{/each}}
+                {{#each this.rating.nonstar}}
+                    <span class="fa fa-star-o"></span>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-7">
+            <hr/>
+            <div class="review-block">
+                {{#each this.comments}}
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
+                        <div class="review-block-name"><h6><a href="/account/rating?id={{Username}}">{{Username}}</a></h6></div>
+                        <div class="review-block-date"><h6>{{Date}}</h6><br/> </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="review-block-rate">
+                            {{#if (equal Rate 1)}}
+                                <span class="fa fa-thumbs-up fa-2x" style="color:#4FBDBA;"></span>
+                            {{else}}
+                                <span class="fa fa-thumbs-down fa-2x" style="color:#D9534F;"></span>
+                            {{/if}}
+                        </div>
+                        <div class="review-block-title"><h6><a href="/bidder/product/{{product.ID}}" style="color: #4CAF50">{{product.Name}}</a></h6></div>
+                        <div class="review-block-description">{{Description}}</div>
+                    </div>
+                </div>
+                <hr/>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    {{#if (isTrue rating.total)}}
+        <nav aria-label="Page navigation example" style="margin-top: 20px">
+            <ul class="pagination justify-content-end">
+                <li class="page-item">
+                    {{#if this.firstPage}}
+                        <a class="page-link disabled" style="cursor: not-allowed;">Previous</a>
+                    {{else}}
+                        <a class="page-link" href="?keyword={{username}}&page={{this.previousPage}}">Previous</a>
+                    {{/if}}
+                </li>
+                {{#each this.pageNumbers}}
+                    {{#if isCurrent}}
+                        <li class="page-item active">
+                            <a class="page-link" href="javascript:;">{{value}}</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a class="page-link" href="?keyword={{../username}}&page={{value}}">{{value}}</a>
+                        </li>
+                    {{/if}}
+                {{/each}}
+                <li class="page-item">
+                    {{#if this.lastPage}}
+                        <a class="page-link disabled" style="cursor: not-allowed;">Next</a>
+                    {{else}}
+                        <a class="page-link" href="?keyword={{username}}&page={{this.nextPage}}>Next</a>
+                    {{/if}}
+                </li>
+            </ul>
+        </nav>
+    {{/if}}
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+        crossorigin="anonymous"></script>
+{{{_sections.js}}}
+</body>
+</html>
