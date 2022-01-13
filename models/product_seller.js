@@ -3,12 +3,12 @@ import db from "../utils/db.js";
 export default {
     findAllMyproductPosting(username,limit, offset) {
         const date = new Date();
-        return db('product').where('DateExpired', '>=', date).where('Username', username).limit(limit).offset(offset);
+        return db('product').where('DateExpired', '>=', date).where('Seller', username).limit(limit).offset(offset);
     },
 
     async countAllMyproductPosting(username) {
         const date = new Date();
-        const list = await db('product').count({quantity: 'ID'}).where('DateExpired', '>=', date).where('Username', username);
+        const list = await db('product').count({quantity: 'ID'}).where('DateExpired', '>=', date).where('Seller', username);
         return list[0].quantity;
     },
 
@@ -22,7 +22,7 @@ export default {
     findByCatIDPosting(username,catID, limit, offset) {
         const date = new Date();
         return db('product').where('Category', catID)
-            .where('DateExpired', '>=', date).where('Username', username).limit(limit).offset(offset);
+            .where('DateExpired', '>=', date).where('Seller', username).limit(limit).offset(offset);
 
     },
 
@@ -31,7 +31,7 @@ export default {
     async countByCatIDPosting(username,catID) {
         const date = new Date();
         const list = await db('product').where('Category', catID)
-            .where('DateExpired', '>=', date).where('Username', username).count({quantity: 'ID'});
+            .where('DateExpired', '>=', date).where('Seller', username).count({quantity: 'ID'});
         return list[0].quantity;
     },
 
@@ -39,14 +39,14 @@ export default {
         const date = new Date();
         return db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Username', username).limit(limit).offset(offset);
+            .where('Seller', username).limit(limit).offset(offset);
     },
 
     async countAllMyproductAuction(username) {
         const date = new Date();
         const list = await  db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Username', username).count({quantity: 'ID'});
+            .where('Seller', username).count({quantity: 'ID'});
         return list[0].quantity;
     },
 
@@ -60,7 +60,7 @@ export default {
 
         return db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Category', catID).where('Username', username).limit(limit).offset(offset);
+            .where('Category', catID).where('Seller', username).limit(limit).offset(offset);
     },
 
 
@@ -69,7 +69,7 @@ export default {
         const date = new Date();
         const list = await  db('product')
             .join('auctionhistory', 'product.ID','=', 'auctionhistory.ProductID').where('product.DateExpired', '<', date)
-            .where('Category', catID).where('Username', username).count({quantity: 'ID'});
+            .where('Category', catID).where('Seller', username).count({quantity: 'ID'});
         return list[0].quantity;
     },
 
