@@ -108,7 +108,7 @@ export default {
     },
 
     getListSeller() {
-        return db('user').where('Type', 3);
+        return db('user').where('Type', 2);
     },
 
     addBlockBidder(entity) {
