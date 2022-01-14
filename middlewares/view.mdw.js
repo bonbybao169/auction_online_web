@@ -30,6 +30,9 @@ function isChild(parentID, catID) {
 function isNotNull(HighestBidder) {
     return null !== HighestBidder;
 }
+function isNull(HighestBidder) {
+    return null === HighestBidder;
+}
 function equal(value1,value2){
     console.log(value2);
     return value1===value2;

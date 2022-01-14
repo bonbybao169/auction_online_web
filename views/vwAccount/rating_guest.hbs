@@ -104,27 +104,31 @@
         <div class="col-sm-7">
             <hr/>
             <div class="review-block">
-                {{#each this.comments}}
-                <div class="row">
-                    <div class="col-sm-3">
-                        <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
-                        <div class="review-block-name"><h6><a href="/account/rating?id={{Username}}">{{Username}}</a></h6></div>
-                        <div class="review-block-date"><h6>{{Date}}</h6><br/> </div>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="review-block-rate">
-                            {{#if (equal Rate 1)}}
-                                <span class="fa fa-thumbs-up fa-2x" style="color:#4FBDBA;"></span>
-                            {{else}}
-                                <span class="fa fa-thumbs-down fa-2x" style="color:#D9534F;"></span>
-                            {{/if}}
+                {{#if (isTrue this.rating.total)}}
+                    {{#each this.comments}}
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
+                            <div class="review-block-name"><h6><a href="/account/rating?id={{Username}}">{{Username}}</a></h6></div>
+                            <div class="review-block-date"><h6>{{Date}}</h6><br/> </div>
                         </div>
-                        <div class="review-block-title"><h6><a href="/bidder/product/{{product.ID}}" style="color: #4CAF50">{{product.Name}}</a></h6></div>
-                        <div class="review-block-description">{{Description}}</div>
+                        <div class="col-sm-9">
+                            <div class="review-block-rate">
+                                {{#if (equal Rate 1)}}
+                                    <span class="fa fa-thumbs-up fa-2x" style="color:#4FBDBA;"></span>
+                                {{else}}
+                                    <span class="fa fa-thumbs-down fa-2x" style="color:#D9534F;"></span>
+                                {{/if}}
+                            </div>
+                            <div class="review-block-title"><h6><a href="/bidder/product/{{product.ID}}" style="color: #4CAF50">{{product.Name}}</a></h6></div>
+                            <div class="review-block-description">{{Description}}</div>
+                        </div>
                     </div>
-                </div>
-                <hr/>
-                {{/each}}
+                    <hr/>
+                    {{/each}}
+                {{else}}
+                    <h5>Chưa có người đánh giá</h5>
+                {{/if}}
             </div>
         </div>
     </div>
