@@ -118,8 +118,8 @@ router.get('/products', async function(req, res) {
             list[i].DateExpired = date.toLocaleDateString('en-GB');
         }
     }
-    res.render('vwProduct/index_bidder', {
-        layout: "BidderLayout.hbs",
+    res.render('vwProduct/byCat_seller', {
+        layout: "SellerLayout.hbs",
         products: list,
         pageNumbers,
         empty: list.length === 0,
@@ -165,8 +165,8 @@ router.get('/products/byCat/:id', async function (req, res) {
     }
     // console.log(list);
 
-    res.render('vwProduct/byCat_bidder', {
-        layout: "BidderLayout.hbs",
+    res.render('vwProduct/byCat_seller', {
+        layout: "SellerLayout.hbs",
         products: list,
         empty: list.length === 0,
         pageNumbers,
