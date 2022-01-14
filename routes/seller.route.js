@@ -101,22 +101,31 @@ router.get('/products', async function(req, res) {
     const list = await productModel.findAll(limit, offset);
 
     for (let i = 0; i < list.length; i++) {
+        list[i].isExpired = false;
+        if(productModel.timeDifference(list[i].DateExpired, new Date()) ==='Sản phẩm hết hạn'){
+            list[i].isExpired = true;
+        }
+        list[i].isLoved = await accountModel.isLoved(res.locals.user.Username,list[i].ID);
+
         let date = new Date(list[i].DateUpload);
         list[i].DateUpload = date.toLocaleDateString('en-GB');
-        date = new Date(list[i].DateExpired);
-        list[i].DateExpired = productModel.distance(date);
+
+        if (productModel.timeDifference(list[i].DateExpired, new Date()) !== false) {
+            list[i].DateExpired = productModel.timeDifference(list[i].DateExpired, new Date());
+        }
+        else {
+            date = new Date(list[i].DateExpired);
+            list[i].DateExpired = date.toLocaleDateString('en-GB');
+        }
     }
-    // console.log(list);
-    res.render('vwProduct/byCat_seller', {
-        layout: "SellerLayout.hbs",
+    res.render('vwProduct/index_bidder', {
+        layout: "BidderLayout.hbs",
         products: list,
         pageNumbers,
         empty: list.length === 0,
         page
     })
 })
-
-
 
 router.get('/products/byCat/:id', async function (req, res) {
     const catID = req.params.id || 0;
@@ -137,15 +146,27 @@ router.get('/products/byCat/:id', async function (req, res) {
 
     const list = await productModel.findByCatID(catID, limit, offset);
     for (let i = 0; i < list.length; i++) {
+        list[i].isExpired = false;
+        if(productModel.timeDifference(list[i].DateExpired, new Date()) ==='Sản phẩm hết hạn'){
+            list[i].isExpired = true;
+        }
+        list[i].isLoved = await accountModel.isLoved(res.locals.user.Username,list[i].ID);
+
         let date = new Date(list[i].DateUpload);
         list[i].DateUpload = date.toLocaleDateString('en-GB');
-        date = new Date(list[i].DateExpired);
-        list[i].DateExpired = productModel.distance(date);
+
+        if (productModel.timeDifference(list[i].DateExpired, new Date()) !== false) {
+            list[i].DateExpired = productModel.timeDifference(list[i].DateExpired, new Date());
+        }
+        else {
+            date = new Date(list[i].DateExpired);
+            list[i].DateExpired = date.toLocaleDateString('en-GB');
+        }
     }
     // console.log(list);
 
-    res.render('vwProduct/byCat_seller', {
-        layout: "SellerLayout.hbs",
+    res.render('vwProduct/byCat_bidder', {
+        layout: "BidderLayout.hbs",
         products: list,
         empty: list.length === 0,
         pageNumbers,

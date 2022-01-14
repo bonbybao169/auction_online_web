@@ -35,15 +35,16 @@
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <span>Chi tiết</span>
                                 </a>
-                                    {{#if (isFalse isLoved)}}
-                                        <a class="btn btn-success" href="/seller/products/love/{{ID}}" style="background-color:#A3E4DB;" role="button">
-                                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                    </a>
-                                    {{else}}
-                                        <a class="btn btn-success" href="/seller/products/unlove/{{ID}}" style="background-color:#D77FA1;" role="button">
-                                         <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                                    </a>
-                                    {{/if}}
+                                {{#if (isFalse isLoved)}}
+                                    <a class="btn btn-success" href="/bidder/products/love/{{ID}}" style="background-color:#A3E4DB;" role="button">
+                                                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                            </a>
+                                {{else}}
+                                    <a class="btn btn-success" href="/bidder/products/unlove/{{ID}}" style="background-color:#D77FA1;" role="button">
+                                                 <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                            </a>
+                                {{/if}}
+
                             </span>
                             </div>
                         </div>
